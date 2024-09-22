@@ -8,6 +8,11 @@ const PERMISSIONS = {
   VIEW_REPORTS: "view_reports",
 };
 
+const ROLES= {
+    SUPERADMIN: 'superadmin',
+    ADMIN: 'admin',
+}
+
 const adminSchema = new mongoose.Schema({
   username: {
     type: String,
@@ -29,6 +34,11 @@ const adminSchema = new mongoose.Schema({
   lastName: {
     type: String,
     required: true,
+  }, 
+  role: {
+    type: String,
+    enum: Object.values(ROLES),
+    default: ROLES.ADMIN,
   },
   permissions: {
     type: [String],
