@@ -1,9 +1,12 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
+require('dotenv').config();
 
 const adminRoutes = require('./routes/admin-routes');
 const app = express();
 
+app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 

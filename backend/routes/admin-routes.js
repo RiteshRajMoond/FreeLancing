@@ -8,3 +8,5 @@ const router = express.Router();
 router.post('/generate-invite', checkSuperAdmin, adminController.generateInvite);
 
 router.post('/signup', adminController.signup);
+
+router.post('/login', adminController.login);

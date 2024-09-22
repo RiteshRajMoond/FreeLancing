@@ -76,12 +76,25 @@ exports.signup = async (req, res, next) => {
     await inviteToken.deleteOne({ token });
 
     // JWT token for new admin
-    const jwtTOKEN = jwt.sign({adminId: newAdmin._id}, process.env.JWT_SECRET, {expiresIn: '2h'});
+    const jwtToken = jwt.sign(
+      { adminId: newAdmin._id, permissions: newAdmin.permissions },
+      process.env.JWT_SECRET,
+      { expiresIn: "2h" }
+    );
+
+    // Setting Up Cookie
+    res.cookie("adminJWT", jwtToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      maxAge: 2 * 60 * 60 * 1000, // 2 hours
+      path: "/",
+      sameSite: "strict",
+    });
 
     // send response with token and permissions
-    res.status(201).json({token: jwtTOKEN, permissions: newAdmin.permissions});
-
-
+    res
+      .status(201)
+      .json({ token: jwtToken, permissions: newAdmin.permissions });
   } catch (error) {
     res.status(500).json({ message: "Internal server error", error });
   }
