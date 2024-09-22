@@ -65,3 +65,4 @@ adminSchema.index({email: 1});
 
 module.exports = mongoose.model('Admin', adminSchema);
 module.exports.PERMISSIONS = PERMISSIONS;
+module.exports.ROLES = ROLES;
