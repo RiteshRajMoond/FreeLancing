@@ -2,6 +2,7 @@ const crypto = require("crypto");
 const nodemailer = require("nodemailer");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
+const { validationResult } = require("express-validator");
 
 const InviteToken = require("../models/InviteToken");
 const Admin = require("../models/Admin");
@@ -48,9 +49,14 @@ exports.generateInvite = async (req, res, next) => {
 };
 
 exports.signup = async (req, res, next) => {
-  const { username, email, password, inviteJWT } = req.body;
-
   try {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty())
+      return res.status(400).json({ messages: errors.array() });
+
+    const { username, email, password, inviteJWT } = req.body;
+
     // decode jwt for token and permissions
     const decoded = jwt.verify(inviteJWT, process.env.JWT_SECRET);
     const { token, permissions } = decoded;
@@ -101,6 +107,11 @@ exports.signup = async (req, res, next) => {
 
 exports.login = async (req, res, next) => {
   try {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty())
+      return res.status(400).json({ messages: errors.array() });
+
     // Get data from req
     const { email, password } = req.body;
     // get admin
