@@ -89,12 +89,79 @@ exports.signup = async (req, res, next) => {
       maxAge: 2 * 60 * 60 * 1000, // 2 hours
       path: "/",
       sameSite: "strict",
+      signed: true,
     });
 
     // send response with token and permissions
-    res
-      .status(201)
-      .json({ token: jwtToken, permissions: newAdmin.permissions });
+    res.status(201).json({ permissions: newAdmin.permissions });
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error", error });
+  }
+};
+
+exports.login = async (req, res, next) => {
+  try {
+    // Get data from req
+    const { email, password } = req.body;
+    // get admin
+    const admin = await Admin.findOne({ email });
+
+    if (!admin) return res.status(404).json({ message: "Admin not found" });
+
+    const isMatch = await bcrypt.compare(password, admin.password);
+
+    if (!isMatch)
+      return res.status(401).json({ message: "Invalid Credentials" });
+
+    // remove any previos cookies
+    res.clearCookie("adminJWT", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      path: "/",
+      signed: true,
+    });
+
+    // Setting Up JWT
+    const jwtToken = jwt.sign(
+      {
+        adminId: admin._id,
+        permissions: admin.permissions,
+      },
+      process.env.JWT_SECRET,
+      { expiresIn: "2h" }
+    );
+
+    // Setting Up cookie
+    res.cookie("adminJWT", jwtToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      maxAge: 2 * 60 * 60 * 1000, // 2 hours
+      path: "/",
+      sameSite: "strict",
+      signed: true,
+    });
+
+    return res.status(201).json({ permissions: admin.permissions });
+  } catch (error) {
+    return res.status(500).json({ message: "Internal server error", error });
+  }
+};
+
+exports.logout = async (req, res, next) => {
+  try {
+    const token = req.signedCookies.adminJWT;
+    if (!token) return res.status(401).json({ message: "Not Authorized" });
+
+    res.clearCookie("adminJWT", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      path: "/",
+      signed: true,
+    });
+
+    res.status(200).json({ message: "Logged out successfully" });
   } catch (error) {
     res.status(500).json({ message: "Internal server error", error });
   }

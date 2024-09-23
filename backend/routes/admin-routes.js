@@ -10,3 +10,5 @@ router.post('/generate-invite', checkSuperAdmin, adminController.generateInvite)
 router.post('/signup', adminController.signup);
 
 router.post('/login', adminController.login);
+
+router.get('/logout', adminController.logout);
