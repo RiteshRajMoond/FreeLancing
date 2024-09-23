@@ -21,10 +21,8 @@ const SignUp = () => {
     // to communicate with backend API, http post request to send data from frontend to backend
     axios.post("http://localhost:3001/signup", {username:username, email:email, password:password})
     .then(res=>{
-      if(res.status===201){
           console.log("User created successfully");
           navigate("/Login");
-      }
     })
     .catch(err=>{
       if(err.response && err.response.status===400){

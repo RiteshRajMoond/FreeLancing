@@ -15,10 +15,38 @@ const Login = () => {
   const[password, setPassword] = useState("");
   const navigate = useNavigate(); 
 
-  function handleSignup(e){
+  function handleLogin(e) {
     e.preventDefault();
-    navigate("/Home");
+    
+    axios.post("http://localhost:3001/login", { email, password }, { withCredentials: true })
+      .then(res => {
+        if (res.status === 201) {
+          alert("User logged in successfully!");
+          navigate('/'); 
+        }
+      })
+      .catch(err => {
+        if (err.response) {
+          if (err.response.status === 400) {
+            console.log("Bad Request: ", err.response.data.message);
+            alert("Bad Request: " + err.response.data.message);
+          } else if (err.response.status === 404) {
+            console.log("User not found: ", err.response.data.message);
+            alert("User not found: " + err.response.data.message);
+          } else if (err.response.status === 401) {
+            console.log("Invalid Credentials: ", err.response.data.message);
+            alert("Invalid Credentials: " + err.response.data.message);
+          } else {
+            console.log("An error occurred: ", err.response.data.message);
+            alert("An error occurred: " + err.response.data.message);
+          }
+        } else {
+          console.log("Error: ", err.message);
+          alert("Error: " + err.message);
+        }
+      });
   }
+  
 
   return (
     <Box sx={boxStyle1}>
@@ -28,7 +56,7 @@ const Login = () => {
 
       <Box sx={boxStyle2}>
         <Typography variant="h4" sx={{ color: "#fff", marginBottom: "20px" }}> Login </Typography>
-        <form onSubmit={handleSignup}>
+        <form onSubmit={handleLogin}>
         <TextField onChange={(e)=>{setName(e.target.value)}} name='name' required label="Username" type='text' fullWidth style={inputStyle}/>
         <TextField onChange={(e)=>{setPassword(e.target.value)}} name='password' required label="Password" type="password" fullWidth style={inputStyle} />
         <Button type='submit' variant="contained" style={buttonStyle}>Login</Button>
