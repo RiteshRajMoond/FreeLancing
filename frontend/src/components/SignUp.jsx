@@ -51,30 +51,19 @@ const SignUp = () => {
   const [password, setPassword] = useState("");
   // const [inviteJWT, setInviteJWT] = useState('');
   const navigate = useNavigate();
-
-  function handleSignup(e) {
-    e.preventDefault();
-    // to communicate with backend API, http post request to send data from frontend to backend
-    axios
-      .post("http://localhost:3001/api/v1/user/signup", {
+  const handleSignup = async (e) => {
+    try {
+      e.preventDefault();
+      const res = await axios.post("http://localhost:9090/api/v1/user/signup", {
         username: username,
         email: email,
         password: password,
-      })
-      .then((res) => {
-        console.log("User created successfully");
-        navigate("/Login");
-      })
-      .catch((err) => {
-        // if (err.response && err.response.status === 400) {
-        //   console.log("Bad Request: ", err.response.data.message);
-        //   alert("Bad Request: ", err.response.data.message);
-        // } else {
-        //   console.log(err);
-        // }
-        console.log(err);
       });
-  }
+      console.log("User created successfully", res);
+    } catch (error) {
+      console.error("This is the error!\n", error);
+    }
+  };
 
   return (
     <Box sx={boxStyle1}>
@@ -92,7 +81,7 @@ const SignUp = () => {
             onChange={(e) => {
               setUsername(e.target.value);
             }}
-            name="name"
+            name="username"
             required
             label="Username"
             type="text"

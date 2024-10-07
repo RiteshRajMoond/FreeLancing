@@ -31,6 +31,7 @@ exports.signup = async (req, res, next) => {
       path: "/",
       signed: true,
     });
+    res.status(201).json({ message: "User created successfully" });
   } catch (error) {
     res.status(500).json({ message: "Internal server error", error });
   }

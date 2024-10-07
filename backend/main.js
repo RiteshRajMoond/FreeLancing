@@ -1,11 +1,13 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const cookieParser = require('cookie-parser');
-const cors = require('cors'); 
-require('dotenv').config();
+const express = require("express");
+const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
+const cors = require("cors");
+require("dotenv").config();
 
-const adminRoutes = require('./routes/admin-routes');
-const userRoutes = require('./routes/user-routes');
+const db = require("./config/db");
+
+const adminRoutes = require("./routes/admin-routes");
+const userRoutes = require("./routes/user-routes");
 
 const app = express();
 
@@ -15,9 +17,11 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Routes
-app.use('/api/v1/admin', adminRoutes);
-app.use('/api/v1/user', userRoutes);
+app.use("/api/v1/admin", adminRoutes);
+app.use("/api/v1/user", userRoutes);
 
-app.listen(process.env.PORT, () => {
-    console.log(`Server is running on port ${process.env.PORT}`);  
-})
+db().then(() => {
+  app.listen(process.env.PORT, () => {
+    console.log(`Server running on port ${process.env.PORT}`);
+  });
+});
