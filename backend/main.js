@@ -11,7 +11,13 @@ const userRoutes = require("./routes/user-routes");
 
 const app = express();
 
-app.use(cors());
+// CORS config
+const corsOptions = {
+  origin: process.env.CLIENT_URL,
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
 app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
