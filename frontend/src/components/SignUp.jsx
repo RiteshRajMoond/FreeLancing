@@ -60,6 +60,7 @@ const SignUp = () => {
         password: password,
       });
       console.log("User created successfully", res);
+      navigate('/login');
     } catch (error) {
       console.error("This is the error!\n", error);
     }

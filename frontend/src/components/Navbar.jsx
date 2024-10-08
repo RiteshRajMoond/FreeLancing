@@ -12,7 +12,7 @@ export default function Navbar() {
     <>
       <AppBar style={barStyle}>
         <Toolbar style={toolStyle}>
-          <Typography variant="h6" sx={{flexGrow:1, fontFamily:'fantasy'}}>FreelanceHub</Typography>
+          <Typography variant="h6" sx={{flexGrow:1, fontFamily:'fantasy'}}> <a href="/">FreelanceHub</a></Typography>
           <Button style={btnStyle} variant="text"  to="/Admins" component={Link}>Admins</Button>
           <Button style={btnStyle}  to="/Login" component={Link}>Login</Button>
           <Button style={btnStyle}  to="/SignUp" component={Link}>SignUp</Button>

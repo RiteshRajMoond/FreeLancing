@@ -10,7 +10,7 @@ const Login = () => {
   const boxStyle1 = {marginLeft:"470px", position: "relative", height: "100vh", overflow: "hidden", display: "flex", justifyContent: "center", alignItems: "center" };
   const boxStyle2 = {position: "relative", zIndex: 1, backgroundColor: "rgba(255, 255, 255, 0.2)", padding: "40px", borderRadius: "10px", textAlign: "center", maxWidth: "400px", width: "100%", boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)"};
  
-  const[name, setName] = useState("");
+  // const[name, setName] = useState("");
   const[email, setEmail] = useState("");
   const[password, setPassword] = useState("");
   const navigate = useNavigate(); 
@@ -18,7 +18,7 @@ const Login = () => {
   function handleLogin(e) {
     e.preventDefault();
     
-    axios.post("http://localhost:3001/login", { email, password }, { withCredentials: true })
+    axios.post("http://localhost:9090/api/v1/user/login", { email, password }, { withCredentials: true })
       .then(res => {
         if (res.status === 201) {
           alert("User logged in successfully!");
@@ -57,7 +57,7 @@ const Login = () => {
       <Box sx={boxStyle2}>
         <Typography variant="h4" sx={{ color: "#fff", marginBottom: "20px" }}> Login </Typography>
         <form onSubmit={handleLogin}>
-        <TextField onChange={(e)=>{setName(e.target.value)}} name='name' required label="Username" type='text' fullWidth style={inputStyle}/>
+        <TextField onChange={(e)=>{setEmail(e.target.value)}} name='email' required label="Email" type='text' fullWidth style={inputStyle}/>
         <TextField onChange={(e)=>{setPassword(e.target.value)}} name='password' required label="Password" type="password" fullWidth style={inputStyle} />
         <Button type='submit' variant="contained" style={buttonStyle}>Login</Button>
         </form>
