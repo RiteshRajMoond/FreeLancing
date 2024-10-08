@@ -1,7 +1,16 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { Box, Button, TextField, Typography } from "@mui/material";
+import {
+  Select,
+  Box,
+  Button,
+  TextField,
+  Typography,
+  MenuItem,
+  InputLabel,
+  FormControl,
+} from "@mui/material";
 
 const SignUp = () => {
   const vidStyle = {
@@ -17,7 +26,7 @@ const SignUp = () => {
   const inputStyle = {
     margin: "10px 0",
     backgroundColor: "rgba(255, 255, 255, 0.7)",
-    borderRadius: "10px",
+    borderRadius: "5px",
   };
   const buttonStyle = {
     backgroundColor: "#191f3d",
@@ -60,7 +69,7 @@ const SignUp = () => {
         password: password,
       });
       console.log("User created successfully", res);
-      navigate('/login');
+      navigate("/login");
     } catch (error) {
       console.error("This is the error!\n", error);
     }
@@ -79,6 +88,7 @@ const SignUp = () => {
         </Typography>
         <form onSubmit={handleSignup}>
           <TextField
+            variant="filled"
             onChange={(e) => {
               setUsername(e.target.value);
             }}
@@ -90,6 +100,7 @@ const SignUp = () => {
             style={inputStyle}
           />
           <TextField
+            variant="filled"
             onChange={(e) => {
               setEmail(e.target.value);
             }}
@@ -101,6 +112,7 @@ const SignUp = () => {
             style={inputStyle}
           />
           <TextField
+            variant="filled"
             onChange={(e) => {
               setPassword(e.target.value);
             }}
@@ -111,7 +123,14 @@ const SignUp = () => {
             fullWidth
             style={inputStyle}
           />
-          {/* <TextField onChange={(e) => setInviteJWT(e.target.value)} name="inviteJWT" label="Invite JWT" type="text" fullWidth style={inputStyle} /> */}
+          <FormControl style={inputStyle} fullWidth>
+            <InputLabel id="select-label">Choose an option</InputLabel>
+            <Select labelId="select-label" label="Choose an option">
+              <MenuItem value="option1">Option 1</MenuItem>
+              <MenuItem value="option2">Option 2</MenuItem>
+              <MenuItem value="option3">Option 3</MenuItem>
+            </Select>
+          </FormControl>
           <Button type="submit" variant="contained" style={buttonStyle}>
             {" "}
             Sign Up
