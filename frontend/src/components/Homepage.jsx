@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Box, Typography, Collapse, LinearProgress } from "@mui/material";
-import PersonIcon from '@mui/icons-material/Person';
-import AssignmentIcon from '@mui/icons-material/Assignment';
-import GavelIcon from '@mui/icons-material/Gavel';
-import PaymentIcon from '@mui/icons-material/Payment';
-import StarIcon from '@mui/icons-material/Star';
+import PersonIcon from "@mui/icons-material/Person";
+import AssignmentIcon from "@mui/icons-material/Assignment";
+import GavelIcon from "@mui/icons-material/Gavel";
+import PaymentIcon from "@mui/icons-material/Payment";
+import StarIcon from "@mui/icons-material/Star";
 
 const Homepage = () => {
   const [expandedCard, setExpandedCard] = useState(0);
@@ -24,7 +24,7 @@ const Homepage = () => {
             handleNextCard(); // Move to the next card when progress completes
             return 0;
           }
-          return prev + (100 / (intervalTime / updateInterval));
+          return prev + 100 / (intervalTime / updateInterval);
         });
       }, updateInterval);
     }
@@ -36,7 +36,7 @@ const Homepage = () => {
     const handleScroll = () => {
       const scrollPosition = window.scrollY;
       const blurValue = Math.min(scrollPosition / 20, 15);
-      const opacityValue = Math.max(1 - scrollPosition / 300, 0);
+      const opacityValue = Math.max(1 - scrollPosition / 1500, 0);
       const containerElement = document.getElementById("blur-container");
       if (containerElement) {
         containerElement.style.filter = `blur(${blurValue}px)`;
@@ -51,7 +51,9 @@ const Homepage = () => {
   }, []);
 
   const handleNextCard = () => {
-    setExpandedCard((prev) => (prev === null || prev === cards.length - 1 ? 0 : prev + 1));
+    setExpandedCard((prev) =>
+      prev === null || prev === cards.length - 1 ? 0 : prev + 1
+    );
   };
 
   const handleToggle = (index) => {
@@ -60,11 +62,36 @@ const Homepage = () => {
   };
 
   const cards = [
-    { title: "Freelancer Profiles", content: "Allow freelancers to create detailed profiles showcasing their skills, experience, and portfolio.", icon: <PersonIcon sx={{ color: 'blue' }} /> },
-    { title: "Project Listings", content: "Enable clients to post projects with detailed descriptions, budgets, and deadlines.", icon: <AssignmentIcon sx={{ color: 'blue' }} /> },
-    { title: "Bidding System", content: "Implement a system where freelancers can bid on projects, and clients can review bids and select the best fit.", icon: <GavelIcon sx={{ color: 'blue' }} /> },
-    { title: "Secure Payments", content: "Integrate secure payment gateways to handle transactions between clients and freelancers.", icon: <PaymentIcon sx={{ color: 'blue' }} /> },
-    { title: "Ratings and Reviews", content: "Allow clients to rate and review freelancers based on their performance, helping build trust and credibility.", icon: <StarIcon sx={{ color: 'blue' }} /> },
+    {
+      title: "Freelancer Profiles",
+      content:
+        "Allow freelancers to create detailed profiles showcasing their skills, experience, and portfolio.",
+      icon: <PersonIcon sx={{ color: "gray" }} />,
+    },
+    {
+      title: "Project Listings",
+      content:
+        "Enable clients to post projects with detailed descriptions, budgets, and deadlines.",
+      icon: <AssignmentIcon sx={{ color: "gray" }} />,
+    },
+    {
+      title: "Bidding System",
+      content:
+        "Implement a system where freelancers can bid on projects, and clients can review bids and select the best fit.",
+      icon: <GavelIcon sx={{ color: "gray" }} />,
+    },
+    {
+      title: "Secure Payments",
+      content:
+        "Integrate secure payment gateways to handle transactions between clients and freelancers.",
+      icon: <PaymentIcon sx={{ color: "gray" }} />,
+    },
+    {
+      title: "Ratings and Reviews",
+      content:
+        "Allow clients to rate and review freelancers based on their performance, helping build trust and credibility.",
+      icon: <StarIcon sx={{ color: "gray" }} />,
+    },
   ];
 
   return (
@@ -75,6 +102,7 @@ const Homepage = () => {
         alignItems="center"
         height="calc(100vh + 89px)"
         sx={{
+          backgroundColor: "black",
           position: "relative",
           color: "white",
           textAlign: "center",
@@ -84,8 +112,6 @@ const Homepage = () => {
           id="blur-container"
           sx={{
             position: "absolute",
-            top: 0,
-            left: 0,
             width: "100%",
             height: "100%",
             backgroundImage: 'url("../../assets/ac.jpg")', // Replace with your image path
@@ -98,7 +124,13 @@ const Homepage = () => {
             transition: "filter 0.3s, opacity 0.3s", // Smooth transition for blur and opacity
           }}
         >
-          <h1 style={{ fontSize: "3.5rem", fontWeight: "bold" }}>
+          <h1
+            style={{
+              fontSize: "3.5rem",
+              fontWeight: "bold",
+              color: "rgb(235, 230, 230)",
+            }}
+          >
             Welcome to FreelanceHub!
           </h1>
         </Box>
@@ -106,7 +138,7 @@ const Homepage = () => {
 
       <Box
         sx={{
-          marginTop: "3rem",
+          backgroundColor: "black",
           display: "flex",
           flexDirection: "column",
         }}
@@ -115,10 +147,12 @@ const Homepage = () => {
           <Box
             key={index}
             sx={{
-              width: "50%",
+              width: "35%",
+              marginLeft: "30px",
               marginBottom: "1rem",
               padding: "1rem",
-              backgroundColor: '#f5f5f1',
+              backgroundColor: "rgba(235, 230, 230, 0.1)",
+              color: "rgba(235, 230, 230)",
               borderRadius: "10px",
               cursor: "pointer",
             }}
@@ -126,15 +160,29 @@ const Homepage = () => {
           >
             <Box display="flex" alignItems="center">
               {card.icon}
-              <Typography variant="h6" sx={{ fontWeight: 'bold', marginLeft: '0.5rem' }}>
+              <Typography
+                variant="h6"
+                sx={{ fontWeight: "bold", marginLeft: "0.5rem" }}
+              >
                 {card.title}
               </Typography>
             </Box>
             <Collapse in={expandedCard === index}>
-              <Typography variant="body1" sx={{ marginTop: '.3rem' }}>
+              <Typography variant="body1" sx={{ marginTop: ".3rem" }}>
                 {card.content}
               </Typography>
-              <LinearProgress variant="determinate" value={expandedCard === index ? progress : 0} />
+              <LinearProgress
+                sx={{
+                  marginBottom: "-16px",
+                  height: "0.2px",
+                  backgroundColor: "rgba(235, 230, 230, 0.1)",
+                  "& .MuiLinearProgress-bar": {
+                    backgroundColor: "#0077ff", // Progress bar color
+                  },
+                }}
+                variant="determinate"
+                value={expandedCard === index ? progress : 0}
+              />
             </Collapse>
           </Box>
         ))}

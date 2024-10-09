@@ -16,7 +16,7 @@ const Login = () => {
   };
   const inputStyle = {
     margin: "10px 0",
-    backgroundColor: "rgba(255, 255, 255, 0.7)",
+    backgroundColor: "rgba(255, 255, 255, 0.5",
     borderRadius: "10px",
   };
   const buttonStyle = {
@@ -75,6 +75,20 @@ const Login = () => {
         </Typography>
         <form onSubmit={handleLogin}>
           <TextField
+            sx={{
+              "& .MuiInputLabel-root": {
+                "&.Mui-focused": {
+                  color: "rgb(66, 66, 66)", // Label color when focused
+                },
+              },
+              "& .MuiFilledInput-underline:before": {
+                borderBottomColor: "rgb(66, 66, 66)", // Remove default underline
+              },
+              "& .MuiFilledInput-underline:after": {
+                borderBottom: "rgb(66, 66, 66)", // Remove underline on focus
+              },
+            }}
+            variant="filled"
             onChange={(e) => {
               setEmail(e.target.value);
             }}
@@ -86,6 +100,20 @@ const Login = () => {
             style={inputStyle}
           />
           <TextField
+            sx={{
+              "& .MuiInputLabel-root": {
+                "&.Mui-focused": {
+                  color: "rgb(66, 66, 66)", // Label color when focused
+                },
+              },
+              "& .MuiFilledInput-underline:before": {
+                borderBottom: "none", // Remove default underline
+              },
+              "& .MuiFilledInput-underline:after": {
+                borderBottom: "none", // Remove underline on focus
+              },
+            }}
+            variant="filled"
             onChange={(e) => {
               setPassword(e.target.value);
             }}

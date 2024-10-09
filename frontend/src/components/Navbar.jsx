@@ -8,36 +8,45 @@ export default function Navbar() {
     marginRight: "20px",
     padding: "0.3rem 1.4rem",
     backgroundColor: "transparent",
-    color: "white",
+    color: "rgb(235, 230, 230)",
     borderRadius: "40px",
     fontFamily: "fantasy",
   };
-  const toolStyle = { padding: "0.3rem 1.4rem" };
-  const barStyle = {
+  const toolStyle = {
+    position: "fixed",
+    top: "0px",
+    left: "0px",
+    right: "0px",
+    zIndex: "1000",
     padding: "0.3rem 1.4rem",
-    backgroundColor: "black",
-    border: "1px red",
+    border: "none",
+    backgroundColor: "rgba(235, 230, 230, 0.1)",
   };
 
   return (
     <>
-      <AppBar style={barStyle}>
-        <Toolbar style={toolStyle}>
-          <Typography variant="h6" sx={{ flexGrow: 1, fontFamily: "fantasy" }}>
-            <a href="/">FreelanceHub</a>
-          </Typography>
-          <Button style={btnStyle} variant="text" to="/Admins" component={Link}>
-            Admins
-          </Button>
-          <Button style={btnStyle} to="/Login" component={Link}>
-            Login
-          </Button>
-          <Button style={btnStyle} to="/SignUp" component={Link}>
-            SignUp
-          </Button>
-          <Logout />
-        </Toolbar>
-      </AppBar>
+      <Toolbar style={toolStyle}>
+        <Typography
+          variant="h6"
+          sx={{
+            flexGrow: 1,
+            fontFamily: "fantasy",
+            color: "rgb(235, 230, 230)",
+          }}
+        >
+          FreelanceHub
+        </Typography>
+        <Button style={btnStyle} variant="text" to="/Admins" component={Link}>
+          Admins
+        </Button>
+        <Button style={btnStyle} to="/Login" component={Link}>
+          Login
+        </Button>
+        <Button style={btnStyle} to="/SignUp" component={Link}>
+          SignUp
+        </Button>
+        <Logout />
+      </Toolbar>
     </>
   );
 }

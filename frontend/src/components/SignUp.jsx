@@ -25,7 +25,7 @@ const SignUp = () => {
   };
   const inputStyle = {
     margin: "10px 0",
-    backgroundColor: "rgba(255, 255, 255, 0.7)",
+    backgroundColor: "rgba(255, 255, 255, 0.5)",
     borderRadius: "5px",
   };
   const buttonStyle = {
@@ -69,7 +69,7 @@ const SignUp = () => {
         password: password,
       });
       console.log("User created successfully", res);
-      navigate("/login");
+      navigate("/");
     } catch (error) {
       console.error("This is the error!\n", error);
     }
@@ -88,6 +88,19 @@ const SignUp = () => {
         </Typography>
         <form onSubmit={handleSignup}>
           <TextField
+            sx={{
+              "& .MuiInputLabel-root": {
+                "&.Mui-focused": {
+                  color: "rgb(66, 66, 66)", // Label color when focused
+                },
+              },
+              "& .MuiFilledInput-underline:before": {
+                borderBottomColor: "rgb(66, 66, 66)", // Remove default underline
+              },
+              "& .MuiFilledInput-underline:after": {
+                borderBottom: "rgb(66, 66, 66)", // Remove underline on focus
+              },
+            }}
             variant="filled"
             onChange={(e) => {
               setUsername(e.target.value);
@@ -100,6 +113,19 @@ const SignUp = () => {
             style={inputStyle}
           />
           <TextField
+            sx={{
+              "& .MuiInputLabel-root": {
+                "&.Mui-focused": {
+                  color: "rgb(66, 66, 66)", // Label color when focused
+                },
+              },
+              "& .MuiFilledInput-underline:before": {
+                borderBottomColor: "rgb(66, 66, 66)", // Remove default underline
+              },
+              "& .MuiFilledInput-underline:after": {
+                borderBottom: "rgb(66, 66, 66)", // Remove underline on focus
+              },
+            }}
             variant="filled"
             onChange={(e) => {
               setEmail(e.target.value);
@@ -112,6 +138,19 @@ const SignUp = () => {
             style={inputStyle}
           />
           <TextField
+            sx={{
+              "& .MuiInputLabel-root": {
+                "&.Mui-focused": {
+                  color: "rgb(66, 66, 66)", // Label color when focused
+                },
+              },
+              "& .MuiFilledInput-underline:before": {
+                borderBottomColor: "rgb(66, 66, 66)", // Remove default underline
+              },
+              "& .MuiFilledInput-underline:after": {
+                borderBottom: "rgb(66, 66, 66)", // Remove underline on focus
+              },
+            }}
             variant="filled"
             onChange={(e) => {
               setPassword(e.target.value);
@@ -123,12 +162,33 @@ const SignUp = () => {
             fullWidth
             style={inputStyle}
           />
-          <FormControl style={inputStyle} fullWidth>
+          <FormControl
+            variant="filled"
+            style={inputStyle}
+            fullWidth
+            sx={{
+              "& .MuiInputLabel-root": {
+                "&.Mui-focused": {
+                  color: "rgb(66, 66, 66)", // Label color when focused
+                },
+              },
+              "& .MuiFilledInput-underline:before": {
+                borderBottomColor: "rgb(66, 66, 66)", // Remove default underline
+              },
+              "& .MuiFilledInput-underline:after": {
+                borderBottom: "none", // Remove underline on focus
+              },
+              "& .MuiOutlinedInput-root": {
+                "&.Mui-focused fieldset": {
+                  borderColor: "transparent", // Remove the blue border on focus
+                },
+              },
+            }}
+          >
             <InputLabel id="select-label">Choose an option</InputLabel>
             <Select labelId="select-label" label="Choose an option">
-              <MenuItem value="option1">Option 1</MenuItem>
-              <MenuItem value="option2">Option 2</MenuItem>
-              <MenuItem value="option3">Option 3</MenuItem>
+              <MenuItem value="option1">User</MenuItem>
+              <MenuItem value="option2">Admin</MenuItem>
             </Select>
           </FormControl>
           <Button type="submit" variant="contained" style={buttonStyle}>
