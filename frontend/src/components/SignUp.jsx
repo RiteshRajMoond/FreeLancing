@@ -60,7 +60,7 @@ const SignUp = () => {
   const [password, setPassword] = useState("");
   // const [inviteJWT, setInviteJWT] = useState('');
   const navigate = useNavigate();
-  const handleSignup = async (e) => {
+  const handleUserSignup = async (e) => {
     try {
       e.preventDefault();
       const res = await axios.post("/user/signup", {
@@ -70,6 +70,21 @@ const SignUp = () => {
       });
       console.log("User created successfully", res);
       navigate("/");
+    } catch (error) {
+      console.error("This is the error!\n", error);
+    }
+  };
+
+  const handleAdminSignup = async (e) => {
+    try {
+      e.preventDefault();
+      const res = axios.post("/admin/signup", {
+        username: username,
+        email: email,
+        password: password,
+        inviteJWT: inviteJWT,
+      });
+      console.log("Admin signed Up!", res);
     } catch (error) {
       console.error("This is the error!\n", error);
     }
@@ -86,7 +101,7 @@ const SignUp = () => {
           {" "}
           Sign Up{" "}
         </Typography>
-        <form onSubmit={handleSignup}>
+        <form onSubmit={handleUserSignup}>
           <TextField
             sx={{
               "& .MuiInputLabel-root": {

@@ -52,15 +52,25 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const handleLogin = async (e) => {
+  const handleUserLogin = async (e) => {
     try {
       e.preventDefault();
-      const resp = axios.post("/user/login", { email, password });
-      navigate("/");
+      const resp = await axios.post("/user/login", { email, password });
+      if (resp.status == 201) {
+        alert("Logged In!");
+        navigate("/");
+      }
     } catch (error) {
-      console.error(error);
+      if(error.response && error.response.status !== 201) {
+        alert("Invalid Credentials");
+      } else{
+        alert("Internal server error");
+      }
+      navigate("/login");
     }
   };
+
+  const handleAdminLogin = async (e) => {};
 
   return (
     <Box sx={boxStyle1}>
@@ -73,7 +83,7 @@ const Login = () => {
           {" "}
           Login{" "}
         </Typography>
-        <form onSubmit={handleLogin}>
+        <form onSubmit={handleUserLogin}>
           <TextField
             sx={{
               "& .MuiInputLabel-root": {
