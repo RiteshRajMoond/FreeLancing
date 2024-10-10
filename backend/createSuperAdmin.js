@@ -9,7 +9,7 @@ const createSuperAdmin = async () => {
   try {
     await mongoose.connect(process.env.MONGO_URI);
 
-    const hashedPassword = bcrypt.hash(process.env.SUPER_ADMIN_PASSWORD, 12);
+    const hashedPassword = await bcrypt.hash(process.env.SUPER_ADMIN_PASSWORD, 12);
 
     const superAdmin = new Admin({
       username: process.env.SUPER_ADMIN_USERNAME,
