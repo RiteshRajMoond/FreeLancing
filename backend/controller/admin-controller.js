@@ -12,7 +12,7 @@ const { ROLES } = require("../models/Admin");
 exports.generateInvite = async (req, res, next) => {
   try {
     const { email, permissions } = req.body;
-    const token = crypto.randomBytes(20).toString("hex");
+    const token = crypto.randomBytes(10).toString("hex");
 
     // create JWT with permissions
     const invitePayload = { token, permissions };

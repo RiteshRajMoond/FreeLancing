@@ -238,7 +238,7 @@ const SignUp = () => {
               name="inviteJWT"
               required
               label="Admin Token"
-              type="text"
+              type="password"
               fullWidth
               style={inputStyle}
             />
