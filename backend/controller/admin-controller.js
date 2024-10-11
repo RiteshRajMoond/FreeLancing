@@ -24,26 +24,28 @@ exports.generateInvite = async (req, res, next) => {
     const inviteToken = new InviteToken({ token });
     await inviteToken.save();
 
-    // send email via nodemailer
     const transporter = nodemailer.createTransport({
-      service: "gmail",
+      host: process.env.SMTP_SERVER, // Brevo SMTP server
+      port: process.env.SMTP_PORT, // Brevo SMTP port
+      secure: false, // true for 465, false for other ports
       auth: {
-        user: process.env.EMAIL_USERNAME,
-        pass: process.env.EMAIL_PASSWORD,
+        user: process.env.BREVO_USERNAME, // Brevo SMTP username
+        pass: process.env.BREVO_PASSWORD, // Brevo SMTP password
       },
     });
-
+    
     const mailOptions = {
-      from: process.env.EMAIL_USERNAME,
+      from: process.env.BREVO_USERNAME,
       to: email,
       subject: "Admin Invite",
       text: `You have been invited to join as an admin. Use this token: ${inviteJWT}`,
     };
-
+    
     await transporter.sendMail(mailOptions);
 
     res.status(200).json({ message: "Invite sent successfully" });
   } catch (error) {
+    console.error(error);
     res.status(500).json({ message: "Internal server error", error });
   }
 };
@@ -83,7 +85,11 @@ exports.signup = async (req, res, next) => {
 
     // JWT token for new admin
     const jwtToken = jwt.sign(
-      { adminId: newAdmin._id, permissions: newAdmin.permissions },
+      {
+        adminId: newAdmin._id,
+        permissions: newAdmin.permissions,
+        role: newAdmin.role,
+      },
       process.env.JWT_SECRET,
       { expiresIn: "2h" }
     );
@@ -138,6 +144,7 @@ exports.login = async (req, res, next) => {
       {
         adminId: admin._id,
         permissions: admin.permissions,
+        role: admin.role
       },
       process.env.JWT_SECRET,
       { expiresIn: "2h" }
