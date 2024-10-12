@@ -58,11 +58,13 @@ const SignUp = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  // const [inviteJWT, setInviteJWT] = useState('');
+  const [role, setRole] = useState("option1");
+  const [token, setToken] = useState("");
+
   const navigate = useNavigate();
-  const handleSignup = async (e) => {
+
+  const handleUserSignup = async () => {
     try {
-      e.preventDefault();
       const res = await axios.post("/user/signup", {
         username: username,
         email: email,
@@ -75,6 +77,26 @@ const SignUp = () => {
     }
   };
 
+  const handleAdminSignup = async () => {
+    try {
+      const res = await axios.post("/admin/signup", {
+        username: username,
+        email: email,
+        password: password,
+        inviteJWT: token,
+      });
+      console.log("Admin signed Up!", res);
+    } catch (error) {
+      console.error("This is the error!\n", error);
+    }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if(role === 'option2') handleAdminSignup();
+    else handleUserSignup();
+  }
+
   return (
     <Box sx={boxStyle1}>
       <video autoPlay loop muted style={vidStyle}>
@@ -86,7 +108,7 @@ const SignUp = () => {
           {" "}
           Sign Up{" "}
         </Typography>
-        <form onSubmit={handleSignup}>
+        <form onSubmit={handleSubmit}>
           <TextField
             sx={{
               "& .MuiInputLabel-root": {
@@ -186,11 +208,41 @@ const SignUp = () => {
             }}
           >
             <InputLabel id="select-label">Choose an option</InputLabel>
-            <Select labelId="select-label" label="Choose an option">
+            <Select
+              labelId="select-label"
+              label="Choose an option"
+              value={role}
+              onChange={(e) => setRole(e.target.value)}
+            >
               <MenuItem value="option1">User</MenuItem>
               <MenuItem value="option2">Admin</MenuItem>
             </Select>
           </FormControl>
+          {role === "option2" && (
+            <TextField
+              sx={{
+                "& .MuiInputLabel-root": {
+                  "&.Mui-focused": {
+                    color: "rgb(66, 66, 66)",
+                  },
+                },
+                "& .MuiFilledInput-underline:before": {
+                  borderBottomColor: "rgb(66, 66, 66)",
+                },
+                "& .MuiFilledInput-underline:after": {
+                  borderBottom: "rgb(66, 66, 66)", 
+                },
+              }}
+              variant="filled"
+              onChange={(e) => setToken(e.target.value)}
+              name="inviteJWT"
+              required
+              label="Admin Token"
+              type="password"
+              fullWidth
+              style={inputStyle}
+            />
+          )}
           <Button type="submit" variant="contained" style={buttonStyle}>
             {" "}
             Sign Up
@@ -200,5 +252,6 @@ const SignUp = () => {
     </Box>
   );
 };
+
 
 export default SignUp;

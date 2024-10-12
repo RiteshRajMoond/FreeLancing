@@ -1,7 +1,16 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { Box, Button, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  TextField,
+  Typography,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+} from "@mui/material";
 
 const Login = () => {
   const vidStyle = {
@@ -16,7 +25,7 @@ const Login = () => {
   };
   const inputStyle = {
     margin: "10px 0",
-    backgroundColor: "rgba(255, 255, 255, 0.5",
+    backgroundColor: "rgba(255, 255, 255, 0.5)",
     borderRadius: "10px",
   };
   const buttonStyle = {
@@ -50,16 +59,47 @@ const Login = () => {
   // const[name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [role, setRole] = useState("user");
+
   const navigate = useNavigate();
 
-  const handleLogin = async (e) => {
+  const handleUserLogin = async () => {
     try {
-      e.preventDefault();
-      const resp = axios.post("/user/login", { email, password });
-      navigate("/");
+      const resp = await axios.post("/user/login", { email, password });
+      if (resp.status == 201) {
+        alert("User Logged In!");
+        navigate("/");
+      }
     } catch (error) {
-      console.error(error);
+      if (error.response && error.response.status !== 201) {
+        alert("Invalid Credentials");
+      } else {
+        alert("Internal server error");
+      }
+      navigate("/login");
     }
+  };
+
+  const handleAdminLogin = async () => {
+    try {
+      const resp = await axios.post("/admin/login", { email, password });
+      if (resp.status === 201) {
+        alert("Admin Logged In!");
+        navigate("/");
+      }
+    } catch (error) {
+      if (error.response && error.response.status !== 201) {
+        alert("Invalid Credentials");
+      } else {
+        alert("Internal server error");
+      }
+    }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (role === "admin") handleAdminLogin();
+    else handleUserLogin();
   };
 
   return (
@@ -73,7 +113,7 @@ const Login = () => {
           {" "}
           Login{" "}
         </Typography>
-        <form onSubmit={handleLogin}>
+        <form onSubmit={handleSubmit}>
           <TextField
             sx={{
               "& .MuiInputLabel-root": {
@@ -124,6 +164,40 @@ const Login = () => {
             fullWidth
             style={inputStyle}
           />
+          <FormControl
+            variant="filled"
+            style={inputStyle}
+            fullWidth
+            sx={{
+              "& .MuiInputLabel-root": {
+                "&.Mui-focused": {
+                  color: "rgb(66, 66, 66)", // Label color when focused
+                },
+              },
+              "& .MuiFilledInput-underline:before": {
+                borderBottomColor: "rgb(66, 66, 66)", // Remove default underline
+              },
+              "& .MuiFilledInput-underline:after": {
+                borderBottom: "none", // Remove underline on focus
+              },
+              "& .MuiOutlinedInput-root": {
+                "&.Mui-focused fieldset": {
+                  borderColor: "transparent", // Remove the blue border on focus
+                },
+              },
+            }}
+          >
+            <InputLabel id="select-label">Login as</InputLabel>
+            <Select
+              labelId="select-label"
+              label="Login as"
+              value={role}
+              onChange={(e) => setRole(e.target.value)}
+            >
+              <MenuItem value="user">User</MenuItem>
+              <MenuItem value="admin">Admin</MenuItem>
+            </Select>
+          </FormControl>
           <Button type="submit" variant="contained" style={buttonStyle}>
             Login
           </Button>

@@ -43,7 +43,7 @@ exports.login = async (req, res, next) => {
   try {
     const errors = validationResult(req);
 
-    if (!errors.isEmpty()) res.status(400).json({ messages: errors.array() });
+    if (!errors.isEmpty()) return res.status(400).json({ messages: errors.array() });
 
     const { email, password } = req.body;
 

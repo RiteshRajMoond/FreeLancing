@@ -6,6 +6,7 @@ import Admins from './components/Admins'
 import Home from './components/Home'
 
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import SuperAdmin from './components/SuperAdmin'
 
 export default function App() {
   return (
@@ -14,7 +15,7 @@ export default function App() {
     <Routes>
       <Route path='/login' element={<Login/>}></Route>
       <Route path='/signup' element={<SignUp/>}></Route>
-      
+      <Route path='super-admin' element={<SuperAdmin/>}></Route>
       <Route path='/admins' element={<Admins/>}></Route>
       <Route path='/' element={<Home/>}></Route>
     </Routes>
