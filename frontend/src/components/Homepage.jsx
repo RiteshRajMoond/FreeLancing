@@ -69,7 +69,11 @@ const Homepage = () => {
     if (videoRef.current) {
       videoRef.current.src = videos[currentVideo];
       videoRef.current.load();
-      videoRef.current.play();
+      videoRef.current.onloadeddata = () => {
+        videoRef.current
+          .play()
+          .catch((err) => console.error("Error playing video: ", error));
+      };
     }
   }, [currentVideo]);
 
@@ -226,22 +230,22 @@ const Homepage = () => {
             borderRadius: "10px",
             position: "relative",
             right: "-12%", // Move the video to the right,
-            height: '400px',
-            overflow: 'hidden',
+            height: "400px",
+            overflow: "hidden",
           }}
         >
           <video
             ref={videoRef}
-            autoPlay
             loop
             muted
             style={{
               width: "100%",
               borderRadius: "10px",
-              borderRadius: '10px',
-              left: currentVideo === 0 ? '0': '100%',
-              transform: currentVideo === 0 ? 'translateX(0)': 'translateX(-25%)',
-              transition: 'left 0.5s ease-in-out, transform 0.5s ease-in-out'
+              borderRadius: "10px",
+              left: currentVideo === 0 ? "0" : "100%",
+              transform:
+                currentVideo === 0 ? "translateX(0)" : "translateX(-25%)",
+              transition: "left 0.5s ease-in-out, transform 0.5s ease-in-out",
             }}
           >
             <source src={videos[currentVideo]} type="video/mp4"></source>
