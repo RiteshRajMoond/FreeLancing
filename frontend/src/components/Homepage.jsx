@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Box, Typography, Collapse, LinearProgress } from "@mui/material";
 import PersonIcon from "@mui/icons-material/Person";
 import AssignmentIcon from "@mui/icons-material/Assignment";
@@ -9,8 +9,14 @@ import StarIcon from "@mui/icons-material/Star";
 const Homepage = () => {
   const [expandedCard, setExpandedCard] = useState(0);
   const [progress, setProgress] = useState(0);
+  const [currentVideo, setCurrentVideo] = useState(0);
+
+  const videoRef = useRef(null);
+
   const intervalTime = 5000;
-  const updateInterval = 100; // Update every 100ms
+  const updateInterval = 400;
+
+  const videos = ["../../assets/login.mp4", "../../assets/signup.mp4"];
 
   // Loop for updating progress
   useEffect(() => {
@@ -49,6 +55,23 @@ const Homepage = () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+
+  // switch videos every 4 secs
+  useEffect(() => {
+    const videoInterval = setInterval(() => {
+      setCurrentVideo((prev) => (prev === 0 ? 1 : 0));
+    }, 4000); // 4 secs
+
+    return () => clearInterval(videoInterval);
+  }, []);
+
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.src = videos[currentVideo];
+      videoRef.current.load();
+      videoRef.current.play();
+    }
+  }, [currentVideo]);
 
   const handleNextCard = () => {
     setExpandedCard((prev) =>
@@ -140,52 +163,90 @@ const Homepage = () => {
         sx={{
           backgroundColor: "black",
           display: "flex",
-          flexDirection: "column",
+          flexDirection: "row",
+          overflow: "hidden",
         }}
       >
-        {cards.map((card, index) => (
-          <Box
-            key={index}
-            sx={{
-              width: "35%",
-              marginLeft: "30px",
-              marginBottom: "1rem",
-              padding: "1rem",
-              backgroundColor: "rgba(235, 230, 230, 0.1)",
-              color: "rgba(235, 230, 230)",
-              borderRadius: "10px",
-              cursor: "pointer",
-            }}
-            onClick={() => handleToggle(index)}
-          >
-            <Box display="flex" alignItems="center">
-              {card.icon}
-              <Typography
-                variant="h6"
-                sx={{ fontWeight: "bold", marginLeft: "0.5rem" }}
-              >
-                {card.title}
-              </Typography>
+        <Box
+          sx={{
+            width: "50%",
+            padding: "1rem",
+          }}
+        >
+          {cards.map((card, index) => (
+            <Box
+              key={index}
+              sx={{
+                marginBottom: "1.3rem",
+                padding: "1rem",
+                backgroundColor: "rgba(235, 230, 230, 0.1)",
+                color: "rgba(235, 230, 230)",
+                borderRadius: "10px",
+                cursor: "pointer",
+              }}
+              onClick={() => handleToggle(index)}
+            >
+              <Box display="flex" alignItems="center">
+                {card.icon}
+                <Typography
+                  variant="h6"
+                  sx={{ fontWeight: "bold", marginLeft: "0.5rem" }}
+                >
+                  {card.title}
+                </Typography>
+              </Box>
+              <Collapse in={expandedCard === index}>
+                <Typography variant="body1" sx={{ marginTop: ".3rem" }}>
+                  {card.content}
+                </Typography>
+                <LinearProgress
+                  sx={{
+                    marginBottom: "-16px",
+                    height: "0.2px",
+                    backgroundColor: "rgba(235, 230, 230, 0.1)",
+                    "& .MuiLinearProgress-bar": {
+                      backgroundColor: "#0077ff", // Progress bar color
+                    },
+                  }}
+                  variant="determinate"
+                  value={expandedCard === index ? progress : 0}
+                />
+              </Collapse>
             </Box>
-            <Collapse in={expandedCard === index}>
-              <Typography variant="body1" sx={{ marginTop: ".3rem" }}>
-                {card.content}
-              </Typography>
-              <LinearProgress
-                sx={{
-                  marginBottom: "-16px",
-                  height: "0.2px",
-                  backgroundColor: "rgba(235, 230, 230, 0.1)",
-                  "& .MuiLinearProgress-bar": {
-                    backgroundColor: "#0077ff", // Progress bar color
-                  },
-                }}
-                variant="determinate"
-                value={expandedCard === index ? progress : 0}
-              />
-            </Collapse>
-          </Box>
-        ))}
+          ))}
+        </Box>
+        <Box
+          sx={{
+            width: "50%",
+            padding: "3rem",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            backgroundColor: "#6666",
+            borderRadius: "10px",
+            position: "relative",
+            right: "-12%", // Move the video to the right,
+            height: '400px',
+            overflow: 'hidden',
+          }}
+        >
+          <video
+            ref={videoRef}
+            autoPlay
+            loop
+            muted
+            style={{
+              width: "100%",
+              borderRadius: "10px",
+              borderRadius: '10px',
+              left: currentVideo === 0 ? '0': '100%',
+              transform: currentVideo === 0 ? 'translateX(0)': 'translateX(-25%)',
+              transition: 'left 0.5s ease-in-out, transform 0.5s ease-in-out'
+            }}
+          >
+            <source src={videos[currentVideo]} type="video/mp4"></source>
+          </video>
+        </Box>
       </Box>
     </>
   );
