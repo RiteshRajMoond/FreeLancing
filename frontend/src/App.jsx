@@ -7,6 +7,7 @@ import Home from './components/Home'
 
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import SuperAdmin from './components/SuperAdmin'
+import Dashboard from './components/Dashboard'
 
 export default function App() {
   return (
@@ -18,6 +19,7 @@ export default function App() {
       <Route path='super-admin' element={<SuperAdmin/>}></Route>
       <Route path='/admins' element={<Admins/>}></Route>
       <Route path='/' element={<Home/>}></Route>
+      <Route path='/dashboard' element={<Dashboard/>}></Route>
     </Routes>
     </BrowserRouter>
     </>

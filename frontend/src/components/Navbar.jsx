@@ -1,5 +1,6 @@
 import React from "react";
 import { AppBar, Button, Typography, Toolbar } from "@mui/material";
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { Link } from "react-router-dom";
 import Logout from "./Logout";
 
@@ -45,6 +46,9 @@ export default function Navbar() {
         <Button style={btnStyle} to="/SignUp" component={Link}>
           SignUp
         </Button>
+        <Link to="/dashboard" style={{ textDecoration: 'none' }}>
+          <AccountCircleIcon sx={{ color: "white", fontSize: "38px" }} />
+        </Link>
         <Logout />
       </Toolbar>
     </>
