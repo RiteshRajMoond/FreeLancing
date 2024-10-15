@@ -181,8 +181,9 @@ const Homepage = () => {
             <Box
               key={index}
               sx={{
+                width:"30vw",
                 marginBottom: "1.3rem",
-                padding: "1rem",
+                padding: "2rem",
                 backgroundColor: "rgba(235, 230, 230, 0.1)",
                 color: "rgba(235, 230, 230)",
                 borderRadius: "10px",
@@ -205,7 +206,8 @@ const Homepage = () => {
                 </Typography>
                 <LinearProgress
                   sx={{
-                    marginBottom: "-16px",
+                    marginBottom: "-32px",
+                    marginTop:"25px",
                     height: "0.2px",
                     backgroundColor: "rgba(235, 230, 230, 0.1)",
                     "& .MuiLinearProgress-bar": {
@@ -221,20 +223,19 @@ const Homepage = () => {
         </Box>
         <Box
           sx={{
-            width: "50%",
+            width: "70vw",
             padding: "3rem",
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            backgroundColor: "#6666",
+            backgroundColor: "transparent",
             borderRadius: "10px",
             position: "relative",
-            right: "-12%", // Move the video to the right,
-            height: "400px",
+            height: "70vh",
             overflow: "hidden",
           }}
         >
-          <video
+          {/* <video
             ref={videoRef}
             loop
             muted
@@ -244,12 +245,14 @@ const Homepage = () => {
               borderRadius: "10px",
               left: currentVideo === 0 ? "0" : "100%",
               transform:
-                currentVideo === 0 ? "translateX(0)" : "translateX(-25%)",
+                currentVideo === 0 ? "translateX(0)" : "translateX(-10%)",
               transition: "left 0.5s ease-in-out, transform 0.5s ease-in-out",
             }}
           >
             <source src={videos[currentVideo]} type="video/mp4"></source>
-          </video>
+          </video> */}
+
+          <img src="../../assets/ac.jpg" alt="" />
         </Box>
       </Box>
     </>
