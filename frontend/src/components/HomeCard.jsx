@@ -13,44 +13,45 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 const HomeCard = () => {
   const cards = [
     {
-      title: "Dropbox Sign",
-      value: "4X",
-      description: "faster speed to market",
-      borderColor: "purple",
+      title: "Web Development",
+      value: "500+",
+      description: "Websites and applications delivered",
+      borderColor: "#3b2c55", // Medium soft purple
     },
     {
-      title: "Refokus",
-      value: "200+",
-      description: "Webflow sites launched",
-      borderColor: "green",
+      title: "Graphic Design",
+      value: "300+",
+      description: "Logos, branding, and UI/UX designs completed",
+      borderColor: "#264228", // Medium soft green
     },
     {
-      title: "attentive",
-      value: "27%",
-      description: "traffic increase one week post-launch",
-      borderColor: "red",
+      title: "SEO Optimization",
+      value: "70%",
+      description: "Clients saw improved rankings within 3 months",
+      borderColor: "#673232", // Medium soft red
     },
     {
-      title: "Example Company 1",
-      value: "5X",
-      description: "growth in users",
-      borderColor: "blue",
+      title: "Content Writing",
+      value: "1M+",
+      description: "Words written for blogs, websites, and marketing",
+      borderColor: "#203e56", // Medium soft blue
     },
     {
-      title: "Example Company 2",
-      value: "100%",
-      description: "customer satisfaction",
-      borderColor: "orange",
+      title: "Digital Marketing",
+      value: "50+",
+      description: "Campaigns launched with a high ROI",
+      borderColor: "#694d22", // Medium soft orange
     },
     {
-      title: "Example Company 3",
-      value: "3X",
-      description: "improved efficiency",
-      borderColor: "yellow",
+      title: "Mobile App Development",
+      value: "100+",
+      description: "Mobile apps developed across iOS and Android",
+      borderColor: "#6c662d", // Medium soft yellow
     },
     // Add as many cards as you want...
   ];
-
+  
+  
   const containerRef = useRef(null);
 
   const [scrollPosition, setScrollPosition] = useState(0);
@@ -106,12 +107,25 @@ const HomeCard = () => {
         component="div"
         sx={{
           textAlign: "center",
-          marginBottom: "40px",
+          marginTop: "70px",
           fontWeight: "bold",
           color: "#fff",
         }}
       >
-        Trusted by 3,000+ freelancers and agencies
+        Trusted and utilized by our precious clients
+      </Typography>
+      <Typography
+        variant="h5"
+        component="div"
+        sx={{
+          textAlign: "center",
+          marginTop: "20px",
+          marginBottom: "20px",
+          fontWeight: "bold",
+          color: "#fff",
+        }}
+      >
+        Services we provide💻
       </Typography>
       <IconButton
         onClick={handleScrollLeft}
@@ -145,13 +159,15 @@ const HomeCard = () => {
               minHeight: "250px", // Reduced height
               color: "#fff",
               border: `2px solid ${card.borderColor}`,
+              borderRadius : "10%",
               transition: "border-color 0.3s",
               backgroundColor: "#111",
               "&:hover": {
-                transition: "background-color .5s, color .5s",
+                transition: "background-color .5s, color .1s, box-shadow 0.3s",
                 border: "none",
                 backgroundColor: `${card.borderColor}`,
-                color: "#000",
+                color: "#111",
+                boxShadow:`0 0 8px 5px ${card.borderColor}`
               },
             }}
           >
@@ -182,7 +198,7 @@ const HomeCard = () => {
                 }}
                 endIcon={<span style={{ fontSize: "16px" }}>→</span>}
               >
-                Read Story
+                Know more
               </Button>
             </CardContent>
           </Card>

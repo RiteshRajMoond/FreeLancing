@@ -13,10 +13,10 @@ const Homepage = () => {
 
   const videoRef = useRef(null);
 
-  const intervalTime = 5000;
+  const intervalTime = 4450;
   const updateInterval = 400;
 
-  const videos = ["../../assets/login.mp4", "../../assets/signup.mp4"];
+  const videos = ["../../assets/features.mp4"];
 
   // Loop for updating progress
   useEffect(() => {
@@ -60,9 +60,9 @@ const Homepage = () => {
   useEffect(() => {
     const videoInterval = setInterval(() => {
       setCurrentVideo((prev) => (prev === 0 ? 1 : 0));
-    }, 4000); // 4 secs
+    }, 25000); // 25 secs
 
-    return () => clearInterval(videoInterval);
+    // return () => clearInterval(videoInterval);
   }, []);
 
   useEffect(() => {
@@ -86,6 +86,11 @@ const Homepage = () => {
   const handleToggle = (index) => {
     // Reset progress and toggle the card
     setExpandedCard((prev) => (prev === index ? null : index));
+    if (videoRef.current) {
+      // Set video to play from the corresponding time
+      videoRef.current.currentTime = index * 5; // 0s, 5s, 10s, etc.
+      videoRef.current.play();
+    }
   };
 
   const cards = [
@@ -182,8 +187,8 @@ const Homepage = () => {
               key={index}
               sx={{
                 width:"30vw",
-                marginBottom: "1.3rem",
-                padding: "2rem",
+                marginBottom: "1rem",
+                padding: "1.5rem",
                 backgroundColor: "rgba(235, 230, 230, 0.1)",
                 color: "rgba(235, 230, 230)",
                 borderRadius: "10px",
@@ -206,7 +211,7 @@ const Homepage = () => {
                 </Typography>
                 <LinearProgress
                   sx={{
-                    marginBottom: "-32px",
+                    marginBottom: "-23px",
                     marginTop:"25px",
                     height: "0.2px",
                     backgroundColor: "rgba(235, 230, 230, 0.1)",
@@ -223,36 +228,38 @@ const Homepage = () => {
         </Box>
         <Box
           sx={{
-            width: "70vw",
-            padding: "3rem",
+            width: "80vw",
+            height:"100%",
+            marginRight: "-20px",
+            padding: "1rem",
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
             backgroundColor: "transparent",
             borderRadius: "10px",
             position: "relative",
-            height: "70vh",
             overflow: "hidden",
           }}
         >
-          {/* <video
+          <video
             ref={videoRef}
             loop
             muted
             style={{
               width: "100%",
+              height:"100%",
               borderRadius: "10px",
               borderRadius: "10px",
-              left: currentVideo === 0 ? "0" : "100%",
-              transform:
-                currentVideo === 0 ? "translateX(0)" : "translateX(-10%)",
-              transition: "left 0.5s ease-in-out, transform 0.5s ease-in-out",
+              // left: currentVideo === 0 ? "0" : "100%",
+              // transform:
+              //   currentVideo === 0 ? "translateX(0)" : "translateX(-10%)",
+              // transition: "left 0.5s ease-in-out, transform 0.5s ease-in-out",
             }}
           >
-            <source src={videos[currentVideo]} type="video/mp4"></source>
-          </video> */}
+            <source src="../../assets/features.mp4" type="video/mp4"></source>
+          </video>
 
-          <img src="../../assets/ac.jpg" alt="" />
+          {/* <img src="../../assets/ac.jpg" alt="" /> */}
         </Box>
       </Box>
     </>

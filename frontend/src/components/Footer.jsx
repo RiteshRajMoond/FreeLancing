@@ -12,7 +12,7 @@ const Footer = () => {
     { text: "Privacy Policy", url: "/privacy-policy" },
     { text: "Cookie Policy", url: "/cookie-policy" },
     { text: "Accessibility Statement", url: "/accessibility-statement" },
-    { text: "Sitemap", url: "/sitemap" },
+    // { text: "Sitemap", url: "/sitemap" },
   ];
 
   const communityLinks = [
@@ -44,19 +44,27 @@ const Footer = () => {
   ];
 
   return (
-    <Box sx={{ backgroundColor: "#000", color: "#fff", py: 5 }}>
-      <Container maxWidth="lg">
+    <Box sx={{ backgroundColor: "#000", color: "#fff", py: 5, borderTop: "2px solid #111" }}>
+  
         <Box
           sx={{
+            marginLeft: "10px",
+            marginBottom: "50px",
+            marginRight: "10px",
             display: "flex",
             flexDirection: { xs: "column", sm: "row" },
-            justifyContent: "space-between",
+            justifyContent: "space-around",
             flexWrap: "wrap",
-            gap: 4, // Add spacing between sections
           }}
         >
+          {/* <Box sx={{ mb: { xs: 3, sm: 0 } }}> */}
+            <Typography variant="h4" sx={{marginTop:"70px", color:"#848485"}}>
+              Quick Links ➩
+            </Typography>
+            
+          {/* </Box> */}
           <Box sx={{ mb: { xs: 3, sm: 0 } }}>
-            <Typography variant="h5" gutterBottom>
+            <Typography variant="h5" sx={{color:"white", mb:"10px"}}>
               Products
             </Typography>
             {productLinks.map((link) => (
@@ -67,7 +75,7 @@ const Footer = () => {
                 display="block"
                 sx={{
                   textDecoration: "none",
-                  mb: 1, // Add spacing between links
+                  mb: 0, // Add spacing between links
                   color: "rgba(255, 255, 255, 0.7)", // Duller color
                   transition: "color 0.3s", // Smooth transition
                   "&:hover": {
@@ -80,7 +88,7 @@ const Footer = () => {
             ))}
           </Box>
           <Box sx={{ mb: { xs: 3, sm: 0 } }}>
-            <Typography variant="h5" gutterBottom>
+            <Typography variant="h5" sx={{color:"white", mb:"10px"}}>
               Company
             </Typography>
             {companyLinks.map((link) => (
@@ -91,7 +99,7 @@ const Footer = () => {
                 display="block"
                 sx={{
                   textDecoration: "none",
-                  mb: 1, // Add spacing between links
+                  mb: 0, // Add spacing between links
                   color: "rgba(255, 255, 255, 0.7)", // Duller color
                   transition: "color 0.3s", // Smooth transition
                   "&:hover": {
@@ -104,7 +112,7 @@ const Footer = () => {
             ))}
           </Box>
           <Box sx={{ mb: { xs: 3, sm: 0 } }}>
-            <Typography variant="h5" gutterBottom>
+            <Typography variant="h5" sx={{color:"white", mb:"10px"}}>
               Community
             </Typography>
             {communityLinks.map((link) => (
@@ -115,7 +123,7 @@ const Footer = () => {
                 display="block"
                 sx={{
                   textDecoration: "none",
-                  mb: 1, // Add spacing between links
+                  mb: 0, // Add spacing between links
                   color: "rgba(255, 255, 255, 0.7)", // Duller color
                   transition: "color 0.3s", // Smooth transition
                   "&:hover": {
@@ -128,7 +136,7 @@ const Footer = () => {
             ))}
           </Box>
           <Box sx={{ mb: { xs: 3, sm: 0 } }}>
-            <Typography variant="h5" gutterBottom>
+            <Typography variant="h5" sx={{color:"white", mb:"10px"}}>
               Get Help
             </Typography>
             {getHelpLinks.map((link) => (
@@ -139,7 +147,7 @@ const Footer = () => {
                 display="block"
                 sx={{
                   textDecoration: "none",
-                  mb: 1, // Add spacing between links
+                  mb: 0, // Add spacing between links
                   color: "rgba(255, 255, 255, 0.7)", // Duller color
                   transition: "color 0.3s", // Smooth transition
                   "&:hover": {
@@ -152,9 +160,9 @@ const Footer = () => {
             ))}
           </Box>
         </Box>
-        <Box sx={{mt: 4, textAlign: 'center'}}>
-          <Typography>Follow Us!</Typography>
-          <Box sx={{display: 'flex', justifyContent: 'center', gap: 1}}>
+        <Box sx={{width:"100%", textAlign: 'center', borderTop: "2px solid #111"}}>
+          <Typography sx={{color:"#848485", marginTop:"20px"}} variant="h5">Follow Us!</Typography>
+          <Box sx={{display: 'flex', justifyContent: 'center', gap: "1", marginTop:"10px", marginBottom:"-20px"}}>
             <IconButton
               href="https://www.facebook.com"
               target="_blank"
@@ -212,7 +220,7 @@ const Footer = () => {
             </IconButton>
           </Box>
         </Box>
-      </Container>
+      
     </Box>
   );
 };
