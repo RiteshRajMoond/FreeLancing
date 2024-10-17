@@ -16,40 +16,41 @@ const HomeCard = () => {
       title: "Web Development",
       value: "500+",
       description: "Websites and applications delivered",
-      borderColor: "#3b2c55", // Medium soft purple
+      borderColor: "#a565ff", 
     },
     {
       title: "Graphic Design",
       value: "300+",
       description: "Logos, branding, and UI/UX designs completed",
-      borderColor: "#264228", // Medium soft green
+      borderColor: "#5df256",
     },
     {
       title: "SEO Optimization",
       value: "70%",
       description: "Clients saw improved rankings within 3 months",
-      borderColor: "#673232", // Medium soft red
+      borderColor: "#ff6868",
     },
     {
       title: "Content Writing",
       value: "1M+",
       description: "Words written for blogs, websites, and marketing",
-      borderColor: "#203e56", // Medium soft blue
+      borderColor: "#4dbaff",  
     },
     {
       title: "Digital Marketing",
       value: "50+",
       description: "Campaigns launched with a high ROI",
-      borderColor: "#694d22", // Medium soft orange
+      borderColor: "#ff8c42",
     },
     {
       title: "Mobile App Development",
       value: "100+",
       description: "Mobile apps developed across iOS and Android",
-      borderColor: "#6c662d", // Medium soft yellow
+      borderColor: "#ffeb3b", 
     },
-    // Add as many cards as you want...
   ];
+
+
   
   
   const containerRef = useRef(null);
