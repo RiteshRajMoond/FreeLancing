@@ -1,10 +1,24 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const { validationResult } = require("express-validator");
-const redisClient = require('../config/redis');
+const redisClient = require("../config/redis");
 
 const User = require("../models/User");
 
+// for redis testing (Will be removed later)
+exports.getSessionData = async (req, res, next) => {
+  try {
+    const { userId } = req.params;
+    const sessionData = await redisClient.get(`session:${userId}`);
+    if (!sessionData)
+      return res.status(404).json({ message: "Session not found" });
+    res.status(200).json({ sessionData });
+  } catch (err) {
+    res.status(500).json({ message: "Internal server error", err });
+  }
+};
+
+// Authentication and Authorization Controllers
 exports.signup = async (req, res, next) => {
   try {
     const errors = validationResult(req);
@@ -42,22 +56,12 @@ exports.signup = async (req, res, next) => {
   }
 };
 
-exports.getSessionData = async (req, res, next) => {
-  try {
-    const {userId} = req.params;
-    const sessionData = await redisClient.get(`session:${userId}`);
-    if(!sessionData) return res.status(404).json({message: "Session not found"});
-    res.status(200).json({sessionData});
-  } catch (err) {
-    res.status(500).json({message: "Internal server error", err});
-  }
-}
-
 exports.login = async (req, res, next) => {
   try {
     const errors = validationResult(req);
 
-    if (!errors.isEmpty()) return res.status(400).json({ messages: errors.array() });
+    if (!errors.isEmpty())
+      return res.status(400).json({ messages: errors.array() });
 
     const { email, password } = req.body;
 
@@ -113,3 +117,80 @@ exports.logout = async (req, res, next) => {
     return res.status(500).json({ message: "Internal server error", error });
   }
 };
+
+// Dashbaord Controllers
+exports.getUser = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.user.id);
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    res.status(200).json({ user });
+  } catch (error) {
+    return res.status(500).json({ message: "Internal server error", error });
+  }
+};
+
+exports.updatePI = async (req, res, next) => {
+  try {
+    const {
+      firstName,
+      lastName,
+      bio,
+      phoneNumber,
+      address,
+      linkedIn,
+      github,
+      instagram,
+    } = req.body;
+    const user = await User.findById(req.user.id);
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    user.firstName = firstName || user.firstName;
+    user.lastName = lastName || user.lastName;
+    user.bio = bio || user.bio;
+    user.phoneNumber = phoneNumber || user.phoneNumber;
+    user.address = address || user.address;
+    user.socialMedia.linkedIn = linkedIn || user.socialMedia.linkedIn;
+    user.socialMedia.github = github || user.socialMedia.github;
+    user.socialMedia.instagram = instagram || user.socialMedia.instagram;
+    await user.save();
+
+    res.status(200).json({ message: "Personal Info updated successfully" });
+  } catch (err) {
+    res.status(500).json({ message: "Internal server error", err });
+  }
+};
+
+exports.getEducation = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.user.id);
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    res.status(200).json({ education: user.education });
+  } catch (error) {
+    return res.status(500).json({ message: "Internal server error", error });
+  }
+};
+
+exports.updateEducation = async (req, res, next) => {
+  try {
+    const { institution, degree, fieldOfStudy, startDate, endDate } = req.body;
+
+    const user = await User.findById(req.user.id);
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    user.education.institution = institution || user.education.institution;
+    user.education.degree = degree || user.education.degree;
+    user.education.fieldOfStudy = fieldOfStudy || user.education.fieldOfStudy;
+    user.education.startDate = startDate || user.education.startDate;
+    user.education.endDate = endDate || user.education.endDate;
+    await user.save();
+
+    return res.status(200).json({ message: "Education updated successfully" });
+  } catch (error) {
+    return res.status(500).json({ message: "Internal server error", error });
+  }
+};
+
+// Will be done in firebase!
+// exports.updateImage = async (req, res, next) => {}
