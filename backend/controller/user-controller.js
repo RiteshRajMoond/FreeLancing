@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const { validationResult } = require("express-validator");
+const redisClient = require('../config/redis');
 
 const User = require("../models/User");
 
@@ -25,6 +26,8 @@ exports.signup = async (req, res, next) => {
       expiresIn: "24h",
     });
 
+    redisClient.setEx(`session:${newUser._id}`, 86400, userToken);
+
     res.cookie("userJWT", userToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
@@ -38,6 +41,17 @@ exports.signup = async (req, res, next) => {
     res.status(500).json({ message: "Internal server error", error });
   }
 };
+
+exports.getSessionData = async (req, res, next) => {
+  try {
+    const {userId} = req.params;
+    const sessionData = await redisClient.get(`session:${userId}`);
+    if(!sessionData) return res.status(404).json({message: "Session not found"});
+    res.status(200).json({sessionData});
+  } catch (err) {
+    res.status(500).json({message: "Internal server error", err});
+  }
+}
 
 exports.login = async (req, res, next) => {
   try {
