@@ -7,7 +7,7 @@ import Home from './components/Home'
 
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import SuperAdmin from './components/SuperAdmin'
-import Dashboard from './components/Dashboard'
+import Dashboard from './components/Dashboard/Dashboard'
 
 export default function App() {
   return (
