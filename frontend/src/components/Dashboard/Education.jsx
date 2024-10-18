@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { TextField, Button, Typography, Stack, IconButton } from "@mui/material";
+import {
+  TextField,
+  Button,
+  Typography,
+  Stack,
+  IconButton,
+} from "@mui/material";
 import { Delete, Add } from "@mui/icons-material";
 
 const Education = () => {
@@ -34,7 +40,13 @@ const Education = () => {
       ...prev,
       education: [
         ...prev.education,
-        { degree: "", institution: "", fieldOfStudy: "", startDate: "", endDate: "" }, // Field of study included
+        {
+          degree: "",
+          institution: "",
+          fieldOfStudy: "",
+          startDate: "",
+          endDate: "",
+        }, // Field of study included
       ],
     }));
   };
@@ -49,12 +61,13 @@ const Education = () => {
   return (
     <>
       {!editMode ? (
-        <Stack style={{ backgroundColor: "white", color:"black" }} spacing={2}>
+        <Stack style={{ backgroundColor: "white", color: "black" }} spacing={2}>
           {userData.education.map((edu, index) => (
             <Stack key={index} spacing={1}>
               <Typography variant="h6">{edu.degree}</Typography>
               <Typography variant="body1">{edu.institution}</Typography>
-              <Typography variant="body1">{edu.fieldOfStudy}</Typography> {/* Displaying field of study */}
+              <Typography variant="body1">{edu.fieldOfStudy}</Typography>{" "}
+              {/* Displaying field of study */}
               <Typography variant="body2">
                 {edu.startDate} - {edu.endDate}
               </Typography>
@@ -72,27 +85,37 @@ const Education = () => {
                 <TextField
                   label="Degree"
                   value={edu.degree}
-                  onChange={(e) => handleEducationChange(index, "degree", e.target.value)}
+                  onChange={(e) =>
+                    handleEducationChange(index, "degree", e.target.value)
+                  }
                 />
                 <TextField
                   label="Institution"
                   value={edu.institution}
-                  onChange={(e) => handleEducationChange(index, "institution", e.target.value)}
+                  onChange={(e) =>
+                    handleEducationChange(index, "institution", e.target.value)
+                  }
                 />
                 <TextField
                   label="Field of Study" // Editable field for field of study
                   value={edu.fieldOfStudy}
-                  onChange={(e) => handleEducationChange(index, "fieldOfStudy", e.target.value)}
+                  onChange={(e) =>
+                    handleEducationChange(index, "fieldOfStudy", e.target.value)
+                  }
                 />
                 <TextField
                   label="Start Date"
                   value={edu.startDate}
-                  onChange={(e) => handleEducationChange(index, "startDate", e.target.value)}
+                  onChange={(e) =>
+                    handleEducationChange(index, "startDate", e.target.value)
+                  }
                 />
                 <TextField
                   label="End Date"
                   value={edu.endDate}
-                  onChange={(e) => handleEducationChange(index, "endDate", e.target.value)}
+                  onChange={(e) =>
+                    handleEducationChange(index, "endDate", e.target.value)
+                  }
                 />
               </Stack>
               {/* Delete button for each education entry */}
@@ -106,7 +129,11 @@ const Education = () => {
             </Stack>
           ))}
           {/* Button to add new education entry */}
-          <Button variant="contained" startIcon={<Add />} onClick={addEducation}>
+          <Button
+            variant="contained"
+            startIcon={<Add />}
+            onClick={addEducation}
+          >
             Add Education
           </Button>
           <Button variant="contained" color="primary" onClick={toggleEditMode}>
