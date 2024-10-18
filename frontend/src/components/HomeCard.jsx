@@ -134,7 +134,7 @@ const HomeCard = () => {
         sx={{
           position: "absolute",
           left: "10px",
-          top: "50%",
+          top: "65%",
           transform: "translateY(-50%)",
           zIndex: 1,
           color: isAtStart ? "#888" : "#fff",
@@ -211,7 +211,7 @@ const HomeCard = () => {
         sx={{
           position: "absolute",
           right: "10px",
-          top: "50%",
+          top: "65%",
           transform: "translateY(-50%)",
           zIndex: 1,
           color: isAtEnd ? "#888" : "#fff",
