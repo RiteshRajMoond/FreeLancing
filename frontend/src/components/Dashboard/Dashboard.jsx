@@ -10,7 +10,7 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
-  Grid2
+  Grid2,
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import backgroundImage from "../../../assets/ac.jpg";
@@ -74,14 +74,31 @@ const Dashboard = () => {
     try {
       const resp = await axios.post("/user/update-user", updatedData);
       setUserData(resp.data.user);
-      console.log("User data updated successfully", resp.data);
     } catch (error) {
       console.log("Error updating user data", error);
     }
   };
 
+  const handleImageUpload = async (file) => {
+    try {
+      const formData = new FormData();
+      formData.append("image", file);
+
+      const resp = await axios.post("/user/upload-image-picture", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      setImageLink(resp.data.url);
+      console.log("Image changed");
+    } catch (error) {
+      console.log("Error uploading image", error);
+    }
+  };
+
   const handleImageUpdate = () => {
-    setImageLink(selectedImage || imageLink); // Update the image link with the input value
+    if (selectedImage) handleImageUpload(selectedImage);
+    else selectedImage(imageLink);
     setIsEditing(false); // Exit edit mode
     setOpenModal(false); // Close the modal
   };
@@ -154,6 +171,11 @@ const Dashboard = () => {
                 fullWidth
                 value={selectedImage}
                 onChange={(e) => setSelectedImage(e.target.value)}
+              />
+              <input
+                type="file"
+                accept="image/*"
+                onChange={(e) => setSelectedImage(e.target.files[0])} // Handle file selection
               />
             </Grid2>
           </Grid2>
