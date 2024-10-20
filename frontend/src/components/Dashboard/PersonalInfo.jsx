@@ -1,24 +1,22 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { TextField, Button, Typography, Stack, Divider } from "@mui/material";
 
-const PersonalInfo = () => {
-  const [userData, setUserData] = useState({
-    firstName: "Emma",
-    lastName: "Richardson",
-    bio: "Just a rich bitch",
-    phoneNumber: "123456789",
-    address: "MKWorld",
-    socialMedia: {
-      linkedIn: "https://linkedin.com/in/emmarichardson",
-      github: "https://github.com/emmarichardson",
-      instagram: "https://instagram.com/emmarichardson",
-    },
-  });
-
+const PersonalInfo = ({ userData, handleSave }) => {
   const [editMode, setEditMode] = useState(false);
+  const [localUserData, setLocalUserData] = useState(userData || {});
+
+  useEffect(() => {
+    setLocalUserData(userData || {});
+  }, [userData]);
 
   const toggleEditMode = () => {
     setEditMode(!editMode);
+  };
+
+  const handleSavePersonalInfo = async () => {
+    await handleSave(localUserData);
+    setLocalUserData(localUserData)
+    setEditMode(false);
   };
 
   return (
@@ -29,46 +27,46 @@ const PersonalInfo = () => {
           spacing={2}
         >
           <Typography variant="h5">
-            {userData.firstName} {userData.lastName}
+            {localUserData.firstName || ""} {localUserData.lastName || ""}
           </Typography>
           <Typography variant="body1">
-            <strong>Bio:</strong> {userData.bio}
+            <strong>Bio:</strong> {localUserData.bio || ""}
           </Typography>
           <Divider />
           <Typography variant="body2">
-            <strong>Phone Number:</strong> {userData.phoneNumber}
+            <strong>Phone Number:</strong> {localUserData.phoneNumber || ""}
           </Typography>
           <Typography variant="body2">
-            <strong>Address:</strong> {userData.address}
+            <strong>Address:</strong> {localUserData.address || ""}
           </Typography>
           <Typography variant="body2">
             <strong>LinkedIn:</strong>{" "}
             <a
-              href={userData.socialMedia.linkedIn}
+              href={localUserData.socialMedia?.linkedIn || "#"}
               target="_blank"
               rel="noopener noreferrer"
             >
-              {userData.socialMedia.linkedin}
+              {localUserData.socialMedia?.linkedIn || ""}
             </a>
           </Typography>
           <Typography variant="body2">
             <strong>GitHub:</strong>{" "}
             <a
-              href={userData.socialMedia.github}
+              href={localUserData.socialMedia?.github || "#"}
               target="_blank"
               rel="noopener noreferrer"
             >
-              {userData.socialMedia.github}
+              {localUserData.socialMedia?.github || ""}
             </a>
           </Typography>
           <Typography variant="body2">
             <strong>Instagram:</strong>{" "}
             <a
-              href={userData.socialMedia.instagram}
+              href={localUserData.socialMedia?.instagram || "#"}
               target="_blank"
               rel="noopener noreferrer"
             >
-              {userData.socialMedia.instagram}
+              {localUserData.socialMedia?.instagram || ""}
             </a>
           </Typography>
           <Button variant="contained" color="primary" onClick={toggleEditMode}>
@@ -79,45 +77,50 @@ const PersonalInfo = () => {
         <Stack style={{ backgroundColor: "white", padding: 16 }} spacing={2}>
           <TextField
             label="First Name"
-            value={userData.firstName}
+            value={localUserData.firstName || ""}
             onChange={(e) =>
-              setUserData({ ...userData, firstName: e.target.value })
+              setLocalUserData({ ...localUserData, firstName: e.target.value })
             }
           />
           <TextField
             label="Last Name"
-            value={userData.lastName}
+            value={localUserData.lastName || ""}
             onChange={(e) =>
-              setUserData({ ...userData, lastName: e.target.value })
+              setLocalUserData({ ...localUserData, lastName: e.target.value })
             }
           />
           <TextField
             label="Bio"
-            value={userData.bio}
-            onChange={(e) => setUserData({ ...userData, bio: e.target.value })}
+            value={localUserData.bio || ""}
+            onChange={(e) =>
+              setLocalUserData({ ...localUserData, bio: e.target.value })
+            }
           />
           <TextField
             label="Phone Number"
-            value={userData.phoneNumber}
+            value={localUserData.phoneNumber || ""}
             onChange={(e) =>
-              setUserData({ ...userData, phoneNumber: e.target.value })
+              setLocalUserData({
+                ...localUserData,
+                phoneNumber: e.target.value,
+              })
             }
           />
           <TextField
             label="Address"
-            value={userData.address}
+            value={localUserData.address || ""}
             onChange={(e) =>
-              setUserData({ ...userData, address: e.target.value })
+              setLocalUserData({ ...localUserData, address: e.target.value })
             }
           />
           <TextField
             label="LinkedIn"
-            value={userData.socialMedia.linkedIn}
+            value={localUserData.socialMedia?.linkedIn || ""}
             onChange={(e) =>
-              setUserData({
-                ...userData,
+              setLocalUserData({
+                ...localUserData,
                 socialMedia: {
-                  ...userData.socialMedia,
+                  ...localUserData.socialMedia,
                   linkedIn: e.target.value,
                 },
               })
@@ -125,12 +128,12 @@ const PersonalInfo = () => {
           />
           <TextField
             label="GitHub"
-            value={userData.socialMedia.github}
+            value={localUserData.socialMedia?.github || ""}
             onChange={(e) =>
-              setUserData({
-                ...userData,
+              setLocalUserData({
+                ...localUserData,
                 socialMedia: {
-                  ...userData.socialMedia,
+                  ...localUserData.socialMedia,
                   github: e.target.value,
                 },
               })
@@ -138,18 +141,24 @@ const PersonalInfo = () => {
           />
           <TextField
             label="Instagram"
-            value={userData.socialMedia.instagram}
+            value={localUserData.socialMedia?.instagram || ""}
             onChange={(e) =>
-              setUserData({
-                ...userData,
+              setLocalUserData({
+                ...localUserData,
                 socialMedia: {
-                  ...userData.socialMedia,
+                  ...localUserData.socialMedia,
                   instagram: e.target.value,
                 },
               })
             }
           />
-          <Button variant="contained" color="primary" onClick={toggleEditMode}>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleSavePersonalInfo}
+          >
+            {" "}
+            {/* Call handleSavePersonalInfo */}
             Save
           </Button>
         </Stack>
