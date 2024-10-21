@@ -89,7 +89,7 @@ exports.login = async (req, res, next) => {
     });
     await redisClient.setEx(`session:${user._id}`, 86400, userToken);
 
-    // console.log("userToken: ", userToken);
+    console.log("userToken: ", userToken);
 
     res.cookie("userJWT", userToken, {
       httpOnly: true,
@@ -131,8 +131,22 @@ exports.logout = async (req, res, next) => {
 // Dashbaord Controllers
 exports.getUser = async (req, res, next) => {
   try {
+    const userId = req.user.id;
+    const cacheKey = `user:${userId}`;
+
+    const cachedUser = await redisClient.get(cacheKey);
+    if (cachedUser)
+      return res
+        .status(200)
+        .json({
+          user: JSON.parse(cachedUser),
+          message: "User fetched from cache",
+        });
+
     const user = await User.findById(req.user.id);
     if (!user) return res.status(404).json({ message: "User not found" });
+
+    await redisClient.setEx(cacheKey, 86400, JSON.stringify(user));
 
     res.status(200).json({ user });
   } catch (error) {
