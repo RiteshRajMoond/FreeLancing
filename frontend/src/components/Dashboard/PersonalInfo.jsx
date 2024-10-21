@@ -1,25 +1,50 @@
-import React, { useState } from "react";
-import { TextField, Button, Typography, Stack, Divider } from "@mui/material";
+import React, { useState, useEffect } from "react";
+import { TextField, Button, Typography, Stack, Divider, CircularProgress } from "@mui/material";
+import axios from "axios";
 
 const PersonalInfo = () => {
-  const [userData, setUserData] = useState({
-    firstName: "Emma",
-    lastName: "Richardson",
-    bio: "Just a rich bitch",
-    phoneNumber: "123456789",
-    address: "MKWorld",
-    socialMedia: {
-      linkedIn: "https://linkedin.com/in/emmarichardson",
-      github: "https://github.com/emmarichardson",
-      instagram: "https://instagram.com/emmarichardson",
-    },
-  });
-
+  const [userData, setUserData] = useState(null);
+  const [loading, setLoading] = useState(true); // To handle loading state
   const [editMode, setEditMode] = useState(false);
 
   const toggleEditMode = () => {
     setEditMode(!editMode);
   };
+
+  // Function to fetch user data from the backend
+  const fetchUserData = async () => {
+    try {
+      const response = await axios.get("/user/get-user"); // Update the API endpoint as needed
+      setUserData(response.data);
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Fetch user data when the component mounts
+  useEffect(() => {
+    fetchUserData();
+  }, []);
+
+  // Handle updates (you would make an API call to update the data here)
+  const handleSave = async () => {
+    try {
+      await axios.post("/user/update-user", userData); // Update with the correct API endpoint
+      toggleEditMode();
+    } catch (error) {
+      console.error("Error updating user data:", error);
+    }
+  };
+
+  if (loading) {
+    return <CircularProgress />;
+  }
+
+  if (!userData) {
+    return <Typography>No user data available.</Typography>;
+  }
 
   return (
     <>
@@ -48,7 +73,7 @@ const PersonalInfo = () => {
               target="_blank"
               rel="noopener noreferrer"
             >
-              {userData.socialMedia.linkedin}
+              {userData.socialMedia.linkedIn}
             </a>
           </Typography>
           <Typography variant="body2">
@@ -149,7 +174,7 @@ const PersonalInfo = () => {
               })
             }
           />
-          <Button variant="contained" color="primary" onClick={toggleEditMode}>
+          <Button variant="contained" color="primary" onClick={handleSave}>
             Save
           </Button>
         </Stack>
