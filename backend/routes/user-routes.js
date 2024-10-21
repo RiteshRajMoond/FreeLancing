@@ -18,8 +18,6 @@ router.post(
   verifyUserJWT,
   userController.updateUserInformation
 );
-router.post('/upload-image-picture', verifyUserJWT, userController.uploadImage)
-// redis testing (Will be removed later)
-router.get("/session/:userId", userController.getSessionData);
+router.post("/upload-image-picture", verifyUserJWT, userController.uploadImage);
 
 module.exports = router;
