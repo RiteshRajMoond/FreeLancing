@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   TextField,
   Button,
@@ -9,41 +9,13 @@ import {
 } from "@mui/material";
 import { Add, Delete } from "@mui/icons-material";
 
-const Experience = () => {
-  const [experiences, setExperience] = useState([
-    {
-      experience: [
-        {
-          role: "Developer",
-          company: "XYZ Inc.",
-          startDate: "01-01-2020",
-          endDate: "12-31-2022",
-          description: "Worked on various web applications.",
-        },
-      ],
-      skills: ["React", "Node.js", "MongoDB"],
-      portfolio: ["https://portfolio1.com", "https://portfolio2.com"],
-      projects: [
-        {
-          name: "Project1",
-          description: "A web app for task management",
-          startDate: "01-01-2021",
-          endDate: "06-30-2021",
-          skills: ["React", "Express", "MongoDB"],
-        },
-      ],
-      certifications: [
-        {
-          name: "Certification1",
-          issuingOrganization: "Org2",
-          issuedDate: "01-01-2022",
-          expirationDate: "01-01-2025",
-        },
-      ],
-    },
-  ]);
-
+const Experience = ({ userData, handleSave }) => { 
+  const [experiences, setExperience] = useState(userData?.experience || []);
   const [editMode, setEditMode] = useState(false);
+
+  useEffect(() => {
+    setExperience(userData?.experience || []);
+  }, [userData]);
 
   const toggleEditMode = () => {
     setEditMode(!editMode);
@@ -127,6 +99,11 @@ const Experience = () => {
       expIndex
     ].projects.filter((_, i) => i !== projIndex);
     setExperience(updatedExperience);
+  };
+
+  const handleSaveExperience = () => {
+    handleSave({ ...userData, experience: experiences }); // Call handleSave with updated experience data
+    setEditMode(false);
   };
 
   return (
@@ -448,11 +425,7 @@ const Experience = () => {
               </Button>
             </Stack>
           ))}
-          <Button
-            variant="contained"
-            color="secondary"
-            onClick={toggleEditMode}
-          >
+          <Button variant="contained" color="secondary" onClick={handleSaveExperience}> {/* Call handleSaveExperience */}
             Save Changes
           </Button>
         </Stack>

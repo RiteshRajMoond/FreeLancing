@@ -23,7 +23,7 @@ const userSchema = new mongoose.Schema({
     // required: true,
   },
   profilePicture: {
-    type: String, // This will be a link to cloudinary or any other application we can use instead
+    type: String, // This will be a link to firebase or any other application we can use instead
   },
   bio: {
     type: String,

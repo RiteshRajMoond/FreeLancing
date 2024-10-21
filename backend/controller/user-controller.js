@@ -1,9 +1,30 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const { validationResult } = require("express-validator");
-const redisClient = require("../config/redis");
+const {
+  ref,
+  getDownloadURL,
+  uploadBytesResumable,
+} = require("firebase/storage");
+const multer = require("multer");
 
 const User = require("../models/User");
+
+const redisClient = require("../config/redis");
+const storage = require("../config/firebase");
+
+const upload = multer({ storage: multer.memoryStorage() });
+
+// helper functions
+const giveCurrentDateTime = () => {
+  const today = new Date();
+  const date =
+    today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate();
+  const time =
+    today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+  const dateTime = date + " " + time;
+  return dateTime;
+};
 
 // for redis testing (Will be removed later)
 exports.getSessionData = async (req, res, next) => {
@@ -84,6 +105,8 @@ exports.login = async (req, res, next) => {
       expiresIn: "24h",
     });
 
+    console.log("userToken: ", userToken);
+
     res.cookie("userJWT", userToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
@@ -130,7 +153,7 @@ exports.getUser = async (req, res, next) => {
   }
 };
 
-exports.updatePI = async (req, res, next) => {
+exports.updateUserInformation = async (req, res, next) => {
   try {
     const {
       firstName,
@@ -141,56 +164,67 @@ exports.updatePI = async (req, res, next) => {
       linkedIn,
       github,
       instagram,
+      education,
+      experience,
     } = req.body;
     const user = await User.findById(req.user.id);
     if (!user) return res.status(404).json({ message: "User not found" });
 
-    user.firstName = firstName || user.firstName;
-    user.lastName = lastName || user.lastName;
-    user.bio = bio || user.bio;
-    user.phoneNumber = phoneNumber || user.phoneNumber;
-    user.address = address || user.address;
-    user.socialMedia.linkedIn = linkedIn || user.socialMedia.linkedIn;
-    user.socialMedia.github = github || user.socialMedia.github;
-    user.socialMedia.instagram = instagram || user.socialMedia.instagram;
-    await user.save();
+    if (firstName) user.firstName = firstName;
+    if (lastName) user.lastName = lastName;
+    if (bio) user.bio = bio;
+    if (phoneNumber) user.phoneNumber = phoneNumber;
+    if (address) user.address = address;
+    if (linkedIn) user.socialMedia.linkedIn = linkedIn;
+    if (github) user.socialMedia.github = github;
+    if (instagram) user.socialMedia.instagram = instagram;
 
-    res.status(200).json({ message: "Personal Info updated successfully" });
+    if (education) user.education = education;
+    if (experience) user.experience = experience;
+
+    await user.save();
+    res
+      .status(200)
+      .json({ message: "Personal Info updated successfully", user });
   } catch (err) {
     res.status(500).json({ message: "Internal server error", err });
   }
 };
 
-exports.getEducation = async (req, res, next) => {
-  try {
-    const user = await User.findById(req.user.id);
-    if (!user) return res.status(404).json({ message: "User not found" });
-
-    res.status(200).json({ education: user.education });
-  } catch (error) {
-    return res.status(500).json({ message: "Internal server error", error });
-  }
-};
-
-exports.updateEducation = async (req, res, next) => {
-  try {
-    const { institution, degree, fieldOfStudy, startDate, endDate } = req.body;
-
-    const user = await User.findById(req.user.id);
-    if (!user) return res.status(404).json({ message: "User not found" });
-
-    user.education.institution = institution || user.education.institution;
-    user.education.degree = degree || user.education.degree;
-    user.education.fieldOfStudy = fieldOfStudy || user.education.fieldOfStudy;
-    user.education.startDate = startDate || user.education.startDate;
-    user.education.endDate = endDate || user.education.endDate;
-    await user.save();
-
-    return res.status(200).json({ message: "Education updated successfully" });
-  } catch (error) {
-    return res.status(500).json({ message: "Internal server error", error });
-  }
-};
-
 // Will be done in firebase!
-// exports.updateImage = async (req, res, next) => {}
+exports.uploadImage = [
+  upload.single("image"),
+  async (req, res, next) => {
+    try {
+      if (!req.file)
+        return res.status(400).json({ message: "No file uploaded" });
+
+      const user = await User.findById(req.user.id);
+      if (!user) return res.status(404).json({ message: "User not found" });
+
+      const dateTime = giveCurrentDateTime();
+      const storageRef = ref(
+        storage,
+        `images/${req.file.originalname + " " + dateTime}`
+      );
+      const metadata = {
+        contentType: req.file.mimetype,
+      };
+      const snapshot = await uploadBytesResumable(
+        storageRef,
+        req.file.buffer,
+        metadata
+      );
+      const downloadURL = await getDownloadURL(snapshot.ref);
+
+      user.profilePicture = downloadURL;
+      await user.save();
+
+      return res
+        .status(200)
+        .json({ message: "Image uploaded successfully", url: downloadURL });
+    } catch (error) {
+      return res.status(500).json({ message: "Internal server error", error });
+    }
+  },
+];

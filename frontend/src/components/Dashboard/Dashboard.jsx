@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Stack,
   Button,
@@ -17,6 +17,7 @@ import backgroundImage from "../../../assets/ac.jpg";
 import PersonalInfo from "./PersonalInfo";
 import Experience from "./Experience";
 import Education from "./Education";
+import axios from "axios";
 
 const sampleImages = [
   "../../../assets/ac.jpg",
@@ -25,22 +26,6 @@ const sampleImages = [
 ];
 
 const Dashboard = () => {
-  const [activeSection, setActiveSection] = useState("personalInfo");
-  const [imageLink, setImageLink] = useState("../../../assets/profilePic.png");
-  const [isEditing, setIsEditing] = useState(false);
-  const [openModal, setOpenModal] = useState(false);
-  const [selectedImage, setSelectedImage] = useState("");
-
-  const handleImageUpdate = () => {
-    setImageLink(selectedImage || imageLink); // Update the image link with the input value
-    setIsEditing(false); // Exit edit mode
-    setOpenModal(false); // Close the modal
-  };
-
-  const handleSectionChange = (section) => {
-    setActiveSection(section);
-  };
-
   const overallStyle = {
     backgroundImage: `url(${backgroundImage})`,
     backgroundSize: "cover",
@@ -61,6 +46,65 @@ const Dashboard = () => {
     margin: "75px auto 0px 0px",
     color: "white",
     "&:hover": { color: "white" },
+  };
+
+  const [activeSection, setActiveSection] = useState("personalInfo");
+  const [imageLink, setImageLink] = useState("../../../assets/profilePic.png");
+  const [isEditing, setIsEditing] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
+  const [selectedImage, setSelectedImage] = useState("");
+  const [userData, setUserData] = useState(null);
+
+  useEffect(() => {
+    handleGetUser();
+  }, []);
+
+  const handleGetUser = async () => {
+    try {
+      const resp = await axios.get("/user/get-user");
+      setUserData(resp.data.user);
+      setImageLink(resp.data.user.profilePicture || imageLink);
+      console.log(resp.data.user);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleSave = async (updatedData) => {
+    try {
+      const resp = await axios.post("/user/update-user", updatedData);
+      setUserData(resp.data.user);
+    } catch (error) {
+      console.log("Error updating user data", error);
+    }
+  };
+
+  const handleImageUpload = async (file) => {
+    try {
+      const formData = new FormData();
+      formData.append("image", file);
+
+      const resp = await axios.post("/user/upload-image-picture", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      setImageLink(resp.data.url);
+      console.log("Image changed");
+    } catch (error) {
+      console.log("Error uploading image", error);
+    }
+  };
+
+  const handleImageUpdate = () => {
+    if (selectedImage) handleImageUpload(selectedImage);
+    else selectedImage(imageLink);
+    setIsEditing(false); // Exit edit mode
+    setOpenModal(false); // Close the modal
+  };
+
+  const handleSectionChange = (section) => {
+    setActiveSection(section);
   };
 
   return (
@@ -91,9 +135,15 @@ const Dashboard = () => {
       </Stack>
 
       <Box>
-        {activeSection === "personalInfo" && <PersonalInfo />}
-        {activeSection === "education" && <Education />}
-        {activeSection === "experience" && <Experience />}
+        {activeSection === "personalInfo" && (
+          <PersonalInfo userData={userData} handleSave={handleSave} />
+        )}
+        {activeSection === "education" && (
+          <Education userData={userData} handleSave={handleSave} />
+        )}
+        {activeSection === "experience" && (
+          <Experience userData={userData} handleSave={handleSave} />
+        )}
       </Box>
 
       <Dialog open={openModal} onClose={() => setOpenModal(false)}>
@@ -110,7 +160,7 @@ const Dashboard = () => {
                     cursor: "pointer",
                     borderRadius: "8px",
                   }}
-                  onClick={() => setSelectedImage(img)} // Set selected image
+                  onClick={() => setSelectedImage(img)}
                 />
               </Grid2>
             ))}
@@ -120,7 +170,12 @@ const Dashboard = () => {
                 variant="outlined"
                 fullWidth
                 value={selectedImage}
-                onChange={(e) => setSelectedImage(e.target.value)} // Update selected image link
+                onChange={(e) => setSelectedImage(e.target.value)}
+              />
+              <input
+                type="file"
+                accept="image/*"
+                onChange={(e) => setSelectedImage(e.target.files[0])} // Handle file selection
               />
             </Grid2>
           </Grid2>

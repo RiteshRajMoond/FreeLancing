@@ -12,11 +12,13 @@ router.post("/login", loginValidator, userController.login);
 router.get("/logout", userController.logout);
 
 // Dashboard Routes
-router.get('/get-user', verifyUserJWT, userController.getUser);
-router.post("/update-user", verifyUserJWT, userController.updatePI);
-router.get('/get-education', verifyUserJWT, userController.getEducation);
-router.post('/update-education', verifyUserJWT, userController.updateEducation);
-
+router.get("/get-user", verifyUserJWT, userController.getUser);
+router.post(
+  "/update-user",
+  verifyUserJWT,
+  userController.updateUserInformation
+);
+router.post('/upload-image-picture', verifyUserJWT, userController.uploadImage)
 // redis testing (Will be removed later)
 router.get("/session/:userId", userController.getSessionData);
 

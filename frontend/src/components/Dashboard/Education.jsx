@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   TextField,
   Button,
@@ -8,19 +8,13 @@ import {
 } from "@mui/material";
 import { Delete, Add } from "@mui/icons-material";
 
-const Education = () => {
-  const [userData, setUserData] = useState({
-    education: [
-      {
-        institution: "XYZ University",
-        degree: "Bachelor's",
-        fieldOfStudy: "CSE", // Field of study added
-        startDate: "2000",
-        endDate: "2005",
-      },
-    ],
-  });
+const Education = ({ userData, handleSave }) => { 
+  const [educationData, setEducationData] = useState(userData?.education || []);
   const [editMode, setEditMode] = useState(false);
+
+  useEffect(() => {
+    setEducationData(userData?.education || []);
+  }, [userData]);
 
   // Toggle between edit and non-edit modes
   const toggleEditMode = () => {
@@ -29,40 +23,42 @@ const Education = () => {
 
   // Handle changes to individual education fields
   const handleEducationChange = (index, field, value) => {
-    const updatedEducation = [...userData.education];
+    const updatedEducation = [...educationData]; // Use educationData instead of userData.education
     updatedEducation[index][field] = value;
-    setUserData((prev) => ({ ...prev, education: updatedEducation }));
+    setEducationData(updatedEducation);
   };
 
   // Add a new blank education entry
   const addEducation = () => {
-    setUserData((prev) => ({
+    setEducationData((prev) => [
       ...prev,
-      education: [
-        ...prev.education,
-        {
-          degree: "",
-          institution: "",
-          fieldOfStudy: "",
-          startDate: "",
-          endDate: "",
-        }, // Field of study included
-      ],
-    }));
+      {
+        degree: "",
+        institution: "",
+        fieldOfStudy: "",
+        startDate: "",
+        endDate: "",
+      },
+    ]);
   };
 
   // Delete an education entry based on the index
   const deleteEducation = (index) => {
-    const updatedEducation = [...userData.education];
+    const updatedEducation = [...educationData]; // Use educationData instead of userData.education
     updatedEducation.splice(index, 1);
-    setUserData((prev) => ({ ...prev, education: updatedEducation }));
+    setEducationData(updatedEducation);
+  };
+
+  const handleSaveEducation = () => {
+    handleSave({ ...userData, education: educationData }); 
+    setEditMode(false);
   };
 
   return (
     <>
       {!editMode ? (
         <Stack style={{ backgroundColor: "white", color: "black" }} spacing={2}>
-          {userData.education.map((edu, index) => (
+          {educationData.map((edu, index) => (
             <Stack key={index} spacing={1}>
               <Typography variant="h6">{edu.degree}</Typography>
               <Typography variant="body1">{edu.institution}</Typography>
@@ -79,7 +75,7 @@ const Education = () => {
         </Stack>
       ) : (
         <Stack style={{ backgroundColor: "white" }} spacing={2}>
-          {userData.education.map((edu, index) => (
+          {educationData.map((edu, index) => (
             <Stack spacing={2} key={index} direction="row" alignItems="center">
               <Stack spacing={2} style={{ flex: 1 }}>
                 <TextField
@@ -136,7 +132,7 @@ const Education = () => {
           >
             Add Education
           </Button>
-          <Button variant="contained" color="primary" onClick={toggleEditMode}>
+          <Button variant="contained" color="primary" onClick={handleSaveEducation}> {/* Call handleSaveEducation */}
             Save Education
           </Button>
         </Stack>
