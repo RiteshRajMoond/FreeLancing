@@ -89,7 +89,7 @@ exports.login = async (req, res, next) => {
     });
     await redisClient.setEx(`session:${user._id}`, 86400, userToken);
 
-    console.log("userToken: ", userToken);
+    // console.log("userToken: ", userToken);
 
     res.cookie("userJWT", userToken, {
       httpOnly: true,

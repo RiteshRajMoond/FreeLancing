@@ -6,6 +6,7 @@ const { validationResult } = require("express-validator");
 
 const InviteToken = require("../models/InviteToken");
 const Admin = require("../models/Admin");
+const redisClient = require("../config/redis");
 
 const { ROLES } = require("../models/Admin");
 
@@ -33,14 +34,14 @@ exports.generateInvite = async (req, res, next) => {
         pass: process.env.BREVO_PASSWORD, // Brevo SMTP password
       },
     });
-    
+
     const mailOptions = {
       from: process.env.BREVO_USERNAME,
       to: email,
       subject: "Admin Invite",
       text: `You have been invited to join as an admin. Use this token: ${inviteJWT}`,
     };
-    
+
     await transporter.sendMail(mailOptions);
 
     res.status(200).json({ message: "Invite sent successfully" });
@@ -53,7 +54,6 @@ exports.generateInvite = async (req, res, next) => {
 exports.signup = async (req, res, next) => {
   try {
     const errors = validationResult(req);
-
     if (!errors.isEmpty())
       return res.status(400).json({ messages: errors.array() });
 
@@ -94,6 +94,8 @@ exports.signup = async (req, res, next) => {
       { expiresIn: "2h" }
     );
 
+    redisClient.setEx(`session:${newAdmin._id}`, 7200, jwtToken);
+
     // Setting Up Cookie
     res.cookie("adminJWT", jwtToken, {
       httpOnly: true,
@@ -114,19 +116,15 @@ exports.signup = async (req, res, next) => {
 exports.login = async (req, res, next) => {
   try {
     const errors = validationResult(req);
-
     if (!errors.isEmpty())
       return res.status(400).json({ messages: errors.array() });
 
     // Get data from req
     const { email, password } = req.body;
-    // get admin
     const admin = await Admin.findOne({ email });
-
     if (!admin) return res.status(404).json({ message: "Admin not found" });
 
     const isMatch = await bcrypt.compare(password, admin.password);
-
     if (!isMatch)
       return res.status(401).json({ message: "Invalid Credentials" });
 
@@ -144,11 +142,13 @@ exports.login = async (req, res, next) => {
       {
         adminId: admin._id,
         permissions: admin.permissions,
-        role: admin.role
+        role: admin.role,
       },
       process.env.JWT_SECRET,
       { expiresIn: "2h" }
     );
+
+    await redisClient.setEx(`session:${admin._id}`, 7200, jwtToken);
 
     // Setting Up cookie
     res.cookie("adminJWT", jwtToken, {
@@ -171,6 +171,9 @@ exports.logout = async (req, res, next) => {
     const token = req.signedCookies.adminJWT;
     if (!token) return res.status(401).json({ message: "Not Authorized" });
 
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    await redisClient.del(`session:${decoded._id}`);
+
     res.clearCookie("adminJWT", {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
@@ -184,3 +187,4 @@ exports.logout = async (req, res, next) => {
     res.status(500).json({ message: "Internal server error", error });
   }
 };
+
