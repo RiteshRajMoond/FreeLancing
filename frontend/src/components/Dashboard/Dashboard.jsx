@@ -20,9 +20,17 @@ import Education from "./Education";
 import axios from "axios";
 
 const sampleImages = [
-  "../../../assets/ac.jpg",
-  "../../../assets/profilePic.png",
-  "../../../assets/profilePic.png",
+  "../../../assets/PP1.jpg",
+  "../../../assets/PP2.jpg",
+  "../../../assets/PP3.jpg",
+  "../../../assets/PP4.jpg",
+  "../../../assets/PP5.jpg",
+  "../../../assets/PP6.jpg",
+  "../../../assets/PP7.jpg",
+  "../../../assets/PP8.jpg",
+  "../../../assets/PP9.jpg",
+  "../../../assets/PP10.jpg",
+  "../../../assets/PP11.jpg",
 ];
 
 const Dashboard = () => {
