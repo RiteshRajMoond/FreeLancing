@@ -184,6 +184,10 @@ exports.updateUserInformation = async (req, res, next) => {
     if (experience) user.experience = experience;
 
     await user.save();
+
+    const cacheKey = `user:${req.user.id}`;
+    await redisClient.setEx(cacheKey, 86400, JSON.stringify(user)); 
+
     res
       .status(200)
       .json({ message: "Personal Info updated successfully", user });
