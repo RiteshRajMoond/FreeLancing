@@ -5,30 +5,36 @@ import {
   Typography,
   Stack,
   IconButton,
+  Divider,
 } from "@mui/material";
 import { Delete, Add } from "@mui/icons-material";
 
-const Education = ({ userData, handleSave }) => { 
+const Education = ({ userData, handleSave }) => {
   const [educationData, setEducationData] = useState(userData?.education || []);
   const [editMode, setEditMode] = useState(false);
 
   useEffect(() => {
-    setEducationData(userData?.education || []);
+    setEducationData(userData?.education || [
+      {
+        degree: "Bachelor of Technology",
+        institution: "ABC University",
+        fieldOfStudy: "CSE",
+        startDate: "May, 2022",
+        endDate: "May, 2026",
+      },
+    ]);
   }, [userData]);
 
-  // Toggle between edit and non-edit modes
   const toggleEditMode = () => {
     setEditMode(!editMode);
   };
 
-  // Handle changes to individual education fields
   const handleEducationChange = (index, field, value) => {
-    const updatedEducation = [...educationData]; // Use educationData instead of userData.education
+    const updatedEducation = [...educationData];
     updatedEducation[index][field] = value;
     setEducationData(updatedEducation);
   };
 
-  // Add a new blank education entry
   const addEducation = () => {
     setEducationData((prev) => [
       ...prev,
@@ -42,48 +48,108 @@ const Education = ({ userData, handleSave }) => {
     ]);
   };
 
-  // Delete an education entry based on the index
   const deleteEducation = (index) => {
-    const updatedEducation = [...educationData]; // Use educationData instead of userData.education
+    const updatedEducation = [...educationData];
     updatedEducation.splice(index, 1);
     setEducationData(updatedEducation);
   };
 
   const handleSaveEducation = () => {
-    handleSave({ ...userData, education: educationData }); 
+    handleSave({ ...userData, education: educationData });
     setEditMode(false);
   };
 
+  const stackStyle = {
+    backgroundColor: "rgba(255, 255, 255, 0.2)",
+    color: "white",
+    margin: "50px auto",
+    padding: "20px",
+    borderRadius: "15px",
+    boxShadow: "0 8px 16px rgba(0, 0, 0, 0.2)",
+    backdropFilter: "blur(5px)",
+    maxWidth: "600px",
+    textAlign: "center",
+  };
+
+  const textStyle = {
+    color: "#ffffff",
+  };
+
+  const editStackStyle = {
+    backgroundColor: "rgba(255, 255, 255, 0.5)",
+    color:"white",
+    margin: "20px",
+    padding: "15px",
+    borderRadius: "15px",
+    boxShadow: "0 8px 16px rgba(0, 0, 0, 0.2)",
+    backdropFilter: "blur(5px)",
+    display: "grid",
+    justifyContent: "space-around",
+  };
+  const dividerStyle = {
+    backgroundColor: "white",
+    margin: "10px 0",
+  };
+
+  const buttonStyle = {
+    borderRadius:"15px",
+    marginTop: "15px",
+    padding: "10px",
+    backgroundColor: "black",
+    color: "white",
+    fontWeight: "bold",
+    fontSize: "16px",
+  };
+
+  const textFieldStyle = {
+    "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
+      borderColor: "#2b2b2b", // Default outline color
+    },
+    "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+      borderColor: "#2b2b2b", // Outline color when focused
+    },
+    "& .MuiInputLabel-root": {
+      color: "#2b2b2b", // Default label color
+    },
+    "& .MuiInputLabel-root.Mui-focused": {
+      color: "#2b2b2b", // Label color when focused
+    },
+
+    marginTop:"10px",
+    width:"480px",
+  };
+
   return (
-    <>
+    <Stack style={stackStyle} spacing={2}>
       {!editMode ? (
-        <Stack style={{ backgroundColor: "white", color: "black" }} spacing={2}>
+        <>
           {educationData.map((edu, index) => (
             <Stack key={index} spacing={1}>
-              <Typography variant="h6">{edu.degree}</Typography>
-              <Typography variant="body1">{edu.institution}</Typography>
-              <Typography variant="body1">{edu.fieldOfStudy}</Typography>{" "}
-              {/* Displaying field of study */}
-              <Typography variant="body2">
-                {edu.startDate} - {edu.endDate}
-              </Typography>
+              <Typography variant="h5">🎓{edu.degree}</Typography>
+              <Typography variant="body2" ><strong>From:</strong> {edu.institution || ""} </Typography>
+              <Typography variant="body2" ><strong>In:</strong> {edu.fieldOfStudy || ""} </Typography>
+              <Typography variant="body2" ><strong>Duration:</strong> {edu.startDate || ""} - {edu.endDate || ""} </Typography>
+              <Divider style={dividerStyle} />
             </Stack>
+            
           ))}
-          <Button variant="contained" color="primary" onClick={toggleEditMode}>
+          <Button variant="contained" style={buttonStyle} onClick={toggleEditMode}>
             Edit Education
           </Button>
-        </Stack>
+        </>
       ) : (
-        <Stack style={{ backgroundColor: "white" }} spacing={2}>
+        <>
           {educationData.map((edu, index) => (
-            <Stack spacing={2} key={index} direction="row" alignItems="center">
-              <Stack spacing={2} style={{ flex: 1 }}>
+            <Stack style={editStackStyle}>
+              
+                <h5 style={{color:"black"}}>Education {index+1}:</h5>
                 <TextField
                   label="Degree"
                   value={edu.degree}
                   onChange={(e) =>
                     handleEducationChange(index, "degree", e.target.value)
                   }
+                  sx={textFieldStyle}
                 />
                 <TextField
                   label="Institution"
@@ -91,13 +157,15 @@ const Education = ({ userData, handleSave }) => {
                   onChange={(e) =>
                     handleEducationChange(index, "institution", e.target.value)
                   }
+                  sx={textFieldStyle}
                 />
                 <TextField
-                  label="Field of Study" // Editable field for field of study
+                  label="Field of Study"
                   value={edu.fieldOfStudy}
                   onChange={(e) =>
                     handleEducationChange(index, "fieldOfStudy", e.target.value)
                   }
+                  sx={textFieldStyle}
                 />
                 <TextField
                   label="Start Date"
@@ -105,39 +173,46 @@ const Education = ({ userData, handleSave }) => {
                   onChange={(e) =>
                     handleEducationChange(index, "startDate", e.target.value)
                   }
+                  sx={textFieldStyle}
                 />
                 <TextField
+                  fullWidth
                   label="End Date"
                   value={edu.endDate}
                   onChange={(e) =>
                     handleEducationChange(index, "endDate", e.target.value)
                   }
+                  sx={textFieldStyle}
                 />
-              </Stack>
-              {/* Delete button for each education entry */}
               <IconButton
                 aria-label="delete"
                 color="secondary"
                 onClick={() => deleteEducation(index)}
               >
-                <Delete />
+                <Delete style={{color:"black"}}/>
               </IconButton>
+              
             </Stack>
           ))}
-          {/* Button to add new education entry */}
+          
           <Button
             variant="contained"
             startIcon={<Add />}
             onClick={addEducation}
+            style={buttonStyle}
           >
             Add Education
           </Button>
-          <Button variant="contained" color="primary" onClick={handleSaveEducation}> {/* Call handleSaveEducation */}
+          <Button
+            variant="contained"
+            style={buttonStyle}
+            onClick={handleSaveEducation}
+          >
             Save Education
           </Button>
-        </Stack>
+        </>
       )}
-    </>
+    </Stack>
   );
 };
 

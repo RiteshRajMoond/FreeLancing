@@ -13,7 +13,7 @@ import {
   Grid2,
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
-import backgroundImage from "../../../assets/ac.jpg";
+import backgroundImage from "../../../assets/bg6.jpg";
 import PersonalInfo from "./PersonalInfo";
 import Experience from "./Experience";
 import Education from "./Education";
@@ -34,13 +34,27 @@ const sampleImages = [
 ];
 
 const Dashboard = () => {
+  const linkStyle = {
+    color: "#ff9800",
+    textDecoration: "none",
+  };
+
   const overallStyle = {
+    position: "relative",  // Ensure relative positioning for overlay elements
+    minHeight: "100vh",    // Ensure content takes full viewport height
+    overflow: "auto",      // Allow scrolling if needed
+  };
+
+  const fixedBackgroundStyle = {
+    position: "fixed",
+    top: 0,
+    left: 0,
+    width: "100vw",
+    height: "100vh",
     backgroundImage: `url(${backgroundImage})`,
     backgroundSize: "cover",
     backgroundPosition: "center",
-    color: "white",
-    width: "100vw",
-    height: "100vh",
+    zIndex: -1,  // Keep the background behind other content
   };
 
   const imgStyle = {
@@ -56,8 +70,18 @@ const Dashboard = () => {
     "&:hover": { color: "white" },
   };
 
+  const editStackStyle = {
+    backgroundColor: "rgba(255, 255, 255, 0.9)",  // Semi-transparent form background
+    padding: "20px",
+    borderRadius: "15px",
+    boxShadow: "0 8px 16px rgba(0, 0, 0, 0.2)",
+    maxWidth: "600px",
+    margin: "50px auto",
+    backdropFilter: "blur(5px)",  // Optional: adds a blur effect to the background
+  };
+
   const [activeSection, setActiveSection] = useState("personalInfo");
-  const [imageLink, setImageLink] = useState("../../../assets/profilePic.png");
+  const [imageLink, setImageLink] = useState("../../../assets/PP1.jpg");
   const [isEditing, setIsEditing] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [selectedImage, setSelectedImage] = useState("");
@@ -117,31 +141,37 @@ const Dashboard = () => {
 
   return (
     <Stack sx={overallStyle}>
-      <Stack direction="row">
+      {/* Fixed Background */}
+      <Box sx={fixedBackgroundStyle} />
+
+      {/* Profile Section */}
+      <Stack sx={{ marginTop: "10px" }} direction="row">
         <img style={imgStyle} src={imageLink} alt="Profile Pic" />
         <IconButton style={editStyle} onClick={() => setOpenModal(true)}>
           <EditIcon />
         </IconButton>
       </Stack>
 
+      {/* Section Buttons */}
       <Stack
         direction="row"
         spacing={2}
         style={{ margin: "20px auto", color: "white" }}
       >
-        <Button onClick={() => handleSectionChange("personalInfo")}>
+        <Button style={linkStyle} onClick={() => handleSectionChange("personalInfo")}>
           Personal Info
         </Button>
         <Divider orientation="vertical" flexItem sx={{ bgcolor: "white" }} />
-        <Button onClick={() => handleSectionChange("education")}>
+        <Button style={linkStyle} onClick={() => handleSectionChange("education")}>
           Education
         </Button>
         <Divider orientation="vertical" flexItem sx={{ bgcolor: "white" }} />
-        <Button onClick={() => handleSectionChange("experience")}>
+        <Button style={linkStyle} onClick={() => handleSectionChange("experience")}>
           Experience
         </Button>
       </Stack>
 
+      {/* Content Section */}
       <Box>
         {activeSection === "personalInfo" && (
           <PersonalInfo userData={userData} handleSave={handleSave} />
@@ -154,6 +184,7 @@ const Dashboard = () => {
         )}
       </Box>
 
+      {/* Image Selection Dialog */}
       <Dialog open={openModal} onClose={() => setOpenModal(false)}>
         <DialogTitle>Select an Image</DialogTitle>
         <DialogContent>
