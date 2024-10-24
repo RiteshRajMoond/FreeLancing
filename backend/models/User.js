@@ -81,28 +81,29 @@ const userSchema = new mongoose.Schema({
       skills: [String],
     },
   ],
-  jobsPosted: [{
-    title: String,
-    description: String,
-    requirements: [String],
-    budget: Number,
-    deadline: Date,
-    createdAt: {
-        type: Date,
-        default: Date.now
+  jobsPosted: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Job",
     },
-  }],
-  jobsApplied: [{
-    jobId: mongoose.Schema.Types.ObjectId,
-    appliedAt: {
+  ],
+  jobsApplied: [
+    {
+      jobId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Job",
+      },
+      appliedAt: {
         type: Date,
-        default: Date.now
-    },
-    status: {
+        default: Date.now,
+      },
+      status: {
         type: String,
-        enum: ['applied', 'accepted', 'rejected'],
-    }
-  }],
+        enum: ["pending", "accepted", "rejected"],
+        default: "pending",
+      },
+    },
+  ],
   createdAt: {
     type: Date,
     default: Date.now,
@@ -113,6 +114,6 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-userSchema.index({email: 1});
+userSchema.index({ email: 1 });
 
 module.exports = mongoose.model("User", userSchema);

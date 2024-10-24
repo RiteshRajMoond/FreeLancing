@@ -1,6 +1,7 @@
 const express = require("express");
 
 const userController = require("../controller/user-controller");
+const jobController = require('../controller/job-controller');
 const { signupValidator, loginValidator } = require("../middleware/validator");
 const { verifyUserJWT } = require("../middleware/verifyUserJWT");
 const rateLimit = require("../middleware/rateLimit");
@@ -27,5 +28,9 @@ router.post(
   apiRateLimit,
   userController.uploadImage
 );
+
+// Job Routes
+router.post('/job/create-job', verifyUserJWT, jobController.createJob);
+router.get('/job/get-jobs', verifyUserJWT, jobController.getJobs);
 
 module.exports = router;
