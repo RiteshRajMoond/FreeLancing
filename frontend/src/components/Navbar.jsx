@@ -3,20 +3,24 @@ import { AppBar, Button, Typography, Toolbar } from "@mui/material";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { Link } from "react-router-dom";
 import Logout from "./Logout";
-import axios from "axios"; // Import axios
+import axios from "axios";
 
 export default function Navbar() {
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   // Call checkLoginStatus when the component mounts
   useEffect(() => {
-    // const token = localStorage.getItem('userJWT');
-    // if (token) {
-    //   setIsLoggedIn(true);
-    // } else {
-    //   setIsLoggedIn(false);
-    // }
-  }, [setIsLoggedIn]);
+    const checkLoginStatus = async () => {
+      try {
+        const resp = await axios.get("/user/check-login");
+        setIsLoggedIn(resp.data.loggedIn);
+        console.log(resp.data.loggedIn);
+      } catch (error) {
+        setIsLoggedIn(false);
+      }
+    };
+    checkLoginStatus();
+  }, []);
 
   const btnStyle = {
     marginRight: "20px",

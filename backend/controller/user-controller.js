@@ -128,6 +128,10 @@ exports.logout = async (req, res, next) => {
   }
 };
 
+exports.checkLogin = async (req, res, next) => {
+  return res.status(200).json({ loggedIn: true });
+};
+
 // Dashbaord Controllers
 exports.getUser = async (req, res, next) => {
   try {
@@ -136,12 +140,10 @@ exports.getUser = async (req, res, next) => {
 
     const cachedUser = await redisClient.get(cacheKey);
     if (cachedUser)
-      return res
-        .status(200)
-        .json({
-          user: JSON.parse(cachedUser),
-          message: "User fetched from cache",
-        });
+      return res.status(200).json({
+        user: JSON.parse(cachedUser),
+        message: "User fetched from cache",
+      });
 
     const user = await User.findById(req.user.id);
     if (!user) return res.status(404).json({ message: "User not found" });
@@ -186,7 +188,7 @@ exports.updateUserInformation = async (req, res, next) => {
     await user.save();
 
     const cacheKey = `user:${req.user.id}`;
-    await redisClient.setEx(cacheKey, 86400, JSON.stringify(user)); 
+    await redisClient.setEx(cacheKey, 86400, JSON.stringify(user));
 
     res
       .status(200)

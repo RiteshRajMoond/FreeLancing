@@ -14,6 +14,7 @@ const apiRateLimit = rateLimit(100, 60); // 100 requests per minute
 router.post("/signup", signupValidator, apiRateLimit, userController.signup);
 router.post("/login", loginValidator, apiRateLimit, userController.login);
 router.get("/logout", apiRateLimit, userController.logout);
+router.get('/check-login', apiRateLimit, verifyUserJWT, userController.checkLogin);
 
 // Dashboard Routes
 router.get("/get-user", verifyUserJWT, apiRateLimit, userController.getUser);
