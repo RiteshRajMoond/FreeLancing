@@ -1,5 +1,18 @@
 import React, { useState } from 'react';
+import backgroundImage from '../../../assets/bg5.jpg'
 import axios from 'axios';
+import {
+  Container,
+  Typography,
+  TextField,
+  Button,
+  Card,
+  CardContent,
+  CardActions,
+  List,
+  ListItem,
+  ListItemText,
+} from '@mui/material';
 
 const CreateJob = () => {
   const [job, setJob] = useState({
@@ -32,125 +45,113 @@ const CreateJob = () => {
     try {
       const response = await axios.post('/user/job/create-job', job);
       console.log(response.data);
+      // Optionally, reset the form or show a success message
     } catch (error) {
       console.error(error);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} style={formStyle}>
-      <input
-        type="text"
-        name="title"
-        value={job.title}
-        onChange={handleChange}
-        placeholder="Job Title"
-        required
-        style={inputStyle}
-      />
-      <textarea
-        name="description"
-        value={job.description}
-        onChange={handleChange}
-        placeholder="Job Description"
-        required
-        style={textareaStyle}
-      />
-      <div style={requirementContainerStyle}>
-        <input
-          type="text"
-          value={requirement}
-          onChange={handleRequirementChange}
-          placeholder="Add Requirement"
-          style={inputStyle}
-        />
-        <button type="button" onClick={addRequirement} style={buttonStyle}>
-          Add
-        </button>
-      </div>
-      <ul style={requirementListStyle}>
-        {job.requirements.map((req, index) => (
-          <li key={index} style={requirementItemStyle}>{req}</li>
-        ))}
-      </ul>
-      <input
-        type="number"
-        name="budget"
-        value={job.budget}
-        onChange={handleChange}
-        placeholder="Budget"
-        required
-        style={inputStyle}
-      />
-      <input
-        type="date"
-        name="deadline"
-        value={job.deadline}
-        onChange={handleChange}
-        required
-        style={inputStyle}
-      />
-      <button type="submit" style={buttonStyle}>Add Job</button>
-    </form>
+    <Container style={containerStyle}>
+      <Card style={cardStyle}>
+        <CardContent>
+          <Typography variant="h4" align="center" gutterBottom>
+            Create Job
+          </Typography>
+          <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column' }}>
+            <TextField
+              name="title"
+              value={job.title}
+              onChange={handleChange}
+              placeholder="Job Title"
+              required
+              variant="outlined"
+              margin="normal"
+              style={inputStyle}
+            />
+            <TextField
+              name="description"
+              value={job.description}
+              onChange={handleChange}
+              placeholder="Job Description"
+              required
+              variant="outlined"
+              margin="normal"
+              multiline
+              rows={4}
+              style={inputStyle}
+            />
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <TextField
+                value={requirement}
+                onChange={handleRequirementChange}
+                placeholder="Add Requirement"
+                variant="outlined"
+                margin="normal"
+                style={{ flex: 1, ...inputStyle }}
+              />
+              <Button variant="contained" color="primary" onClick={addRequirement} style={{ marginLeft: '10px' }}>
+                Add
+              </Button>
+            </div>
+            <List style={{ listStyleType: 'none', padding: '0' }}>
+              {job.requirements.map((req, index) => (
+                <ListItem key={index} style={{ backgroundColor: '#e0e0e0', margin: '5px 0', borderRadius: '4px' }}>
+                  <ListItemText primary={req} />
+                </ListItem>
+              ))}
+            </List>
+            <TextField
+              name="budget"
+              value={job.budget}
+              onChange={handleChange}
+              placeholder="Budget"
+              required
+              variant="outlined"
+              margin="normal"
+              style={inputStyle}
+            />
+            <TextField
+              name="deadline"
+              value={job.deadline}
+              onChange={handleChange}
+              type="date"
+              required
+              variant="outlined"
+              margin="normal"
+              style={inputStyle}
+            />
+            <CardActions style={{ justifyContent: 'center' }}>
+              <Button type="submit" variant="contained" color="primary">
+                Add Job
+              </Button>
+            </CardActions>
+          </form>
+        </CardContent>
+      </Card>
+    </Container>
   );
 };
 
-const formStyle = {
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  padding: '20px',
-  backgroundColor: '#f9f9f9',
-  borderRadius: '8px',
-  boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
-  maxWidth: '500px',
+// Styles
+const containerStyle = {
+  maxWidth: '600px',
   margin: 'auto',
+  marginTop: '20px',
+  backgroundImage: `url(${backgroundImage})`, // Replace with your image path
+  backgroundSize: 'cover',
+  backgroundPosition: 'center',
+  height: '100vh', // Adjust height as needed
+};
+
+const cardStyle = {
+  backgroundColor: 'rgba(255, 255, 255, 0.8)', // White background with transparency
+  borderRadius: '8px',
 };
 
 const inputStyle = {
   width: '100%',
-  padding: '10px',
   margin: '10px 0',
-  borderRadius: '4px',
-  border: '1px solid #ccc',
-};
-
-const textareaStyle = {
-  width: '100%',
-  padding: '10px',
-  margin: '10px 0',
-  borderRadius: '4px',
-  border: '1px solid #ccc',
-  minHeight: '100px',
-};
-
-const requirementContainerStyle = {
-  display: 'flex',
-  alignItems: 'center',
-  width: '100%',
-};
-
-const requirementListStyle = {
-  listStyleType: 'none',
-  padding: '0',
-  width: '100%',
-};
-
-const requirementItemStyle = {
-  backgroundColor: '#e0e0e0',
-  padding: '5px 10px',
-  margin: '5px 0',
-  borderRadius: '4px',
-};
-
-const buttonStyle = {
-  padding: '10px 20px',
-  margin: '10px 0',
-  borderRadius: '4px',
-  border: 'none',
-  backgroundColor: '#007bff',
-  color: 'white',
-  cursor: 'pointer',
 };
 
 export default CreateJob;
