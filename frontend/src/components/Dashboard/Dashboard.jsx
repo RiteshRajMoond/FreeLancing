@@ -40,9 +40,9 @@ const Dashboard = () => {
   };
 
   const overallStyle = {
-    position: "relative",  // Ensure relative positioning for overlay elements
-    minHeight: "100vh",    // Ensure content takes full viewport height
-    overflow: "auto",      // Allow scrolling if needed
+    position: "relative", // Ensure relative positioning for overlay elements
+    minHeight: "100vh", // Ensure content takes full viewport height
+    overflow: "auto", // Allow scrolling if needed
   };
 
   const fixedBackgroundStyle = {
@@ -54,7 +54,7 @@ const Dashboard = () => {
     backgroundImage: `url(${backgroundImage})`,
     backgroundSize: "cover",
     backgroundPosition: "center",
-    zIndex: -1,  // Keep the background behind other content
+    zIndex: -1, // Keep the background behind other content
   };
 
   const imgStyle = {
@@ -71,13 +71,13 @@ const Dashboard = () => {
   };
 
   const editStackStyle = {
-    backgroundColor: "rgba(255, 255, 255, 0.9)",  // Semi-transparent form background
+    backgroundColor: "rgba(255, 255, 255, 0.9)", // Semi-transparent form background
     padding: "20px",
     borderRadius: "15px",
     boxShadow: "0 8px 16px rgba(0, 0, 0, 0.2)",
     maxWidth: "600px",
     margin: "50px auto",
-    backdropFilter: "blur(5px)",  // Optional: adds a blur effect to the background
+    backdropFilter: "blur(5px)", // Optional: adds a blur effect to the background
   };
 
   const [activeSection, setActiveSection] = useState("personalInfo");
@@ -158,15 +158,24 @@ const Dashboard = () => {
         spacing={2}
         style={{ margin: "20px auto", color: "white" }}
       >
-        <Button style={linkStyle} onClick={() => handleSectionChange("personalInfo")}>
+        <Button
+          style={linkStyle}
+          onClick={() => handleSectionChange("personalInfo")}
+        >
           Personal Info
         </Button>
         <Divider orientation="vertical" flexItem sx={{ bgcolor: "white" }} />
-        <Button style={linkStyle} onClick={() => handleSectionChange("education")}>
+        <Button
+          style={linkStyle}
+          onClick={() => handleSectionChange("education")}
+        >
           Education
         </Button>
         <Divider orientation="vertical" flexItem sx={{ bgcolor: "white" }} />
-        <Button style={linkStyle} onClick={() => handleSectionChange("experience")}>
+        <Button
+          style={linkStyle}
+          onClick={() => handleSectionChange("experience")}
+        >
           Experience
         </Button>
       </Stack>
@@ -186,45 +195,70 @@ const Dashboard = () => {
 
       {/* Image Selection Dialog */}
       <Dialog open={openModal} onClose={() => setOpenModal(false)}>
-        <DialogTitle>Select an Image</DialogTitle>
-        <DialogContent>
-          <Grid2 container spacing={2}>
-            {sampleImages.map((img, index) => (
-              <Grid2 item xs={3} key={index}>
-                <img
-                  src={img}
-                  alt={`Sample ${index + 1}`}
-                  style={{
-                    width: "100%",
-                    cursor: "pointer",
-                    borderRadius: "8px",
+        <Stack style={{ background: "linear-gradient(135deg, #000000, #333333, #666666)", padding: "3px", border:"1px solid gray"}}>
+          <DialogTitle style={{ textAlign: "center", color: "white" }}> Select an Image</DialogTitle>
+          <DialogContent>
+             <Grid2 container spacing={2}>
+              {sampleImages.map((img, index) => (
+                <Grid2 item xs={3} key={index}>
+                  <img src={img} alt={`Sample ${index + 1}`} style={{ height: "160px", width: "160px", cursor: "pointer", borderRadius: "50%", border: "3px solid #ffffff"}}
+                    onClick={() => setSelectedImage(img)}
+                    onMouseEnter={(e) =>
+                      (e.currentTarget.style.transform = "scale(1.1)")
+                    }
+                    onMouseLeave={(e) =>
+                      (e.currentTarget.style.transform = "scale(1)")
+                    }
+                  />
+                </Grid2>
+              ))}
+              <Grid2 item xs={12}>
+                <TextField
+                  label="Or enter image URL"
+                  variant="outlined"
+                  fullWidth
+                  value={selectedImage}
+                  onChange={(e) => setSelectedImage(e.target.value)}
+                  sx={{
+                    backgroundColor: "#ffffff",
+                    borderRadius: "10px",
+                    marginTop: "15px",
                   }}
-                  onClick={() => setSelectedImage(img)}
+                />
+                <input
+                  type="file"
+                  accept="image/*"
+                  style={{ marginTop: "10px", color: "white" }}
+                  onChange={(e) => setSelectedImage(e.target.files[0])}
                 />
               </Grid2>
-            ))}
-            <Grid2 item xs={12}>
-              <TextField
-                label="Or enter image URL"
-                variant="outlined"
-                fullWidth
-                value={selectedImage}
-                onChange={(e) => setSelectedImage(e.target.value)}
-              />
-              <input
-                type="file"
-                accept="image/*"
-                onChange={(e) => setSelectedImage(e.target.files[0])} // Handle file selection
-              />
             </Grid2>
-          </Grid2>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setOpenModal(false)}>Cancel</Button>
-          <Button onClick={handleImageUpdate} color="primary">
-            Update Image
-          </Button>
-        </DialogActions>
+          </DialogContent>
+          <DialogActions>
+            <Button
+              onClick={() => setOpenModal(false)}
+              style={{
+                color: "white",
+                backgroundColor: "black",
+                fontWeight: "bold",
+                borderRadius: "10px",
+              }}
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={handleImageUpdate}
+              style={{
+                color: "white",
+                backgroundColor: "#666666",
+                fontWeight: "bold",
+                borderRadius: "10px",
+              }}
+            >
+              Update Image
+            </Button>
+          </DialogActions>
+        </Stack>
       </Dialog>
     </Stack>
   );

@@ -67,7 +67,7 @@ const Login = () => {
     try {
       const resp = await axios.post("/user/login", { email, password });
       if (resp.status == 201) {
-        alert("User Logged In!");
+        // localStorage.setItem('userJWT', resp.data.token);
         navigate("/");
       }
     } catch (error) {

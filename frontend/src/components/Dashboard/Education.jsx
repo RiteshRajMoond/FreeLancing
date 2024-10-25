@@ -16,8 +16,8 @@ const Education = ({ userData, handleSave }) => {
   useEffect(() => {
     setEducationData(userData?.education || [
       {
-        degree: "Bachelor of Technology",
         institution: "ABC University",
+        degree: "Bachelor of Technology",
         fieldOfStudy: "CSE",
         startDate: "May, 2022",
         endDate: "May, 2026",
@@ -128,7 +128,9 @@ const Education = ({ userData, handleSave }) => {
               <Typography variant="h5">🎓{edu.degree}</Typography>
               <Typography variant="body2" ><strong>From:</strong> {edu.institution || ""} </Typography>
               <Typography variant="body2" ><strong>In:</strong> {edu.fieldOfStudy || ""} </Typography>
-              <Typography variant="body2" ><strong>Duration:</strong> {edu.startDate || ""} - {edu.endDate || ""} </Typography>
+              <Typography variant="body2" ><strong>Duration: </strong> 
+              {new Date(edu.startDate).toLocaleDateString("en-IN", { year: "numeric", month: "long" })} - {new Date(edu.endDate).toLocaleDateString("en-IN", { year: "numeric", month: "long" })} 
+              </Typography>
               <Divider style={dividerStyle} />
             </Stack>
             

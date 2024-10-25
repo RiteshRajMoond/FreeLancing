@@ -23,12 +23,12 @@ const UserProfile = ({ userData, handleSave }) => {
       { role: "Frontend Developer", company: "Web Solutions", startDate: "Jan 2019", endDate: "Dec 2019", description: "" },
     ]);
     setCertificationData(userData?.certifications || [
-      { name: "Certified JavaScript Developer", issuingOrganization: "XYZ Institute", issuedDate: "Mar 2020", expirationDate: "Mar 2023" },
-      { name: "React Certification", issuingOrganization: "ABC Academy", issuedDate: "Jan 2021", expirationDate: "Jan 2024" },
+      { name: "Certified JavaScript Developer", issuingOrganization: "XYZ Institute", issueDate: "Mar 2020", expirationDate: "Mar 2023" },
+      { name: "React Certification", issuingOrganization: "ABC Academy", issueDate: "Jan 2021", expirationDate: "Jan 2024" },
     ]);
     setProjectData(userData?.projects || [
-      { name: "Project A", description: "Description of Project A", startDate: "Jan 2021", endDate: "Dec 2021" },
-      { name: "Project B", description: "Description of Project B", startDate: "Jan 2022", endDate: "Dec 2022" },
+      { name: "Project A", description: "Description of Project A", startDate: "Jan 2021", endDate: "Dec 2021", link :"",skills:[]  },
+      { name: "Project B", description: "Description of Project B", startDate: "Jan 2022", endDate: "Dec 2022", link :"",skills:[] },
     ]);
     setSkills(userData?.skills || ["JavaScript", "React", "Node.js", "CSS", "HTML"]);
     setPortfolio(userData?.portfolio || "https://myportfolio.com");
@@ -66,14 +66,14 @@ const UserProfile = ({ userData, handleSave }) => {
   const addCertification = () => {
     setCertificationData((prev) => [
       ...prev,
-      { name: "", issuingOrganization: "", issuedDate: "", expirationDate: "" },
+      { name: "", issuingOrganization: "", issueDate: "", expirationDate: "" },
     ]);
   };
 
   const addProject = () => {
     setProjectData((prev) => [
       ...prev,
-      { name: "", description: "", startDate: "", endDate: "" },
+      { name: "", description: "", startDate: "", endDate: "", link :"" ,skills:[] },
     ]);
   };
 
@@ -175,7 +175,9 @@ const UserProfile = ({ userData, handleSave }) => {
           {experienceData.map((exp, index) => (
             <Stack key={index} spacing={1}>
               <Typography style={{fontWeight:"bold"}} variant="h6">• {exp.role} at {exp.company}</Typography>
-              <Typography variant="body2"><strong>Duration:</strong> {exp.startDate} - {exp.endDate}</Typography>
+              <Typography variant="body2"><strong>Duration: </strong> 
+              {new Date(exp.startDate).toLocaleDateString("en-IN", { year: "numeric", month: "long" })} - {new Date(exp.endDate).toLocaleDateString("en-IN", { year: "numeric", month: "long" })}
+              </Typography>
               <Typography variant="body2"><strong>Description:</strong> {exp.description}</Typography>
             </Stack>
           ))}
@@ -185,9 +187,9 @@ const UserProfile = ({ userData, handleSave }) => {
           {certificationData.map((cert, index) => (
             <Stack key={index} spacing={1}>
               <Typography style={{fontWeight:"bold"}} variant="h6">• {cert.name}</Typography>
-              <Typography variant="body2"><strong>Issued By:</strong> {cert.issuingOrganization}</Typography>
-              <Typography variant="body2"><strong>Issued Date:</strong> {cert.issuedDate}</Typography>
-              <Typography variant="body2"><strong>Expiration Date:</strong> {cert.expirationDate}</Typography>
+              <Typography variant="body2"><strong>Issued By: </strong> {cert.issuingOrganization}</Typography>
+              <Typography variant="body2"><strong>Issued Date: </strong> {new Date(cert.startDate).toLocaleDateString("en-IN", { year: "numeric", month: "long" })}</Typography>
+              <Typography variant="body2"><strong>Expiration Date: </strong> {new Date(cert.endDate).toLocaleDateString("en-IN", { year: "numeric", month: "long" })}</Typography>
             </Stack>
           ))}
           <Divider style={dividerStyle} />
@@ -197,7 +199,9 @@ const UserProfile = ({ userData, handleSave }) => {
             <Stack key={index} spacing={1}>
               <Typography style={{fontWeight:"bold"}} variant="h6">• {proj.name}</Typography>
               <Typography variant="body2"><strong>Description:</strong> {proj.description}</Typography>
-              <Typography variant="body2"><strong>Duration:</strong> {proj.startDate} - {proj.endDate}</Typography>
+              <Typography variant="body2"><strong>Duration: </strong> 
+              {new Date(proj.startDate).toLocaleDateString("en-IN", { year: "numeric", month: "long" })} - {new Date(proj.endDate).toLocaleDateString("en-IN", { year: "numeric", month: "long" })}
+              </Typography>
             </Stack>
           ))}
           <Divider style={dividerStyle} />

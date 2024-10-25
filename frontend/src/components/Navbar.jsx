@@ -1,10 +1,23 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { AppBar, Button, Typography, Toolbar } from "@mui/material";
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { Link } from "react-router-dom";
 import Logout from "./Logout";
+import axios from "axios"; // Import axios
 
 export default function Navbar() {
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
+
+  // Call checkLoginStatus when the component mounts
+  useEffect(() => {
+    // const token = localStorage.getItem('userJWT');
+    // if (token) {
+    //   setIsLoggedIn(true);
+    // } else {
+    //   setIsLoggedIn(false);
+    // }
+  }, [setIsLoggedIn]);
+
   const btnStyle = {
     marginRight: "20px",
     padding: "0.3rem 1.4rem",
@@ -13,6 +26,7 @@ export default function Navbar() {
     borderRadius: "40px",
     fontFamily: "fantasy",
   };
+
   const toolStyle = {
     position: "fixed",
     top: "0px",
@@ -25,7 +39,7 @@ export default function Navbar() {
   };
 
   return (
-    <>
+    <AppBar position="static">
       <Toolbar style={toolStyle}>
         <Typography
           variant="h6"
@@ -37,20 +51,26 @@ export default function Navbar() {
         >
           FreelanceHub
         </Typography>
-        <Button style={btnStyle} variant="text" to="/Admins" component={Link}>
-          Admins
-        </Button>
-        <Button style={btnStyle} to="/Login" component={Link}>
-          Login
-        </Button>
-        <Button style={btnStyle} to="/SignUp" component={Link}>
-          SignUp
-        </Button>
-        <Link to="/dashboard" style={{ textDecoration: 'none' }}>
-          <AccountCircleIcon sx={{ color: "white", fontSize: "38px" }} />
-        </Link>
-        <Logout />
+
+        {/* Conditionally render based on login status */}
+        {isLoggedIn ? (
+          <>
+            <Link to="/dashboard" style={{ textDecoration: "none" }}>
+              <AccountCircleIcon sx={{ color: "white", fontSize: "38px" }} />
+            </Link>
+            <Logout setIsLoggedIn={setIsLoggedIn} />
+          </>
+        ) : (
+          <>
+            <Button style={btnStyle} to="/Login" component={Link}>
+              Login
+            </Button>
+            <Button style={btnStyle} to="/SignUp" component={Link}>
+              SignUp
+            </Button>
+          </>
+        )}
       </Toolbar>
-    </>
+    </AppBar>
   );
 }
