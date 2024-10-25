@@ -14,6 +14,7 @@ const apiRateLimit = rateLimit(100, 60); // 100 requests per minute
 router.post("/signup", signupValidator, apiRateLimit, userController.signup);
 router.post("/login", loginValidator, apiRateLimit, userController.login);
 router.get("/logout", apiRateLimit, userController.logout);
+router.get('/check-login', apiRateLimit, verifyUserJWT, userController.checkLogin);
 
 // Dashboard Routes
 router.get("/get-user", verifyUserJWT, apiRateLimit, userController.getUser);
@@ -31,6 +32,6 @@ router.post(
 
 // Job Routes
 router.post('/job/create-job', verifyUserJWT, jobController.createJob);
-router.get('/job/get-jobs', verifyUserJWT, jobController.getJobs);
-
+router.get('/job/user-jobs', verifyUserJWT, jobController.getUserJobs);
+router.get('/job/all-jobs', apiRateLimit, jobController.getAllJobs);
 module.exports = router;

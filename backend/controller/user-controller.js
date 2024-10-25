@@ -128,6 +128,10 @@ exports.logout = async (req, res, next) => {
   }
 };
 
+exports.checkLogin = async (req, res, next) => {
+  return res.status(200).json({ loggedIn: true });
+};
+
 // Dashbaord Controllers
 exports.getUser = async (req, res, next) => {
   try {
@@ -136,12 +140,10 @@ exports.getUser = async (req, res, next) => {
 
     const cachedUser = await redisClient.get(cacheKey);
     if (cachedUser)
-      return res
-        .status(200)
-        .json({
-          user: JSON.parse(cachedUser),
-          message: "User fetched from cache",
-        });
+      return res.status(200).json({
+        user: JSON.parse(cachedUser),
+        message: "User fetched from cache",
+      });
 
     const user = await User.findById(req.user.id);
     if (!user) return res.status(404).json({ message: "User not found" });
@@ -162,11 +164,13 @@ exports.updateUserInformation = async (req, res, next) => {
       bio,
       phoneNumber,
       address,
-      linkedIn,
-      github,
-      instagram,
+      socialMedia,
       education,
       experience,
+      certifications,
+      projects,
+      skills,
+      portfolio,
     } = req.body;
     const user = await User.findById(req.user.id);
     if (!user) return res.status(404).json({ message: "User not found" });
@@ -176,17 +180,27 @@ exports.updateUserInformation = async (req, res, next) => {
     if (bio) user.bio = bio;
     if (phoneNumber) user.phoneNumber = phoneNumber;
     if (address) user.address = address;
-    if (linkedIn) user.socialMedia.linkedIn = linkedIn;
-    if (github) user.socialMedia.github = github;
-    if (instagram) user.socialMedia.instagram = instagram;
+
+    if (socialMedia) {
+      if (socialMedia.linkedIn)
+        user.set("socialMedia.linkedIn", socialMedia.linkedIn);
+      if (socialMedia.github)
+        user.set("socialMedia.github", socialMedia.github);
+      if (socialMedia.instagram)
+        user.set("socialMedia.instagram", socialMedia.instagram);
+    }
 
     if (education) user.education = education;
     if (experience) user.experience = experience;
+    if (certifications) user.certifications = certifications;
+    if (projects) user.projects = projects;
+    if (skills) user.skills = skills;
+    if (portfolio) user.portfolio = portfolio;
 
     await user.save();
 
     const cacheKey = `user:${req.user.id}`;
-    await redisClient.setEx(cacheKey, 86400, JSON.stringify(user)); 
+    await redisClient.setEx(cacheKey, 86400, JSON.stringify(user));
 
     res
       .status(200)
