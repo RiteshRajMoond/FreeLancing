@@ -169,6 +169,10 @@ exports.updateUserInformation = async (req, res, next) => {
       instagram,
       education,
       experience,
+      certifications,
+      projects,
+      skills,
+      portfolio,
     } = req.body;
     const user = await User.findById(req.user.id);
     if (!user) return res.status(404).json({ message: "User not found" });
@@ -184,6 +188,10 @@ exports.updateUserInformation = async (req, res, next) => {
 
     if (education) user.education = education;
     if (experience) user.experience = experience;
+    if(certifications) user.certifications = certifications;
+    if (projects) user.projects = projects;
+    if (skills) user.skills = skills;
+    if (portfolio) user.portfolio = portfolio
 
     await user.save();
 
