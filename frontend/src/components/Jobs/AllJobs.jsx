@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-const JobList = () => {
+const AllJobs = () => {
   const [jobs, setJobs] = useState([]);
 
   useEffect(() => {
     const fetchJobs = async () => {
       try {
-        const response = await axios.get("/user/job/user-jobs");
+        const response = await axios.get("/user/job/all-jobs");
         setJobs(response.data.jobs);
         console.log(response.data.jobs);
       } catch (error) {
@@ -41,4 +41,4 @@ const JobList = () => {
   );
 };
 
-export default JobList;
+export default AllJobs;

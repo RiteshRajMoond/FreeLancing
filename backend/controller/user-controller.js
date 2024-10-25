@@ -164,9 +164,7 @@ exports.updateUserInformation = async (req, res, next) => {
       bio,
       phoneNumber,
       address,
-      linkedIn,
-      github,
-      instagram,
+      socialMedia,
       education,
       experience,
       certifications,
@@ -182,16 +180,22 @@ exports.updateUserInformation = async (req, res, next) => {
     if (bio) user.bio = bio;
     if (phoneNumber) user.phoneNumber = phoneNumber;
     if (address) user.address = address;
-    if (linkedIn) user.socialMedia.linkedIn = linkedIn;
-    if (github) user.socialMedia.github = github;
-    if (instagram) user.socialMedia.instagram = instagram;
+
+    if (socialMedia) {
+      if (socialMedia.linkedIn)
+        user.set("socialMedia.linkedIn", socialMedia.linkedIn);
+      if (socialMedia.github)
+        user.set("socialMedia.github", socialMedia.github);
+      if (socialMedia.instagram)
+        user.set("socialMedia.instagram", socialMedia.instagram);
+    }
 
     if (education) user.education = education;
     if (experience) user.experience = experience;
-    if(certifications) user.certifications = certifications;
+    if (certifications) user.certifications = certifications;
     if (projects) user.projects = projects;
     if (skills) user.skills = skills;
-    if (portfolio) user.portfolio = portfolio
+    if (portfolio) user.portfolio = portfolio;
 
     await user.save();
 

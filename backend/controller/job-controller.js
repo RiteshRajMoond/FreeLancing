@@ -28,9 +28,21 @@ exports.createJob = async (req, res, next) => {
   }
 };
 
-exports.getJobs = async (req, res, next) => {
+exports.getUserJobs = async (req, res, next) => {
   try {
-    const jobs = await Job.find().populate("postedBy", "name email");
+    const jobs = await Job.find({ postedBy: req.user.id });
+    return res.status(200).json({ jobs });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+exports.getAllJobs = async (req, res, next) => {
+  try {
+    const jobs = await Job.find().populate(
+      "postedBy",
+      "firstName lastName email"
+    );
     return res.status(200).json({ jobs });
   } catch (error) {
     return res.status(500).json({ message: error.message });
