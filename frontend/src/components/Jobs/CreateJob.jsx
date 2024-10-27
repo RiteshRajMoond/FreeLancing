@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
-import backgroundImage from '../../../assets/bg5.jpg'
+import backgroundImage from '../../../assets/bg5.jpg'; // Adjust the path as necessary
 import axios from 'axios';
 import {
   Container,
   Typography,
   TextField,
   Button,
-  Card,
-  CardContent,
   CardActions,
   List,
   ListItem,
@@ -51,107 +49,108 @@ const CreateJob = () => {
     }
   };
 
+  // Styles for the background
+  const backgroundStyle = {
+    backgroundImage: `url(${backgroundImage})`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    position: 'fixed', // Changed to fixed to cover the whole screen
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    minHeight: '100vh',
+    zIndex: -1,
+  };
+
+  // Styles for the content container
+  const contentStyle = {
+    marginTop: '2rem',
+    backgroundColor: 'rgba(255, 255, 255, 0.8)', // Slightly less transparent for better visibility
+    padding: '2rem',
+    borderRadius: '10px',
+    position: 'relative', // Positioned relative to overlay above the background
+    zIndex: 1,
+  };
+
   return (
-    <Container style={containerStyle}>
-      <Card style={cardStyle}>
-        <CardContent>
-          <Typography variant="h4" align="center" gutterBottom>
-            Create Job
-          </Typography>
-          <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column' }}>
+    <div style={backgroundStyle}>
+      <Container style={contentStyle}>
+        <Typography variant="h4" align="center" gutterBottom style={{ color: 'black', fontFamily: 'fantasy' }}>
+          Create Job
+        </Typography>
+        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column' }}>
+          <TextField
+            name="title"
+            value={job.title}
+            onChange={handleChange}
+            placeholder="Job Title"
+            required
+            variant="outlined"
+            margin="normal"
+            style={{ width: '100%', margin: '10px 0' }}
+          />
+          <TextField
+            name="description"
+            value={job.description}
+            onChange={handleChange}
+            placeholder="Job Description"
+            required
+            variant="outlined"
+            margin="normal"
+            multiline
+            rows={4}
+            style={{ width: '100%', margin: '10px 0' }}
+          />
+          <div style={{ display: 'flex', alignItems: 'center' }}>
             <TextField
-              name="title"
-              value={job.title}
-              onChange={handleChange}
-              placeholder="Job Title"
-              required
+              value={requirement}
+              onChange={handleRequirementChange}
+              placeholder="Add Requirement"
               variant="outlined"
               margin="normal"
-              style={inputStyle}
+              style={{ flex: 1, margin: '10px 0' }}
             />
-            <TextField
-              name="description"
-              value={job.description}
-              onChange={handleChange}
-              placeholder="Job Description"
-              required
-              variant="outlined"
-              margin="normal"
-              multiline
-              rows={4}
-              style={inputStyle}
-            />
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-              <TextField
-                value={requirement}
-                onChange={handleRequirementChange}
-                placeholder="Add Requirement"
-                variant="outlined"
-                margin="normal"
-                style={{ flex: 1, ...inputStyle }}
-              />
-              <Button variant="contained" color="primary" onClick={addRequirement} style={{ marginLeft: '10px' }}>
-                Add
-              </Button>
-            </div>
-            <List style={{ listStyleType: 'none', padding: '0' }}>
-              {job.requirements.map((req, index) => (
-                <ListItem key={index} style={{ backgroundColor: '#e0e0e0', margin: '5px 0', borderRadius: '4px' }}>
-                  <ListItemText primary={req} />
-                </ListItem>
-              ))}
-            </List>
-            <TextField
-              name="budget"
-              value={job.budget}
-              onChange={handleChange}
-              placeholder="Budget"
-              required
-              variant="outlined"
-              margin="normal"
-              style={inputStyle}
-            />
-            <TextField
-              name="deadline"
-              value={job.deadline}
-              onChange={handleChange}
-              type="date"
-              required
-              variant="outlined"
-              margin="normal"
-              style={inputStyle}
-            />
-            <CardActions style={{ justifyContent: 'center' }}>
-              <Button type="submit" variant="contained" color="primary">
-                Add Job
-              </Button>
-            </CardActions>
-          </form>
-        </CardContent>
-      </Card>
-    </Container>
+            <Button variant="contained" color="primary" onClick={addRequirement} style={{ marginLeft: '10px' }}>
+              Add
+            </Button>
+          </div>
+          <List style={{ listStyleType: 'none', padding: '0' }}>
+            {job.requirements.map((req, index) => (
+              <ListItem key={index} style={{ backgroundColor: '#e0e0e0', margin: '5px 0', borderRadius: '4px' }}>
+                <ListItemText primary={req} />
+              </ListItem>
+            ))}
+          </List>
+          <TextField
+            name="budget"
+            value={job.budget}
+            onChange={handleChange}
+            placeholder="Budget"
+            required
+            variant="outlined"
+            margin="normal"
+            style={{ width: '100%', margin: '10px 0' }}
+          />
+          <TextField
+            name="deadline"
+            value={job.deadline}
+            onChange={handleChange}
+            type="date"
+            required
+            variant="outlined"
+            margin="normal"
+            style={{ width: '100%', margin: '10px 0' }}
+          />
+          <CardActions style={{ justifyContent: 'center' }}>
+            <Button type="submit" variant="contained" color="primary">
+              Add Job
+            </Button>
+          </CardActions>
+        </form>
+      </Container>
+    </div>
   );
-};
-
-// Styles
-const containerStyle = {
-  maxWidth: '600px',
-  margin: 'auto',
-  marginTop: '20px',
-  backgroundImage: `url(${backgroundImage})`, // Replace with your image path
-  backgroundSize: 'cover',
-  backgroundPosition: 'center',
-  height: '100vh', // Adjust height as needed
-};
-
-const cardStyle = {
-  backgroundColor: 'rgba(255, 255, 255, 0.8)', // White background with transparency
-  borderRadius: '8px',
-};
-
-const inputStyle = {
-  width: '100%',
-  margin: '10px 0',
 };
 
 export default CreateJob;

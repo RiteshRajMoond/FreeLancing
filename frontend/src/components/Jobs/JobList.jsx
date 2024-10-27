@@ -1,156 +1,87 @@
-import React, { useState } from 'react';
-import backgroundImage from '../../../assets/bg5.jpg'; // Adjust the path as necessary
-import axios from 'axios';
-import {
-  Container,
-  Typography,
-  TextField,
-  Button,
-  CardActions,
-  List,
-  ListItem,
-  ListItemText,
-} from '@mui/material';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { Container, Typography, Grid, Card, CardContent } from "@mui/material";
+import backgroundImage from "../../../assets/bg5.jpg";
 
-const CreateJob = () => {
-  const [job, setJob] = useState({
-    title: '',
-    description: '',
-    requirements: [],
-    budget: '',
-    deadline: '',
-  });
+const JobList = () => {
+  const [jobs, setJobs] = useState([]);
 
-  const [requirement, setRequirement] = useState('');
+  useEffect(() => {
+    const fetchJobs = async () => {
+      try {
+        const response = await axios.get("/user/job/user-jobs");
+        setJobs(response.data.jobs);
+        console.log(response.data.jobs);
+      } catch (error) {
+        console.error(error);
+      }
+    };
 
-  const handleChange = (e) => {
-    setJob({ ...job, [e.target.name]: e.target.value });
-  };
-
-  const handleRequirementChange = (e) => {
-    setRequirement(e.target.value);
-  };
-
-  const addRequirement = () => {
-    if (requirement.trim()) {
-      setJob({ ...job, requirements: [...job.requirements, requirement] });
-      setRequirement('');
-    }
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await axios.post('/user/job/create-job', job);
-      console.log(response.data);
-      // Optionally, reset the form or show a success message
-    } catch (error) {
-      console.error(error);
-    }
-  };
+    fetchJobs();
+  }, []);
 
   // Styles for the background
   const backgroundStyle = {
     backgroundImage: `url(${backgroundImage})`,
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
-    position: 'fixed', // Changed to fixed to cover the whole screen
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    minHeight: '100vh',
-    zIndex: -1,
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    minHeight: "100vh",
+    padding: "2rem 0",
   };
 
   // Styles for the content container
   const contentStyle = {
-    marginTop: '2rem',
-    backgroundColor: 'rgba(255, 255, 255, 0.8)', // Slightly less transparent for better visibility
-    padding: '2rem',
-    borderRadius: '10px',
-    position: 'relative', // Positioned relative to overlay above the background
-    zIndex: 1,
+    marginTop: "2rem",
+    backgroundColor: "rgba(255, 255, 255, 0.4)",
+    padding: "2rem",
+    borderRadius: "10px",
   };
 
   return (
     <div style={backgroundStyle}>
       <Container style={contentStyle}>
-        <Typography variant="h4" align="center" gutterBottom style={{ color: 'black', fontFamily: 'fantasy' }}>
-          Create Job
+        <Typography
+          variant="h2"
+          align="center"
+          gutterBottom
+          style={{ color: "black", fontFamily: "fantasy" }}
+        >
+          Job List
         </Typography>
-        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column' }}>
-          <TextField
-            name="title"
-            value={job.title}
-            onChange={handleChange}
-            placeholder="Job Title"
-            required
-            variant="outlined"
-            margin="normal"
-            style={{ width: '100%', margin: '10px 0' }}
-          />
-          <TextField
-            name="description"
-            value={job.description}
-            onChange={handleChange}
-            placeholder="Job Description"
-            required
-            variant="outlined"
-            margin="normal"
-            multiline
-            rows={4}
-            style={{ width: '100%', margin: '10px 0' }}
-          />
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            <TextField
-              value={requirement}
-              onChange={handleRequirementChange}
-              placeholder="Add Requirement"
-              variant="outlined"
-              margin="normal"
-              style={{ flex: 1, margin: '10px 0' }}
-            />
-            <Button variant="contained" color="primary" onClick={addRequirement} style={{ marginLeft: '10px' }}>
-              Add
-            </Button>
-          </div>
-          <List style={{ listStyleType: 'none', padding: '0' }}>
-            {job.requirements.map((req, index) => (
-              <ListItem key={index} style={{ backgroundColor: '#e0e0e0', margin: '5px 0', borderRadius: '4px' }}>
-                <ListItemText primary={req} />
-              </ListItem>
-            ))}
-          </List>
-          <TextField
-            name="budget"
-            value={job.budget}
-            onChange={handleChange}
-            placeholder="Budget"
-            required
-            variant="outlined"
-            margin="normal"
-            style={{ width: '100%', margin: '10px 0' }}
-          />
-          <TextField
-            name="deadline"
-            value={job.deadline}
-            onChange={handleChange}
-            type="date"
-            required
-            variant="outlined"
-            margin="normal"
-            style={{ width: '100%', margin: '10px 0' }}
-          />
-          <CardActions style={{ justifyContent: 'center' }}>
-            <Button type="submit" variant="contained" color="primary">
-              Add Job
-            </Button>
-          </CardActions>
-        </form>
+        <Grid container spacing={3}>
+          {jobs.map((job) => (
+            <Grid item xs={12} sm={6} md={4} key={job._id}>
+              <Card style={{ borderRadius: "10px", boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)" }}>
+                <CardContent>
+                  <Typography variant="h5" style={{ color: "#333", fontWeight: "bold" }}>
+                    {job.title}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary" style={{ marginBottom: "10px" }}>
+                    {job.description}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    <strong>Requirements:</strong> {job.requirements.join(", ")}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    <strong>Budget:</strong> ${job.budget}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    <strong>Deadline:</strong> {new Date(job.deadline).toLocaleDateString()}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    <strong>Posted by:</strong> {job.postedBy ? job.postedBy.email : "Unknown"}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    <strong>Created at:</strong> {new Date(job.createdAt).toLocaleDateString()}
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
       </Container>
     </div>
   );
 };
 
-export default CreateJob;
+export default JobList;

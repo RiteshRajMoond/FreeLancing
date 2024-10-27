@@ -41,7 +41,7 @@ const AllJobs = () => {
     <div style={backgroundStyle}>
       <Container style={contentStyle}>
         <Typography variant="h2" align="center" gutterBottom style={{ color: "black", fontFamily: "fantasy" }}>
-          Job List
+          All Jobs
         </Typography>
         <Grid container spacing={3}>
           {jobs.map((job) => (
