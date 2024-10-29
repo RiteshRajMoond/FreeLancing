@@ -10,6 +10,7 @@ import Dashboard from "./components/Dashboard/Dashboard";
 import JobList from "./components/Jobs/JobList";
 import CreateJob from "./components/Jobs/CreateJob";
 import AllJobs from "./components/Jobs/AllJobs";
+import JobDescription from "./components/Jobs/JobDescription";
 
 export default function App() {
   return (
@@ -24,6 +25,7 @@ export default function App() {
         <Route path="/joblist" element={<JobList />} />
         <Route path="/create-job" element={<CreateJob />} /> 
         <Route path="/alljobs" element={<AllJobs />} />
+        <Route path="/job-description" element={<JobDescription />} />
       </Routes>
     </BrowserRouter>
   );
