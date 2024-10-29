@@ -207,10 +207,10 @@ const UserProfile = ({ userData, handleSave }) => {
           <Divider style={dividerStyle} />
 
           <Typography style={{textAlign:"center"}} variant="h5">💻Skills</Typography>
-          <Typography variant="body1">{skills.join(', ')}</Typography>
+          <Typography style={{textAlign:"center"}} variant="body1">{skills.join(', ')}</Typography>
 
           <Typography style={{textAlign:"center"}} variant="h5">📊Portfolio</Typography>
-          <Typography variant="body1">{portfolio}</Typography>
+          <Typography style={{textAlign:"center"}} variant="body1">{portfolio}</Typography>
 
           <Button variant="contained" style={buttonStyle} onClick={toggleEditMode}>
             Edit Profile

@@ -40,6 +40,9 @@ const JobDescription = () => {
               {job.title}
             </Typography>
             <Typography variant="body1" color="text.secondary" style={{ marginBottom: "10px" }}>
+              <strong>Description:</strong> {job.description}
+            </Typography>
+            <Typography variant="body1" color="text.secondary" style={{ marginBottom: "10px" }}>
               <strong>Requirements:</strong> {job.requirements.join(", ")}
             </Typography>
             <Typography variant="body1" color="text.secondary">
