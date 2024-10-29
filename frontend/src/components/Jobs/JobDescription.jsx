@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import { useLocation } from "react-router-dom";
-import { Container, Typography, Card, CardContent, Stack, Button, Divider } from "@mui/material";
+import { Container, Typography, Card, CardContent, Stack, Button, Divider,Avatar } from "@mui/material";
+import { LocationOn, Star, Verified, Email, Phone, Person, Chat } from "@mui/icons-material";
 
 const JobDescription = () => {
   const location = useLocation();
@@ -44,12 +45,12 @@ const JobDescription = () => {
           <CardContent>
 
             <Stack direction="row">
-            <Typography variant="h4" style={{ fontWeight: "bold" }}>
+            <Typography variant="h4" style={{ fontFamily:"fantasy" }}>
               {job.title}
             </Typography>
-            <Stack  style={{ fontWeight: "bold", marginLeft:"45%",textAlign:"right" }}>
-            <Typography variant="h5">
-              <strong>Budget:</strong> ${job.budget}
+            <Stack  style={{ fontWeight: "bold", marginLeft:"53%",textAlign:"right" , fontFamily:"fantasy", marginTop:"8px"}}>
+            <Typography variant="h5" style={{fontFamily:"fantasy"}}>
+              Budget: ${job.budget}
             </Typography>
             <Typography variant="body" style={{fontWeight:"lighter"}}>
               paid on delivery
@@ -59,7 +60,7 @@ const JobDescription = () => {
 
             <Stack direction="row" style={{marginTop:"3vh"}} spacing={2}>
             <Button variant="contained" style={{backgroundColor:"#79d37f", borderRadius:"20px", height:"30px" , marginTop:"-13px"}}>{status}</Button>
-            <Typography variant="body2" color="text.secondary">Posted: {new Date(job.createdAt).toLocaleString()}</Typography>
+            <Typography variant="body2" color="text.secondary">Posted on: {new Date(job.createdAt).toLocaleString()}</Typography>
 
             <Typography variant="body2" color="text.secondary">• Ends on :{new Date(job.deadline).toLocaleString()}</Typography>
             </Stack>
@@ -68,8 +69,15 @@ const JobDescription = () => {
               <strong>Description:</strong> {job.description} Lorem ipsum dolor sit, amet consectetur adipisicing elit. Atque ipsam libero beatae, facilis molestiae quae voluptates nisi accusantium? Consequuntur dolor quibusdam dignissimos pariatur fuga odit minima earum sapiente facere qui!
               Non, maiores! Temporibus quae voluptas magnam, delectus eveniet distinctio exercitationem, inventore vitae quam dolorum omnis nulla sunt, quisquam unde accusamus molestias harum laudantium id? Facere quisquam consequatur repellat tempora magni.
             </Typography>
+            
             <Typography variant="body1" color="text.secondary" style={{ marginBottom: "10px" }}>
-              <strong>Requirements:</strong> {job.requirements.join(", ")}
+              <strong>Requirements:</strong><br/>
+              {job.requirements.map((requirement, index) => (
+              <Button key={index} variant="outlined" style={{ margin: "5px", borderRadius: "20px", textTransform: "capitalize" }}> {requirement} </Button>
+              ))}
+            </Typography>
+            <Typography variant="body1" color="text.secondary" style={{ marginBottom: "10px" }}>
+              <strong>Key Features:</strong> 
             </Typography>
            
             <Typography variant="body1" color="text.secondary">
@@ -80,9 +88,59 @@ const JobDescription = () => {
         </Card>
       </Container>
 
+
       <Container style={containerStyle2}>
-        <Button  fullWidth variant="contained" style={{height:"50px"}}>Select this project</Button>
+        <Button fullWidth variant="contained" style={{ height: "50px" }}>
+          Select this project
+        </Button>
         <Divider style={dividerStyle} />
+  
+        <Typography variant="h6" style={{ fontFamily: "fantasy", marginBottom: "10px" }} color="initial">
+          About the client
+        </Typography>
+
+        <Stack direction="row" alignItems="center" spacing={2} style={{ marginBottom: "10px" }}>
+          <Avatar>{job.postedBy.firstName ? job.postedBy.firstName.charAt(0) : "C"}</Avatar>
+          <Typography variant="body1"> {job.postedBy.firstName || "Unknown Client"} {job.postedBy.lastName || " "}</Typography>
+        </Stack>
+            
+        <Stack direction="row" alignItems="center" spacing={1}>
+          <LocationOn fontSize="small" color="action" />
+          <Typography variant="body2" color="text.secondary"> {job.postedBy.address || "Location not provided"} </Typography>
+        </Stack>
+      
+        <Typography variant="body2" color="text.secondary" style={{ marginBottom: "10px" }}>
+         🕛 Member since: {job.postedBy.createdAt || "Unknown Date"}
+        </Typography>
+
+        <Divider style={dividerStyle} />
+
+        <Typography variant="h6" style={{ fontFamily: "fantasy", marginBottom: "10px" }} color="initial">
+          Client Verification
+        </Typography>
+
+        <Stack direction="column" spacing={1} style={{ marginTop: "20px" }}>
+          <Stack direction="row" spacing={1}>
+            <Verified color="action" />
+            <Typography variant="body2" color="text.secondary"> verified by freelancehub </Typography>
+          </Stack>
+          <Stack direction="row" spacing={1}>
+            <Email color="action" />
+            <Typography variant="body2" color="text.secondary"> {job.postedBy.email || "NA"} </Typography>
+          </Stack>
+          <Stack direction="row" spacing={1}>
+            <Person color="action" />
+            <Typography variant="body2" color="text.secondary"> {job.postedBy.portfolio || "NA"} </Typography>
+          </Stack>
+          <Stack direction="row" spacing={1}>
+            <Phone color="action" />
+            <Typography variant="body2" color="text.secondary"> {job.postedBy.phoneNumber || "NA"} </Typography>
+          </Stack>
+          <Stack direction="row" spacing={1}>
+            <Chat color="action" />
+            <Typography variant="body2" color="text.secondary"> {job.postedBy.socialMedia || "NA"} </Typography>
+          </Stack>
+        </Stack>
       </Container>
 
       </Stack>

@@ -66,7 +66,7 @@ const AllJobs = () => {
                   <CardContent>
                     <Typography
                       variant="h5"
-                      style={{ color: "#333", fontWeight: "bold" }}
+                      style={{ color: "#333", fontWeight: "bold", marginBottom: "15px"}}
                     >
                       {job.title}
                     </Typography>
@@ -74,22 +74,22 @@ const AllJobs = () => {
                     {job.description}
                   </Typography> */}
                     <Typography variant="body2" color="text.secondary">
-                      <strong>Requirements:</strong>{" "}
-                      {job.requirements.join(", ")}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
                       <strong>Budget:</strong> ${job.budget}
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
+                      <strong>Requirements:</strong>{" "}
+                      {job.requirements.join(", ")}
+                    </Typography>
+                    {/* <Typography variant="body2" color="text.secondary">
                       <strong>Deadline:</strong>{" "}
                       {new Date(job.deadline).toLocaleDateString()}
-                    </Typography>
+                    </Typography> */}
                     <Typography variant="body2" color="text.secondary">
                       <strong>Posted by:</strong>{" "}
                       {job.postedBy ? job.postedBy.email : "Unknown"}
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
-                      <strong>Created at:</strong>{" "}
+                      <strong>Posted on:</strong>{" "}
                       {new Date(job.createdAt).toLocaleDateString()}
                     </Typography>
                   </CardContent>
