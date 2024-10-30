@@ -34,4 +34,6 @@ router.post(
 router.post('/job/create-job', verifyUserJWT, jobController.createJob);
 router.get('/job/user-jobs', verifyUserJWT, jobController.getUserJobs);
 router.get('/job/all-jobs', apiRateLimit, jobController.getAllJobs);
+router.get('/job/job-details', apiRateLimit, jobController.getJobDetails);
+
 module.exports = router;

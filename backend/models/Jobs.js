@@ -30,6 +30,23 @@ const jobSchema = new mongoose.Schema({
     ref: "User",
     required: true,
   },
+  status: {
+    type: String,
+    enum: ["OPEN", "CLOSED", "IN PROGRESS"],
+    default: "OPEN",
+  },
+  applicants: [
+    {
+      userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },
+      appliedAt: {
+        type: Date,
+        default: Date.now,
+      },
+    },
+  ],
 });
 
 module.exports = mongoose.model("Job", jobSchema);

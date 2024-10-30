@@ -10,27 +10,75 @@ import {
 import { Delete } from "@mui/icons-material";
 
 const UserProfile = ({ userData, handleSave }) => {
-  const [experienceData, setExperienceData] = useState(userData?.experience || []);
-  const [certificationData, setCertificationData] = useState(userData?.certifications || []);
+  const [experienceData, setExperienceData] = useState(
+    userData?.experience || []
+  );
+  const [certificationData, setCertificationData] = useState(
+    userData?.certifications || []
+  );
   const [projectData, setProjectData] = useState(userData?.projects || []);
   const [skills, setSkills] = useState(userData?.skills || []);
   const [portfolio, setPortfolio] = useState(userData?.portfolio || "");
   const [editMode, setEditMode] = useState(false);
 
   useEffect(() => {
-    setExperienceData(userData?.experience || [
-      { role: "Software Engineer", company: "Tech Corp", startDate: "Jan 2020", endDate: "Present", description: "" },
-      { role: "Frontend Developer", company: "Web Solutions", startDate: "Jan 2019", endDate: "Dec 2019", description: "" },
-    ]);
-    setCertificationData(userData?.certifications || [
-      { name: "Certified JavaScript Developer", issuingOrganization: "XYZ Institute", issueDate: "Mar 2020", expirationDate: "Mar 2023" },
-      { name: "React Certification", issuingOrganization: "ABC Academy", issueDate: "Jan 2021", expirationDate: "Jan 2024" },
-    ]);
-    setProjectData(userData?.projects || [
-      { name: "Project A", description: "Description of Project A", startDate: "Jan 2021", endDate: "Dec 2021", link :"",skills:[]  },
-      { name: "Project B", description: "Description of Project B", startDate: "Jan 2022", endDate: "Dec 2022", link :"",skills:[] },
-    ]);
-    setSkills(userData?.skills || ["JavaScript", "React", "Node.js", "CSS", "HTML"]);
+    setExperienceData(
+      userData?.experience || [
+        {
+          role: "Software Engineer",
+          company: "Tech Corp",
+          startDate: "Jan 2020",
+          endDate: "Present",
+          description: "",
+        },
+        {
+          role: "Frontend Developer",
+          company: "Web Solutions",
+          startDate: "Jan 2019",
+          endDate: "Dec 2019",
+          description: "",
+        },
+      ]
+    );
+    setCertificationData(
+      userData?.certifications || [
+        {
+          name: "Certified JavaScript Developer",
+          issuingOrganization: "XYZ Institute",
+          issueDate: "Mar 2020",
+          expirationDate: "Mar 2023",
+        },
+        {
+          name: "React Certification",
+          issuingOrganization: "ABC Academy",
+          issueDate: "Jan 2021",
+          expirationDate: "Jan 2024",
+        },
+      ]
+    );
+    setProjectData(
+      userData?.projects || [
+        {
+          name: "Project A",
+          description: "Description of Project A",
+          startDate: "Jan 2021",
+          endDate: "Dec 2021",
+          link: "",
+          skills: [],
+        },
+        {
+          name: "Project B",
+          description: "Description of Project B",
+          startDate: "Jan 2022",
+          endDate: "Dec 2022",
+          link: "",
+          skills: [],
+        },
+      ]
+    );
+    setSkills(
+      userData?.skills || ["JavaScript", "React", "Node.js", "CSS", "HTML"]
+    );
     setPortfolio(userData?.portfolio || "https://myportfolio.com");
   }, [userData]);
 
@@ -73,7 +121,14 @@ const UserProfile = ({ userData, handleSave }) => {
   const addProject = () => {
     setProjectData((prev) => [
       ...prev,
-      { name: "", description: "", startDate: "", endDate: "", link :"" ,skills:[] },
+      {
+        name: "",
+        description: "",
+        startDate: "",
+        endDate: "",
+        link: "",
+        skills: [],
+      },
     ]);
   };
 
@@ -171,85 +226,154 @@ const UserProfile = ({ userData, handleSave }) => {
     <Stack style={stackStyle} spacing={2}>
       {!editMode ? (
         <>
-          <Typography style={{textAlign:"center"}} variant="h5">✔️Experiences</Typography>
+          <Typography style={{ textAlign: "center" }} variant="h5">
+            ✔️Experiences
+          </Typography>
           {experienceData.map((exp, index) => (
             <Stack key={index} spacing={1}>
-              <Typography style={{fontWeight:"bold"}} variant="h6">• {exp.role} at {exp.company}</Typography>
-              <Typography variant="body2"><strong>Duration: </strong> 
-              {new Date(exp.startDate).toLocaleDateString("en-IN", { year: "numeric", month: "long" })} - {new Date(exp.endDate).toLocaleDateString("en-IN", { year: "numeric", month: "long" })}
+              <Typography style={{ fontWeight: "bold" }} variant="h6">
+                • {exp.role} at {exp.company}
               </Typography>
-              <Typography variant="body2"><strong>Description:</strong> {exp.description}</Typography>
+              <Typography variant="body2">
+                <strong>Duration: </strong>
+                {new Date(exp.startDate).toLocaleDateString("en-IN", {
+                  year: "numeric",
+                  month: "long",
+                })}{" "}
+                -{" "}
+                {new Date(exp.endDate).toLocaleDateString("en-IN", {
+                  year: "numeric",
+                  month: "long",
+                })}
+              </Typography>
+              <Typography variant="body2">
+                <strong>Description:</strong> {exp.description}
+              </Typography>
             </Stack>
           ))}
           <Divider style={dividerStyle} />
 
-          <Typography style={{textAlign:"center"}} variant="h5">📜Certifications</Typography>
+          <Typography style={{ textAlign: "center" }} variant="h5">
+            📜Certifications
+          </Typography>
           {certificationData.map((cert, index) => (
             <Stack key={index} spacing={1}>
-              <Typography style={{fontWeight:"bold"}} variant="h6">• {cert.name}</Typography>
-              <Typography variant="body2"><strong>Issued By: </strong> {cert.issuingOrganization}</Typography>
-              <Typography variant="body2"><strong>Issued Date: </strong> {new Date(cert.startDate).toLocaleDateString("en-IN", { year: "numeric", month: "long" })}</Typography>
-              <Typography variant="body2"><strong>Expiration Date: </strong> {new Date(cert.endDate).toLocaleDateString("en-IN", { year: "numeric", month: "long" })}</Typography>
-            </Stack>
-          ))}
-          <Divider style={dividerStyle} />
-
-          <Typography style={{textAlign:"center"}} variant="h5">🗂️Projects</Typography>
-          {projectData.map((proj, index) => (
-            <Stack key={index} spacing={1}>
-              <Typography style={{fontWeight:"bold"}} variant="h6">• {proj.name}</Typography>
-              <Typography variant="body2"><strong>Description:</strong> {proj.description}</Typography>
-              <Typography variant="body2"><strong>Duration: </strong> 
-              {new Date(proj.startDate).toLocaleDateString("en-IN", { year: "numeric", month: "long" })} - {new Date(proj.endDate).toLocaleDateString("en-IN", { year: "numeric", month: "long" })}
+              <Typography style={{ fontWeight: "bold" }} variant="h6">
+                • {cert.name}
+              </Typography>
+              <Typography variant="body2">
+                <strong>Issued By: </strong> {cert.issuingOrganization}
+              </Typography>
+              <Typography variant="body2">
+                <strong>Issued Date: </strong>{" "}
+                {new Date(cert.startDate).toLocaleDateString("en-IN", {
+                  year: "numeric",
+                  month: "long",
+                })}
+              </Typography>
+              <Typography variant="body2">
+                <strong>Expiration Date: </strong>{" "}
+                {new Date(cert.endDate).toLocaleDateString("en-IN", {
+                  year: "numeric",
+                  month: "long",
+                })}
               </Typography>
             </Stack>
           ))}
           <Divider style={dividerStyle} />
 
-          <Typography style={{textAlign:"center"}} variant="h5">💻Skills</Typography>
-          <Typography style={{textAlign:"center"}} variant="body1">{skills.join(', ')}</Typography>
+          <Typography style={{ textAlign: "center" }} variant="h5">
+            🗂️Projects
+          </Typography>
+          {projectData.map((proj, index) => (
+            <Stack key={index} spacing={1}>
+              <Typography style={{ fontWeight: "bold" }} variant="h6">
+                • {proj.name}
+              </Typography>
+              <Typography variant="body2">
+                <strong>Description:</strong> {proj.description}
+              </Typography>
+              <Typography variant="body2">
+                <strong>Duration: </strong>
+                {new Date(proj.startDate).toLocaleDateString("en-IN", {
+                  year: "numeric",
+                  month: "long",
+                })}{" "}
+                -{" "}
+                {new Date(proj.endDate).toLocaleDateString("en-IN", {
+                  year: "numeric",
+                  month: "long",
+                })}
+              </Typography>
+            </Stack>
+          ))}
+          <Divider style={dividerStyle} />
 
-          <Typography style={{textAlign:"center"}} variant="h5">📊Portfolio</Typography>
-          <Typography style={{textAlign:"center"}} variant="body1">{portfolio}</Typography>
+          <Typography style={{ textAlign: "center" }} variant="h5">
+            💻Skills
+          </Typography>
+          <Typography style={{ textAlign: "center" }} variant="body1">
+            {skills.join(", ")}
+          </Typography>
 
-          <Button variant="contained" style={buttonStyle} onClick={toggleEditMode}>
+          <Typography style={{ textAlign: "center" }} variant="h5">
+            📊Portfolio
+          </Typography>
+          <Typography style={{ textAlign: "center" }} variant="body1">
+            {portfolio}
+          </Typography>
+
+          <Button
+            variant="contained"
+            style={buttonStyle}
+            onClick={toggleEditMode}
+          >
             Edit Profile
           </Button>
         </>
       ) : (
         <>
-
           <Typography variant="h5">Edit Experiences</Typography>
           {experienceData.map((exp, index) => (
             <Stack style={editStackStyle} key={index} spacing={1}>
               <TextField
                 label="Role"
                 value={exp.role}
-                onChange={(e) => handleExperienceChange(index, "role", e.target.value)}
+                onChange={(e) =>
+                  handleExperienceChange(index, "role", e.target.value)
+                }
                 sx={textFieldStyle}
               />
               <TextField
                 label="Company"
                 value={exp.company}
-                onChange={(e) => handleExperienceChange(index, "company", e.target.value)}
+                onChange={(e) =>
+                  handleExperienceChange(index, "company", e.target.value)
+                }
                 sx={textFieldStyle}
               />
               <TextField
                 label="Start Date"
                 value={exp.startDate}
-                onChange={(e) => handleExperienceChange(index, "startDate", e.target.value)}
+                onChange={(e) =>
+                  handleExperienceChange(index, "startDate", e.target.value)
+                }
                 sx={textFieldStyle}
               />
               <TextField
                 label="End Date"
                 value={exp.endDate}
-                onChange={(e) => handleExperienceChange(index, "endDate", e.target.value)}
+                onChange={(e) =>
+                  handleExperienceChange(index, "endDate", e.target.value)
+                }
                 sx={textFieldStyle}
               />
               <TextField
                 label="Description"
                 value={exp.description}
-                onChange={(e) => handleExperienceChange(index, "description", e.target.value)}
+                onChange={(e) =>
+                  handleExperienceChange(index, "description", e.target.value)
+                }
                 sx={textFieldStyle}
               />
               <IconButton onClick={() => deleteExperience(index)} color="error">
@@ -257,7 +381,11 @@ const UserProfile = ({ userData, handleSave }) => {
               </IconButton>
             </Stack>
           ))}
-          <Button variant="contained" style={buttonStyle} onClick={addExperience}>
+          <Button
+            variant="contained"
+            style={buttonStyle}
+            onClick={addExperience}
+          >
             Add Experience
           </Button>
           <Divider style={dividerStyle} />
@@ -268,33 +396,56 @@ const UserProfile = ({ userData, handleSave }) => {
               <TextField
                 label="Certification Name"
                 value={cert.name}
-                onChange={(e) => handleCertificationChange(index, "name", e.target.value)}
+                onChange={(e) =>
+                  handleCertificationChange(index, "name", e.target.value)
+                }
                 sx={textFieldStyle}
               />
               <TextField
                 label="Issuing Organization"
                 value={cert.issuingOrganization}
-                onChange={(e) => handleCertificationChange(index, "issuingOrganization", e.target.value)}
+                onChange={(e) =>
+                  handleCertificationChange(
+                    index,
+                    "issuingOrganization",
+                    e.target.value
+                  )
+                }
                 sx={textFieldStyle}
               />
               <TextField
                 label="Issued Date"
                 value={cert.issuedDate}
-                onChange={(e) => handleCertificationChange(index, "issuedDate", e.target.value)}
+                onChange={(e) =>
+                  handleCertificationChange(index, "issuedDate", e.target.value)
+                }
                 sx={textFieldStyle}
               />
               <TextField
                 label="Expiration Date"
                 value={cert.expirationDate}
-                onChange={(e) => handleCertificationChange(index, "expirationDate", e.target.value)}
+                onChange={(e) =>
+                  handleCertificationChange(
+                    index,
+                    "expirationDate",
+                    e.target.value
+                  )
+                }
                 sx={textFieldStyle}
               />
-              <IconButton onClick={() => deleteCertification(index)} color="error">
+              <IconButton
+                onClick={() => deleteCertification(index)}
+                color="error"
+              >
                 <Delete />
               </IconButton>
             </Stack>
           ))}
-          <Button variant="contained" style={buttonStyle} onClick={addCertification}>
+          <Button
+            variant="contained"
+            style={buttonStyle}
+            onClick={addCertification}
+          >
             Add Certification
           </Button>
 
@@ -306,25 +457,33 @@ const UserProfile = ({ userData, handleSave }) => {
               <TextField
                 label="Project Name"
                 value={proj.name}
-                onChange={(e) => handleProjectChange(index, "name", e.target.value)}
+                onChange={(e) =>
+                  handleProjectChange(index, "name", e.target.value)
+                }
                 sx={textFieldStyle}
               />
               <TextField
                 label="Description"
                 value={proj.description}
-                onChange={(e) => handleProjectChange(index, "description", e.target.value)}
+                onChange={(e) =>
+                  handleProjectChange(index, "description", e.target.value)
+                }
                 sx={textFieldStyle}
               />
               <TextField
                 label="Start Date"
                 value={proj.startDate}
-                onChange={(e) => handleProjectChange(index, "startDate", e.target.value)}
+                onChange={(e) =>
+                  handleProjectChange(index, "startDate", e.target.value)
+                }
                 sx={textFieldStyle}
               />
               <TextField
                 label="End Date"
                 value={proj.endDate}
-                onChange={(e) => handleProjectChange(index, "endDate", e.target.value)}
+                onChange={(e) =>
+                  handleProjectChange(index, "endDate", e.target.value)
+                }
                 sx={textFieldStyle}
               />
               <IconButton onClick={() => deleteProject(index)} color="error">
@@ -339,24 +498,36 @@ const UserProfile = ({ userData, handleSave }) => {
 
           <Typography variant="h5">Skills & Portfolio:</Typography>
           <Stack style={editStackStyle}>
-          <TextField
-            label="Skills (comma separated)"
-            value={skills.join(', ')}
-            onChange={(e) => setSkills(e.target.value.split(',').map(skill => skill.trim()))}
-            sx={textFieldStyle}
+            <TextField
+              label="Skills (comma separated)"
+              value={skills.join(", ")}
+              onChange={(e) =>
+                setSkills(
+                  e.target.value.split(",").map((skill) => skill.trim())
+                )
+              }
+              sx={textFieldStyle}
             />
-          <TextField
-            label="Portfolio Link"
-            value={portfolio}
-            onChange={(e) => setPortfolio(e.target.value)}
-            sx={textFieldStyle}
+            <TextField
+              label="Portfolio Link"
+              value={portfolio}
+              onChange={(e) => setPortfolio(e.target.value)}
+              sx={textFieldStyle}
             />
-            </Stack>
+          </Stack>
 
-          <Button variant="contained" style={buttonStyle} onClick={handleSaveProfile}>
+          <Button
+            variant="contained"
+            style={buttonStyle}
+            onClick={handleSaveProfile}
+          >
             Save Profile
           </Button>
-          <Button variant="contained" style={buttonStyle} onClick={toggleEditMode}>
+          <Button
+            variant="contained"
+            style={buttonStyle}
+            onClick={toggleEditMode}
+          >
             Cancel
           </Button>
         </>

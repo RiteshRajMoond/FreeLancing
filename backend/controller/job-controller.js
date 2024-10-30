@@ -41,10 +41,15 @@ exports.getAllJobs = async (req, res, next) => {
   try {
     const jobs = await Job.find().populate(
       "postedBy",
-      "firstName lastName email"
+      "firstName lastName email phoneNumber address createdAt socialMedia"
     );
+    // console.log(jobs);
     return res.status(200).json({ jobs });
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
 };
+
+exports.getJobDetails = async (req, res, next) => {
+
+}

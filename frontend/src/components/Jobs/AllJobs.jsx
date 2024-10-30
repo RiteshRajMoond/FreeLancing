@@ -59,14 +59,18 @@ const AllJobs = () => {
                 }}
               >
                 <Link
-                   to={`/job-description`}
-                   state={{ job }}
+                  to={`/job-description`}
+                  state={{ job }}
                   style={{ textDecoration: "none", color: "#333" }}
                 >
                   <CardContent>
                     <Typography
                       variant="h5"
-                      style={{ color: "#333", fontWeight: "bold", marginBottom: "15px"}}
+                      style={{
+                        color: "#333",
+                        fontWeight: "bold",
+                        marginBottom: "15px",
+                      }}
                     >
                       {job.title}
                     </Typography>
