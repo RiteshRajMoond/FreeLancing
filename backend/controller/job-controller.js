@@ -50,6 +50,24 @@ exports.getAllJobs = async (req, res, next) => {
   }
 };
 
-exports.getJobDetails = async (req, res, next) => {
+exports.applyForJob = async (req, res, next) => {
+  try {
+    const { jobId } = req.body;
+    const userId = req.user.id;
 
-}
+    const job = await Job.findById(jobId);
+    if (!job) return res.status(404).json({ message: "Job not found" });
+
+    const alreadyApplied = job.applicants.find(
+      (applicant) => applicant.userId.toString() === userId
+    );
+    if (alreadyApplied)
+      return res.status(400).json({ message: "Already applied for this job" });
+    job.applicants.push({userId, appliedAt: new Date()});
+    await job.save();
+
+    return res.status(200).json({ message: "Applied for job successfully" });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};

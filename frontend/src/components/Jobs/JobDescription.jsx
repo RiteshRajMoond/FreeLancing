@@ -19,6 +19,7 @@ import {
   Person,
   Chat,
 } from "@mui/icons-material";
+import axios from "axios";
 
 const JobDescription = () => {
   const location = useLocation();
@@ -30,6 +31,17 @@ const JobDescription = () => {
   if (!job) {
     return <Typography variant="h5">No job data available</Typography>;
   }
+
+  const handleApply = async () => {
+    try {
+      const resp = await axios.post("/user/job/apply-job", { jobId: job._id });
+      console.log(resp.data);
+      alert(resp.data.message);
+    } catch (error) {
+      console.error(error);
+      alert("Failed to apply for the job");
+    }
+  };
 
   const containerStyle1 = {
     marginTop: "-10vh",
@@ -178,7 +190,7 @@ const JobDescription = () => {
         </Container>
 
         <Container style={containerStyle2}>
-          <Button fullWidth variant="contained" style={{ height: "50px" }}>
+          <Button fullWidth variant="contained" style={{ height: "50px" }} onClick={handleApply}>
             Select this project
           </Button>
           <Divider style={dividerStyle} />
