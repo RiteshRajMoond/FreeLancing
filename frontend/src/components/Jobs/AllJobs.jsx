@@ -6,8 +6,21 @@ import backgroundImage from "../../../assets/bg5.jpg";
 
 const AllJobs = () => {
   const [jobs, setJobs] = useState([]);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
+
+    const checkLoginStatus = async () => {
+      try {
+        const resp = await axios.get("/user/check-login");
+        setIsLoggedIn(resp.data.loggedIn);
+        // console.log(resp.data.loggedIn);
+      } catch (error) {
+        setIsLoggedIn(false);
+      }
+    };
+    checkLoginStatus();
+
     const fetchJobs = async () => {
       try {
         const response = await axios.get("/user/job/all-jobs");
@@ -59,7 +72,7 @@ const AllJobs = () => {
                 }}
               >
                 <Link
-                  to={`/job-description`}
+                  to={isLoggedIn ? `/job-description` : `/login`}
                   state={{ job }}
                   style={{ textDecoration: "none", color: "#333" }}
                 >

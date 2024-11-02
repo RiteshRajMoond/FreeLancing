@@ -59,13 +59,22 @@ export default function Navbar() {
         {/* Conditionally render based on login status */}
         {isLoggedIn ? (
           <>
+            <Button style={btnStyle} to="/alljobs" component={Link}>
+              Jobs available
+            </Button>
+            <Button style={btnStyle} to="/joblist" component={Link}>
+              Jobs Posted
+            </Button>
+            <Logout setIsLoggedIn={setIsLoggedIn} />
             <Link to="/dashboard" style={{ textDecoration: "none" }}>
               <AccountCircleIcon sx={{ color: "white", fontSize: "38px" }} />
             </Link>
-            <Logout setIsLoggedIn={setIsLoggedIn} />
           </>
         ) : (
           <>
+            <Button style={btnStyle} to="/alljobs" component={Link}>
+              Jobs available
+            </Button>
             <Button style={btnStyle} to="/Login" component={Link}>
               Login
             </Button>
