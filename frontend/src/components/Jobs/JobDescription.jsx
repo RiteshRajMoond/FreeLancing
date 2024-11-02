@@ -232,7 +232,7 @@ const JobDescription = () => {
             color="text.secondary"
             style={{ marginBottom: "10px" }}
           >
-            🕛 Member since: {job.postedBy.createdAt || "Unknown Date"}
+            🕛 Member since: {new Date(job.postedBy.createdAt).toLocaleDateString() || "Unknown Date"}
           </Typography>
 
           <Divider style={dividerStyle} />

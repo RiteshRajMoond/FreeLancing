@@ -56,9 +56,9 @@ const JobList = () => {
                   <Typography variant="h5" style={{ color: "#333", fontWeight: "bold" }}>
                     {job.title}
                   </Typography>
-                  <Typography variant="body2" color="text.secondary" style={{ marginBottom: "10px" }}>
+                  {/* <Typography variant="body2" color="text.secondary" style={{ marginBottom: "10px" }}>
                     {job.description}
-                  </Typography>
+                  </Typography> */}
                   <Typography variant="body2" color="text.secondary">
                     <strong>Requirements:</strong> {job.requirements.join(", ")}
                   </Typography>

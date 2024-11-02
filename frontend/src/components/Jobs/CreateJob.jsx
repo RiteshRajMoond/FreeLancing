@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import backgroundImage from '../../../assets/bg5.jpg'; // Adjust the path as necessary
 import axios from 'axios';
 import {
@@ -38,11 +39,13 @@ const CreateJob = () => {
     }
   };
 
+  const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const response = await axios.post('/user/job/create-job', job);
       console.log(response.data);
+      navigate('/JobList');
       // Optionally, reset the form or show a success message
     } catch (error) {
       console.error(error);
