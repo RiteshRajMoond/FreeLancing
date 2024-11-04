@@ -1,6 +1,7 @@
 const Job = require("../models/Jobs");
 const User = require("../models/User");
 
+// Authentication required!
 exports.createJob = async (req, res, next) => {
   try {
     const userId = req.user.id;
@@ -37,19 +38,6 @@ exports.getUserJobs = async (req, res, next) => {
   }
 };
 
-exports.getAllJobs = async (req, res, next) => {
-  try {
-    const jobs = await Job.find().populate(
-      "postedBy",
-      "firstName lastName email phoneNumber address createdAt socialMedia"
-    );
-    // console.log(jobs);
-    return res.status(200).json({ jobs });
-  } catch (error) {
-    return res.status(500).json({ message: error.message });
-  }
-};
-
 exports.applyForJob = async (req, res, next) => {
   try {
     const { jobId } = req.body;
@@ -63,10 +51,67 @@ exports.applyForJob = async (req, res, next) => {
     );
     if (alreadyApplied)
       return res.status(400).json({ message: "Already applied for this job" });
-    job.applicants.push({userId, appliedAt: new Date()});
+    job.applicants.push({ userId, appliedAt: new Date() });
     await job.save();
 
     return res.status(200).json({ message: "Applied for job successfully" });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+exports.getJobApplicants = async (req, res, next) => {
+  try {
+    const { jobId } = req.query;
+    const userId = req.user.id;
+
+    const job = await Job.findById(jobId);
+    if (!job) return res.status(404).json({ message: "Job not found" });
+
+    if (job.postedBy.toString() !== userId)
+      return res.status(401).json({ message: "Unauthorized" });
+
+    const applicantIds = job.applicants.map((applicant) => applicant.userId);
+    const applicants = await User.find({ _id: { $in: applicantIds } });
+
+    return res.status(200).json({ applicants });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+exports.selectApplicant = async (req, res, next) => {
+  try {
+    const { jobId, applicantId } = req.body;
+    const userId = req.user.id;
+
+    const job = await Job.findById(jobId);
+    if (!job) return res.status(404).json({ message: "Job not found" });
+
+    const selectedApplicant = job.applicants.find(
+      (applicant) => applicant.userId.toString() === applicantId
+    );
+    if (!selectedApplicant)
+      return res.status(404).json({ message: "Applicant not found" });
+
+    job.status = "CLOSED";
+    await job.save();
+
+    return res.status(200).json({ message: "Applicant selected successfully" });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+// No authentication required
+exports.getAllJobs = async (req, res, next) => {
+  try {
+    const jobs = await Job.find().populate(
+      "postedBy",
+      "firstName lastName email phoneNumber address createdAt socialMedia"
+    );
+    // console.log(jobs);
+    return res.status(200).json({ jobs });
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }

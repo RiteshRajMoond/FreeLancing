@@ -47,6 +47,32 @@ const jobSchema = new mongoose.Schema({
       },
     },
   ],
+  assignedTo: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
+  progressStatus: {
+    type: String,
+    enum: [
+      "NOT STARTED",
+      "IN PROGRESS",
+      "SUBMITTED",
+      "CHANGES REQUESTED",
+      "APPORVED",
+    ],
+    default: "NOT STARTED",
+  },
+  submittedFiles: [
+    {
+      type: String,
+    },
+  ],
+  feedback: {
+    type: String,
+  },
+  completionDate: {
+    type: Date,
+  },
 });
 
 module.exports = mongoose.model("Job", jobSchema);
