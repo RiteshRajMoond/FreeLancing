@@ -1,5 +1,6 @@
 const Job = require("../models/Jobs");
 const User = require("../models/User");
+const sendEmail = require("../util/email");
 
 // Authentication required!
 exports.createJob = async (req, res, next) => {
@@ -83,7 +84,7 @@ exports.getJobApplicants = async (req, res, next) => {
 exports.selectApplicant = async (req, res, next) => {
   try {
     const { jobId, applicantId } = req.body;
-    const userId = req.user.id;
+    // const userId = req.user.id;
 
     const job = await Job.findById(jobId);
     if (!job) return res.status(404).json({ message: "Job not found" });
@@ -95,7 +96,17 @@ exports.selectApplicant = async (req, res, next) => {
       return res.status(404).json({ message: "Applicant not found" });
 
     job.status = "CLOSED";
+    job.applicants = [selectedApplicant];
     await job.save();
+
+    const applicant = await User.findById(applicantId);
+    if (applicant) {
+      sendEmail(
+        applicant.email,
+        "Job Application Accepted",
+        `Your application for the job "${job.title}" has been accepted.`
+      );
+    }
 
     return res.status(200).json({ message: "Applicant selected successfully" });
   } catch (error) {
@@ -106,7 +117,8 @@ exports.selectApplicant = async (req, res, next) => {
 // No authentication required
 exports.getAllJobs = async (req, res, next) => {
   try {
-    const jobs = await Job.find().populate(
+    // To show only open jobs
+    const jobs = await Job.find({ status: "OPEN" }).populate(
       "postedBy",
       "firstName lastName email phoneNumber address createdAt socialMedia"
     );
