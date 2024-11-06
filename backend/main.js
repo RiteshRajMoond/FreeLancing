@@ -5,11 +5,13 @@ const cors = require("cors");
 require("dotenv").config();
 
 const db = require("./config/db");
+const setupSocket = require('./socket');
 
 const adminRoutes = require("./routes/admin-routes");
 const userRoutes = require("./routes/user-routes");
 
 const app = express();
+const server = require('http').createServer(app);
 
 // CORS config
 const corsOptions = {
@@ -26,8 +28,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use("/api/v1/admin", adminRoutes);
 app.use("/api/v1/user", userRoutes);
 
+setupSocket(server);
+
 db().then(() => {
-  app.listen(process.env.PORT, () => {
+  server.listen(process.env.PORT, () => {
     console.log(`Server running on port ${process.env.PORT}`);
   });
 });

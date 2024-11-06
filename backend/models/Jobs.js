@@ -47,10 +47,10 @@ const jobSchema = new mongoose.Schema({
       },
     },
   ],
-  assignedTo: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-  },
+  // assignedTo: {
+  //   type: mongoose.Schema.Types.ObjectId,
+  //   ref: "User",
+  // },
   progressStatus: {
     type: String,
     enum: [

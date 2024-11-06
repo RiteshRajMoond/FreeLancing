@@ -4,37 +4,26 @@ import { Container, Typography, Grid, Card, CardContent } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import backgroundImage from "../../../assets/bg5.jpg";
 
-const JobList = () => {
+const DeveloperJobList = () => {
   const [jobs, setJobs] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchJobs = async () => {
+    const fetchSelectedJobs = async () => {
       try {
-        const response = await axios.get("/user/job/user-jobs");
-        setJobs(response.data.jobs);
+        const response = await axios.get("/user/selected-jobs");
         console.log(response.data.jobs);
+        setJobs(response.data.jobs);
       } catch (error) {
-        console.error(error);
+        console.error("Error fetching selected jobs:", error);
       }
     };
 
-    fetchJobs();
+    fetchSelectedJobs();
   }, []);
 
-  const handleJobClick = async (jobId) => {
-    try {
-      const resp = await axios.get(`/user/job/get-job/${jobId}`);
-      const job = resp.data.job;
-
-      if (job.status === "CLOSED") {
-        navigate(`/client-dashboard/${jobId}`);
-      } else {
-        navigate(`/job-applicants?jobId=${jobId}`);
-      }
-    } catch (error) {
-      console.error(error);
-    }
+  const handleJobClick = (jobId) => {
+    navigate(`/developer-dashboard/${jobId}`);
   };
 
   // Styles for the background
@@ -63,7 +52,7 @@ const JobList = () => {
           gutterBottom
           style={{ color: "black", fontFamily: "fantasy" }}
         >
-          Job List
+          Selected Jobs
         </Typography>
         <Grid container spacing={3}>
           {jobs.map((job) => (
@@ -110,4 +99,4 @@ const JobList = () => {
   );
 };
 
-export default JobList;
+export default DeveloperJobList;

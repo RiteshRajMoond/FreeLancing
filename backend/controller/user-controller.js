@@ -246,3 +246,16 @@ exports.uploadImage = [
     }
   },
 ];
+
+exports.getSelectedJobs = async (req, res, next) => {
+  try {
+    const userId = req.user.id;
+
+    const user = await User.findById(userId).populate("jobsSelected");
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    return res.status(200).json({ jobs: user.jobsSelected });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
