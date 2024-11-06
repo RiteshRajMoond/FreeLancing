@@ -36,7 +36,14 @@ router.post(
 );
 
 // Job Routes
-router.get("/job/all-jobs", apiRateLimit, jobController.getAllJobs);
+router.get(
+  "/selected-jobs",
+  verifyUserJWT,
+  apiRateLimit,
+  userController.getSelectedJobs
+);
+
+router.get("/job/all-jobs", verifyUserJWT, apiRateLimit, jobController.getAllJobs);
 
 router.post(
   "/job/create-job",
@@ -44,29 +51,47 @@ router.post(
   apiRateLimit,
   jobController.createJob
 );
+
 router.get(
   "/job/user-jobs",
   verifyUserJWT,
   apiRateLimit,
   jobController.getUserJobs
 );
+
 router.post(
   "/job/apply-job",
   verifyUserJWT,
   apiRateLimit,
   jobController.applyForJob
 );
+
 router.get(
   "/job/job-applicants",
   verifyUserJWT,
   apiRateLimit,
   jobController.getJobApplicants
 );
+
 router.post(
   "/job/select-applicant",
   verifyUserJWT,
   apiRateLimit,
   jobController.selectApplicant
+);
+
+router.post(
+  "/job/upload-file/:jobId",
+  verifyUserJWT,
+  apiRateLimit,
+  jobController.uploadFile
+);
+
+router.get(
+  "/job/get-job/:jobId",
+  verifyUserJWT,
+  apiRateLimit,
+  jobController.getJobDetails
 );
 
 module.exports = router;

@@ -1,6 +1,16 @@
+const multer = require("multer");
+const {
+  ref,
+  uploadBytesResumable,
+  getDownloadURL,
+} = require("firebase/storage");
+const { storage } = require("../config/firebase");
+
 const Job = require("../models/Jobs");
 const User = require("../models/User");
 const sendEmail = require("../util/email");
+
+const upload = multer({ storage: multer.memoryStorage() });
 
 // Authentication required!
 exports.createJob = async (req, res, next) => {
@@ -61,6 +71,23 @@ exports.applyForJob = async (req, res, next) => {
   }
 };
 
+exports.getJobDetails = async (req, res, next) => {
+  try {
+    const { jobId } = req.params;
+    console.log(req.params);
+
+    const job = await Job.findById(jobId).populate(
+      "postedBy",
+      "firstName lastName email phoneNumber address createdAt socialMedia"
+    );
+    if (!job) return res.status(404).json({ message: "Job not found" });
+
+    return res.status(200).json({ job });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
 exports.getJobApplicants = async (req, res, next) => {
   try {
     const { jobId } = req.query;
@@ -101,6 +128,9 @@ exports.selectApplicant = async (req, res, next) => {
 
     const applicant = await User.findById(applicantId);
     if (applicant) {
+      applicant.jobsSelected.push(jobId);
+      await applicant.save();
+      
       sendEmail(
         applicant.email,
         "Job Application Accepted",
@@ -113,6 +143,37 @@ exports.selectApplicant = async (req, res, next) => {
     return res.status(500).json({ message: error.message });
   }
 };
+
+exports.uploadFile = [
+  upload.single("file"),
+  async (req, res, next) => {
+    try {
+      if (!req.file)
+        return res.status(400).json({ message: "No file uploaded" });
+
+      const { jobId } = req.params;
+      const job = await Job.findById(jobId);
+      if (!job) return res.status(404).json({ message: "Job not found" });
+
+      const dateTime = new Date().toISOString();
+      const storageRef = ref(storage, `files/${jobId}/${dateTime}`);
+      const metadata = { contentType: req.file.mimetype };
+      const snapshot = await uploadBytesResumable(
+        storageRef,
+        req.file.buffer,
+        metadata
+      );
+      const downloadUrl = await getDownloadURL(snapshot.ref);
+
+      job.submittedFiles.push(downloadUrl);
+      await job.save();
+
+      return res.status(200).json({ message: "File uploaded successfully" });
+    } catch (error) {
+      return res.status(500).json({ message: error.message });
+    }
+  },
+];
 
 // No authentication required
 exports.getAllJobs = async (req, res, next) => {

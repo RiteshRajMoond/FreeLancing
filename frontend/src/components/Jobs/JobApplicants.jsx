@@ -71,48 +71,60 @@ const JobApplicants = () => {
               <Card>
                 <CardContent>
                   <Stack direction="row" spacing={2} alignItems="center">
-                    <Avatar>{applicant.firstName.charAt(0)}</Avatar>
+                    <Avatar>
+                      {applicant.firstName
+                        ? applicant.firstName.charAt(0)
+                        : "?"}
+                    </Avatar>
                     <Typography variant="h6">
-                      {applicant.firstName} {applicant.lastName}
+                      {applicant.firstName || "Unknown"}{" "}
+                      {applicant.lastName || ""}
                     </Typography>
                   </Stack>
                   <Typography variant="body2">{applicant.email}</Typography>
-                  <Typography variant="body2">{applicant.phoneNumber}</Typography>
                   <Typography variant="body2">
-                    <strong>Skills:</strong> {applicant.skills.join(", ")}
+                    {applicant.phoneNumber}
+                  </Typography>
+                  <Typography variant="body2">
+                    <strong>Skills:</strong>{" "}
+                    {applicant.skills ? applicant.skills.join(", ") : "N/A"}
                   </Typography>
                   <Typography variant="body2">
                     <strong>Experience:</strong>
-                    {applicant.experience.map((exp, index) => (
-                      <div key={index}>
-                        {exp.role} at {exp.company} (
-                        {new Date(exp.startDate).toLocaleDateString()} -{" "}
-                        {exp.endDate
-                          ? new Date(exp.endDate).toLocaleDateString()
-                          : "Present"}
-                        )
-                      </div>
-                    ))}
+                    {applicant.experience
+                      ? applicant.experience.map((exp, index) => (
+                          <div key={index}>
+                            {exp.role} at {exp.company} (
+                            {new Date(exp.startDate).toLocaleDateString()} -{" "}
+                            {exp.endDate
+                              ? new Date(exp.endDate).toLocaleDateString()
+                              : "Present"}
+                            )
+                          </div>
+                        ))
+                      : "N/A"}
                   </Typography>
                   <Typography variant="body2">
                     <strong>Portfolio:</strong>
-                    {applicant.portfolio.map((link, index) => (
-                      <div key={index}>
-                        <MuiLink
-                          href={link}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          {link}
-                        </MuiLink>
-                      </div>
-                    ))}
+                    {applicant.portfolio
+                      ? applicant.portfolio.map((link, index) => (
+                          <div key={index}>
+                            <MuiLink
+                              href={link}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              {link}
+                            </MuiLink>
+                          </div>
+                        ))
+                      : "N/A"}
                   </Typography>
                   <Typography variant="body2">
                     <strong>Social Media:</strong>
                     <div>
                       <MuiLink
-                        href={applicant.socialMedia.linkedIn}
+                        href={applicant.socialMedia?.linkedIn}
                         target="_blank"
                         rel="noopener noreferrer"
                       >
@@ -121,7 +133,7 @@ const JobApplicants = () => {
                     </div>
                     <div>
                       <MuiLink
-                        href={applicant.socialMedia.github}
+                        href={applicant.socialMedia?.github}
                         target="_blank"
                         rel="noopener noreferrer"
                       >

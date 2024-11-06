@@ -99,6 +99,12 @@ const userSchema = new mongoose.Schema({
       },
     },
   ],
+  jobsSelected: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Job",
+    },
+  ],
   createdAt: {
     type: Date,
     default: Date.now,
