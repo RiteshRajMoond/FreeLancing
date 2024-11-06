@@ -15,10 +15,12 @@ import JobApplicants from "./components/Jobs/JobApplicants";
 import ClientDashboard from "./components/Jobs/ClientDashboard";
 import DeveloperDashboard from "./components/Jobs/DeveloperDashboard";
 import DeveloperJobList from "./components/Jobs/DeveloperJobList";
+import Layout from "./components/Layout";
 
 export default function App() {
   return (
     <BrowserRouter>
+    <Layout>
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
@@ -35,6 +37,7 @@ export default function App() {
         <Route path="/developer-dashboard" element={<DeveloperDashboard />} />
         <Route path="/developer-joblist" element={<DeveloperJobList />} />
       </Routes>
+      </Layout>
     </BrowserRouter>
   );
 }

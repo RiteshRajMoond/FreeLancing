@@ -53,7 +53,7 @@ export default function Navbar() {
             color: "rgb(235, 230, 230)",
           }}
         >
-          FreelanceHub
+          
         </Typography>
 
         {/* Conditionally render based on login status */}

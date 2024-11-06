@@ -1,7 +1,7 @@
 import React from "react";
 import { Button } from "@mui/material";
 import axios from "axios";
-import {toast, Toaster} from "react-hot-toast";
+import { toast, Toaster } from "react-hot-toast";
 
 export default function Logout({ setIsLoggedIn }) {
   const handleLogout = async () => {
@@ -9,7 +9,7 @@ export default function Logout({ setIsLoggedIn }) {
       const resp = await axios.get("/user/logout");
       if (resp.status === 200) {
         toast.success("Logged out successfully!");
-        setIsLoggedIn(false);
+        setTimeout(() => setIsLoggedIn(false), 2000); // Adjust delay as needed
       }
     } catch (error) {
       toast.error(error);
@@ -27,10 +27,10 @@ export default function Logout({ setIsLoggedIn }) {
 
   return (
     <>
-  <Toaster position="bottom-center" />
-    <Button style={btnStyle} onClick={handleLogout}>
-      Logout
-    </Button>
+      <Toaster position="bottom-center" />
+      <Button style={btnStyle} onClick={handleLogout}>
+        Logout
+      </Button>
     </>
   );
 }

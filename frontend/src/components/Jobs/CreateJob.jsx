@@ -12,6 +12,7 @@ import {
   ListItem,
   ListItemText,
 } from '@mui/material';
+import {toast, Toaster} from 'react-hot-toast';
 
 const CreateJob = () => {
   const [job, setJob] = useState({
@@ -44,11 +45,11 @@ const CreateJob = () => {
     e.preventDefault();
     try {
       const response = await axios.post('/user/job/create-job', job);
-      console.log(response.data);
-      navigate('/JobList');
+      toast.success('Job created successfully');
+      setTimeout(() => navigate('/JobList'), 1000);
       // Optionally, reset the form or show a success message
     } catch (error) {
-      console.error(error);
+      toast.error(error);
     }
   };
 
@@ -78,6 +79,7 @@ const CreateJob = () => {
 
   return (
     <div style={backgroundStyle}>
+      <Toaster/>
       <Container style={contentStyle}>
         <Typography variant="h4" align="center" gutterBottom style={{ color: 'black', fontFamily: 'fantasy' }}>
           Create Job

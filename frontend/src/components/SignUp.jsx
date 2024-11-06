@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import {toast, Toaster} from "react-hot-toast";
 import {
   Select,
   Box,
@@ -70,10 +71,10 @@ const SignUp = () => {
         email: email,
         password: password,
       });
-      console.log("User created successfully", res);
-      navigate("/");
+      toast.success("Login successful");
+      setTimeout(() => navigate("/"), 1000); 
     } catch (error) {
-      console.error("This is the error!\n", error);
+      toast.error("This is the error!\n", error);
     }
   };
 
@@ -102,7 +103,7 @@ const SignUp = () => {
       <video autoPlay loop muted style={vidStyle}>
         <source src="../../assets/signUp.mp4" type="video/mp4" />
       </video>
-
+      <Toaster/>
       <Box sx={boxStyle2}>
         <Typography variant="h4" sx={{ color: "#fff", marginBottom: "20px" }}>
           {" "}

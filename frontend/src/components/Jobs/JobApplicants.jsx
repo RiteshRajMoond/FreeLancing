@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
+import {toast, Toaster} from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 import {
   Container,
   Typography,
@@ -19,6 +21,7 @@ import {
 import backgroundImage from "../../../assets/bg5.jpg";
 
 const JobApplicants = () => {
+  const navigate = useNavigate();
   const location = useLocation();
   const query = new URLSearchParams(location.search);
   const jobId = query.get("jobId");
@@ -42,7 +45,7 @@ const JobApplicants = () => {
 
   const handleSelectApplicant = async () => {
     if (!selectedApplicantId) {
-      alert("Please select an applicant.");
+      toast.error("Please select an applicant.");
       return;
     }
 
@@ -51,10 +54,11 @@ const JobApplicants = () => {
         jobId,
         applicantId: selectedApplicantId,
       });
-      alert(response.data.message);
+      toast.success("Applicant selected successfully,  email has been sent to the applicant");
+      setTimeout(()=> navigate('/joblist'), 1000);
     } catch (error) {
       console.error(error);
-      alert("Failed to select applicant. Please try again.");
+      toast.error("Failed to select applicant. Please try again.");
     }
   };
 
@@ -117,6 +121,7 @@ const JobApplicants = () => {
 
   return (
     <div style={backgroundStyle}>
+      <Toaster/>
       <Container style={contentStyle}>
         <Typography variant="h4" align="center" gutterBottom>
           Applicants for Job

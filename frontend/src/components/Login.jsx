@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import {toast, Toaster} from "react-hot-toast";
+import { toast, Toaster } from "react-hot-toast";
 import {
   Box,
   Button,
@@ -70,13 +70,13 @@ const Login = () => {
       if (resp.status == 201) {
         // localStorage.setItem('userJWT', resp.data.token);
         toast.success("Login successful");
-        navigate("/");
+        setTimeout(() => navigate("/"), 1000); 
       }
     } catch (error) {
       if (error.response && error.response.status !== 201) {
         toast.error("Invalid Credentials");
       } else {
-         toast.error("Internal server error");
+        toast.error("Internal server error");
       }
       navigate("/login");
     }
@@ -86,8 +86,8 @@ const Login = () => {
     try {
       const resp = await axios.post("/admin/login", { email, password });
       if (resp.status === 201) {
-        alert("Admin Logged In!");
-        navigate("/");
+        toast.success("Admin Login successful");
+        setTimeout(() => navigate("/"), 1000); 
       }
     } catch (error) {
       if (error.response && error.response.status !== 201) {
@@ -109,7 +109,7 @@ const Login = () => {
       <video autoPlay loop muted style={vidStyle}>
         <source src="../../assets/login.mp4" type="video/mp4" />
       </video>
-      <Toaster/>
+      <Toaster />
       <Box sx={boxStyle2}>
         <Typography variant="h4" sx={{ color: "#fff", marginBottom: "20px" }}>
           {" "}

@@ -20,8 +20,11 @@ import {
   Chat,
 } from "@mui/icons-material";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import {toast, Toaster} from 'react-hot-toast';
 
 const JobDescription = () => {
+  const navigate = useNavigate();
   const location = useLocation();
   const { job } = location.state || {};
   console.log("Received job data:", job);
@@ -36,10 +39,11 @@ const JobDescription = () => {
     try {
       const resp = await axios.post("/user/job/apply-job", { jobId: job._id });
       console.log(resp.data);
-      alert(resp.data.message);
+      toast.success(resp.data.message);
+      setTimeout(() =>navigate('/alljobs'), 1000);
     } catch (error) {
       console.error(error);
-      alert("Failed to apply for the job");
+      toast.error("Failed to apply, already applied");
     }
   };
 
@@ -63,6 +67,7 @@ const JobDescription = () => {
 
   return (
     <>
+    <Toaster/>
       <Card
         style={{ height: "30vh", position: "relative", overflow: "hidden" }}
       >
