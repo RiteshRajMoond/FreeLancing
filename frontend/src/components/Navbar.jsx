@@ -65,6 +65,9 @@ export default function Navbar() {
             <Button style={btnStyle} to="/joblist" component={Link}>
               Jobs Posted
             </Button>
+            <Button style={btnStyle} to="/create-job" component={Link}>
+              Create Jobs
+            </Button>
             <Logout setIsLoggedIn={setIsLoggedIn} />
             <Link to="/dashboard" style={{ textDecoration: "none" }}>
               <AccountCircleIcon sx={{ color: "white", fontSize: "38px" }} />

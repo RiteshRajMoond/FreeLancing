@@ -14,7 +14,9 @@ import {
   RadioGroup,
   FormControlLabel,
   Button,
+  Divider,
 } from "@mui/material";
+import backgroundImage from "../../../assets/bg5.jpg";
 
 const JobApplicants = () => {
   const location = useLocation();
@@ -27,7 +29,7 @@ const JobApplicants = () => {
     const fetchApplicants = async () => {
       try {
         const response = await axios.get("/user/job/job-applicants", {
-          params: { jobId }, // Send jobId as a query parameter
+          params: { jobId },
         });
         setApplicants(response.data.applicants);
       } catch (error) {
@@ -56,99 +58,175 @@ const JobApplicants = () => {
     }
   };
 
+  // Background and card styling
+  const backgroundStyle = {
+    backgroundImage: `url(${backgroundImage})`,
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    minHeight: "100vh",
+    padding: "2rem",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  };
+
+  const contentStyle = {
+    backgroundColor: "rgba(0, 0, 0, 0.7)",
+    padding: "2rem",
+    borderRadius: "15px",
+    color: "white",
+    maxWidth: "1200px",
+  };
+
+  const cardStyle = {
+    backgroundColor: "rgba(255, 255, 255, 0.1)",
+    color: "white",
+    borderRadius: "12px",
+    boxShadow: "0 4px 12px rgba(0, 0, 0, 0.4)",
+    padding: "1.5rem",
+  };
+
+  const avatarStyle = {
+    backgroundColor: "#555",
+    color: "white",
+    fontSize: "1.5rem",
+    width: "50px",
+    height: "50px",
+  };
+
+  const labelStyle = {
+    color: "#bbb",
+    fontWeight: 500,
+  };
+
+  const textStyle = {
+    color: "#ddd",
+    marginBottom: "0.5rem",
+  };
+
+  const dividerStyle = {
+    backgroundColor: "#444",
+    margin: "10px 0",
+  };
+
+  const buttonStyle = {
+    backgroundColor: "#333",
+    color: "white",
+    marginTop: "20px",
+  };
+
   return (
-    <Container>
-      <Typography variant="h4" align="center" gutterBottom>
-        Applicants for Job
-      </Typography>
-      <RadioGroup
-        value={selectedApplicantId}
-        onChange={(e) => setSelectedApplicantId(e.target.value)}
-      >
-        <Grid container spacing={3}>
-          {applicants.map((applicant) => (
-            <Grid item xs={12} sm={6} md={4} key={applicant._id}>
-              <Card>
-                <CardContent>
-                  <Stack direction="row" spacing={2} alignItems="center">
-                    <Avatar>{applicant.firstName.charAt(0)}</Avatar>
-                    <Typography variant="h6">
-                      {applicant.firstName} {applicant.lastName}
+    <div style={backgroundStyle}>
+      <Container style={contentStyle}>
+        <Typography variant="h4" align="center" gutterBottom>
+          Applicants for Job
+        </Typography>
+        <RadioGroup
+          value={selectedApplicantId}
+          onChange={(e) => setSelectedApplicantId(e.target.value)}
+        >
+          <Grid container spacing={3}>
+            {applicants.map((applicant) => (
+              <Grid item xs={12} sm={6} md={4} key={applicant._id}>
+                <Card style={cardStyle}>
+                  <CardContent>
+                    <Stack direction="row" spacing={2} alignItems="center">
+                      <Avatar style={avatarStyle}>
+                        {applicant.firstName.charAt(0)}
+                      </Avatar>
+                      <Typography variant="h6" style={labelStyle}>
+                        {applicant.firstName} {applicant.lastName}
+                      </Typography>
+                    </Stack>
+                    <Divider style={dividerStyle} />
+                    <Typography variant="body2" style={textStyle}>
+                      <strong>Email:</strong> {applicant.email}
                     </Typography>
-                  </Stack>
-                  <Typography variant="body2">{applicant.email}</Typography>
-                  <Typography variant="body2">{applicant.phoneNumber}</Typography>
-                  <Typography variant="body2">
-                    <strong>Skills:</strong> {applicant.skills.join(", ")}
-                  </Typography>
-                  <Typography variant="body2">
-                    <strong>Experience:</strong>
-                    {applicant.experience.map((exp, index) => (
-                      <div key={index}>
-                        {exp.role} at {exp.company} (
-                        {new Date(exp.startDate).toLocaleDateString()} -{" "}
-                        {exp.endDate
-                          ? new Date(exp.endDate).toLocaleDateString()
-                          : "Present"}
-                        )
-                      </div>
-                    ))}
-                  </Typography>
-                  <Typography variant="body2">
-                    <strong>Portfolio:</strong>
-                    {applicant.portfolio.map((link, index) => (
-                      <div key={index}>
+                    <Typography variant="body2" style={textStyle}>
+                      <strong>Phone:</strong> {applicant.phoneNumber}
+                    </Typography>
+                    <Divider style={dividerStyle} />
+                    <Typography variant="body2" style={textStyle}>
+                      <strong>Skills:</strong> {applicant.skills.join(", ")}
+                    </Typography>
+                    <Divider style={dividerStyle} />
+                    <Typography variant="body2" style={textStyle}>
+                      <strong>Experience:</strong>
+                      {applicant.experience.map((exp, index) => (
+                        <div key={index} style={{ padding: "5px 0" }}>
+                          {exp.role} at {exp.company} (
+                          {new Date(exp.startDate).toLocaleDateString()} -{" "}
+                          {exp.endDate
+                            ? new Date(exp.endDate).toLocaleDateString()
+                            : "Present"}
+                          )
+                        </div>
+                      ))}
+                    </Typography>
+                    <Divider style={dividerStyle} />
+                    <Typography variant="body2" style={textStyle}>
+                      <strong>Portfolio:</strong>
+                      {applicant.portfolio.map((link, index) => (
+                        <div key={index}>
+                          <MuiLink
+                            href={link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            color="inherit"
+                            style={{ color: "#bbb" }}
+                          >
+                            {link}
+                          </MuiLink>
+                        </div>
+                      ))}
+                    </Typography>
+                    <Divider style={dividerStyle} />
+                    <Typography variant="body2" style={textStyle}>
+                      <strong>Social Media:</strong>
+                      <Stack direction="row" spacing={1}>
                         <MuiLink
-                          href={link}
+                          href={applicant.socialMedia.linkedIn}
                           target="_blank"
                           rel="noopener noreferrer"
+                          color="inherit"
+                          style={{ color: "#bbb" }}
                         >
-                          {link}
+                          LinkedIn
                         </MuiLink>
-                      </div>
-                    ))}
-                  </Typography>
-                  <Typography variant="body2">
-                    <strong>Social Media:</strong>
-                    <div>
-                      <MuiLink
-                        href={applicant.socialMedia.linkedIn}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        LinkedIn
-                      </MuiLink>
-                    </div>
-                    <div>
-                      <MuiLink
-                        href={applicant.socialMedia.github}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        GitHub
-                      </MuiLink>
-                    </div>
-                  </Typography>
-                  <FormControlLabel
-                    value={applicant._id}
-                    control={<Radio />}
-                    label="Select"
-                  />
-                </CardContent>
-              </Card>
-            </Grid>
-          ))}
-        </Grid>
-      </RadioGroup>
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={handleSelectApplicant}
-        style={{ marginTop: "20px" }}
-      >
-        Confirm Selection
-      </Button>
-    </Container>
+                      
+                        <MuiLink
+                          href={applicant.socialMedia.github}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          color="inherit"
+                          style={{ color: "#bbb" }}
+                        >
+                          GitHub
+                        </MuiLink>
+                      </Stack>
+                    </Typography>
+                    <Divider style={dividerStyle} />
+                    <FormControlLabel
+                      value={applicant._id}
+                      control={<Radio style={{ color: "white" }} />}
+                      label="Select"
+                      style={labelStyle}
+                    />
+                  </CardContent>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+        </RadioGroup>
+        <Button
+          variant="contained"
+          style={buttonStyle}
+          onClick={handleSelectApplicant}
+        >
+          Confirm Selection
+        </Button>
+      </Container>
+    </div>
   );
 };
 
