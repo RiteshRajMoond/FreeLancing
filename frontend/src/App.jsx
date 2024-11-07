@@ -34,7 +34,7 @@ export default function App() {
         <Route path="/job-description" element={<JobDescription />} />
         <Route path="/job-applicants" element={<JobApplicants />} />
         <Route path="/client-dashboard/:jobId" element={<ClientDashboard />} />
-        <Route path="/developer-dashboard" element={<DeveloperDashboard />} />
+        <Route path="/developer-dashboard/:jobId" element={<DeveloperDashboard />} />
         <Route path="/developer-joblist" element={<DeveloperJobList />} />
       </Routes>
       </Layout>

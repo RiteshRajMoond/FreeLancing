@@ -43,7 +43,12 @@ router.get(
   userController.getSelectedJobs
 );
 
-router.get("/job/all-jobs", verifyUserJWT, apiRateLimit, jobController.getAllJobs);
+router.get(
+  "/job/all-jobs",
+  verifyUserJWT,
+  apiRateLimit,
+  jobController.getAllJobs
+);
 
 router.post(
   "/job/create-job",
