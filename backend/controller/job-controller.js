@@ -3,8 +3,10 @@ const {
   ref,
   uploadBytesResumable,
   getDownloadURL,
+  getMetadata,
 } = require("firebase/storage");
 const storage = require("../config/firebase");
+const axios = require("axios");
 
 const Job = require("../models/Jobs");
 const User = require("../models/User");
@@ -188,6 +190,37 @@ exports.uploadFile = [
     }
   },
 ];
+
+exports.downloadFile = async (req, res, next) => {
+  try {
+    const { filePath } = req.params;
+    const decodedFilePath = decodeURIComponent(filePath);
+    const fileRef = ref(storage, decodedFilePath);
+
+    // Get the download URL
+    const downloadURL = await getDownloadURL(fileRef);
+
+    const fileMetadata = await getMetadata(fileRef);
+    // Make an HTTP request to fetch the file
+    const response = await axios({
+      url: downloadURL,
+      responseType: "stream",
+    });
+
+    // Set appropriate headers
+    res.setHeader("Content-Type", fileMetadata.contentType);
+    res.setHeader(
+      "Content-Disposition",
+      `attachment; filename="${decodedFilePath.split("/").pop()}"`
+    );
+
+    // Pipe the response stream to the response
+    return response.data.pipe(res);
+  } catch (error) {
+    console.error("Error downloading file:", error);
+    return res.status(500).json({ message: error.message });
+  }
+};
 
 // No authentication required
 exports.getAllJobs = async (req, res, next) => {
