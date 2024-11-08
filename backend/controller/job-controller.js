@@ -4,9 +4,10 @@ const {
   uploadBytesResumable,
   getDownloadURL,
   getMetadata,
+  getStream,
 } = require("firebase/storage");
 const storage = require("../config/firebase");
-const axios = require("axios");
+const { Readable } = require("stream");
 
 const Job = require("../models/Jobs");
 const User = require("../models/User");
@@ -197,15 +198,14 @@ exports.downloadFile = async (req, res, next) => {
     const decodedFilePath = decodeURIComponent(filePath);
     const fileRef = ref(storage, decodedFilePath);
 
-    // Get the download URL
-    const downloadURL = await getDownloadURL(fileRef);
-
+    // Get the file metadata
     const fileMetadata = await getMetadata(fileRef);
-    // Make an HTTP request to fetch the file
-    const response = await axios({
-      url: downloadURL,
-      responseType: "stream",
-    });
+    // console.log("File Metadata:", fileMetadata);
+
+    // Get the stream
+    const stream = getStream(fileRef);
+    
+    const nodeReadableStream = Readable.fromWeb(stream);
 
     // Set appropriate headers
     res.setHeader("Content-Type", fileMetadata.contentType);
@@ -214,15 +214,14 @@ exports.downloadFile = async (req, res, next) => {
       `attachment; filename="${decodedFilePath.split("/").pop()}"`
     );
 
-    // Pipe the response stream to the response
-    return response.data.pipe(res);
+    // Pipe the stream to the response
+    nodeReadableStream.pipe(res);
   } catch (error) {
     console.error("Error downloading file:", error);
     return res.status(500).json({ message: error.message });
   }
 };
 
-// No authentication required
 exports.getAllJobs = async (req, res, next) => {
   try {
     // To show only open jobs
