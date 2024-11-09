@@ -7,6 +7,9 @@ const DeveloperDashboard = () => {
   const { jobId } = useParams();
   const [status, setStatus] = useState("");
   const [file, setFile] = useState(null);
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
+  const [senderName, setSenderName] = useState("Developer Name"); // Replace with actual developer name
 
   const handleStatusChange = (e) => {
     setStatus(e.target.value);
@@ -31,17 +34,21 @@ const DeveloperDashboard = () => {
           },
         }
       );
-      alert("File uploaded successfully");
+      setSuccess("File uploaded successfully");
+      setError(null);
       console.log(response.data.url);
     } catch (error) {
       console.error(error);
-      alert("Failed to upload file");
+      setError("Failed to upload file");
+      setSuccess(null);
     }
   };
 
   return (
     <div>
       <h2>Developer Dashboard</h2>
+      {error && <div style={{ color: "red" }}>{error}</div>}
+      {success && <div style={{ color: "green" }}>{success}</div>}
       <textarea
         value={status}
         onChange={handleStatusChange}
@@ -49,7 +56,8 @@ const DeveloperDashboard = () => {
       />
       <input type="file" onChange={handleFileChange} />
       <button onClick={handleSubmit}>Upload File</button>
-      <Chat userRole="Developer" /> {/* Add the Chat component */}
+      <Chat senderName={senderName} jobId={jobId} />{" "}
+      {/* Add the Chat component */}
     </div>
   );
 };
