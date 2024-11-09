@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import { Box, Typography, TextField, Button } from "@mui/material";
 import Chat from "../Chat/Chat"; // Import the Chat component
 
 const DeveloperDashboard = () => {
   const { jobId } = useParams();
   const [status, setStatus] = useState("");
   const [file, setFile] = useState(null);
+  const [fileName, setFileName] = useState("");
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
   const [senderName, setSenderName] = useState("Developer Name"); // Replace with actual developer name
@@ -16,7 +18,9 @@ const DeveloperDashboard = () => {
   };
 
   const handleFileChange = (e) => {
-    setFile(e.target.files[0]);
+    const chosenFile = e.target.files[0];
+    setFile(chosenFile);
+    setFileName(chosenFile ? chosenFile.name : "");  // Update file name state
   };
 
   const handleSubmit = async () => {
@@ -37,6 +41,10 @@ const DeveloperDashboard = () => {
       setSuccess("File uploaded successfully");
       setError(null);
       console.log(response.data.url);
+      
+      // Reset file and fileName after successful upload
+      setFile(null);
+      setFileName("");
     } catch (error) {
       console.error(error);
       setError("Failed to upload file");
@@ -45,20 +53,92 @@ const DeveloperDashboard = () => {
   };
 
   return (
-    <div>
-      <h2>Developer Dashboard</h2>
-      {error && <div style={{ color: "red" }}>{error}</div>}
-      {success && <div style={{ color: "green" }}>{success}</div>}
-      <textarea
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        minHeight: "100vh",
+        backgroundImage: `url('../../assets/bg5.jpg')`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        padding: 4,
+        color: "#ffffff",
+      }}
+    >
+      <Typography variant="h4" sx={{ mb: 4, textShadow: "1px 1px 3px rgba(0, 0, 0, 0.8)" }}>
+        Developer Dashboard
+      </Typography>
+      
+      <TextField
+        label="Project Status"
+        multiline
+        rows={4}
         value={status}
         onChange={handleStatusChange}
         placeholder="Enter project status"
+        variant="outlined"
+        sx={{
+          width: "80%",
+          maxWidth: 500,
+          mb: 2,
+          backgroundColor: "#333",
+          borderRadius: 1,
+          "& .MuiInputBase-root": {
+            color: "#fff",
+          },
+          "& .MuiOutlinedInput-notchedOutline": {
+            borderColor: "#777",
+          },
+        }}
+        InputLabelProps={{
+          style: { color: "#ccc" },
+        }}
       />
-      <input type="file" onChange={handleFileChange} />
-      <button onClick={handleSubmit}>Upload File</button>
-      <Chat senderName={senderName} jobId={jobId} />{" "}
-      {/* Add the Chat component */}
-    </div>
+      
+      <Button
+        variant="contained"
+        component="label"
+        sx={{
+          width: "80%",
+          maxWidth: 500,
+          mb: 1,
+          backgroundColor: "#555",
+          "&:hover": {
+            backgroundColor: "#777",
+          },
+        }}
+      >
+        Choose File
+        <input type="file" hidden onChange={handleFileChange} />
+      </Button>
+
+      {fileName && (
+        <Typography variant="body2" sx={{ color: "#ccc", mb: 2 }}>
+          Selected file: {fileName}
+        </Typography>
+      )}
+
+      <Button
+        onClick={handleSubmit}
+        variant="contained"
+        sx={{
+          width: "80%",
+          maxWidth: 500,
+          backgroundColor: "#444",
+          color: "#fff",
+          fontWeight: "bold",
+          boxShadow: "2px 2px 5px rgba(0, 0, 0, 0.4)",
+          "&:hover": {
+            backgroundColor: "#666",
+          },
+        }}
+      >
+        Upload File
+      </Button>
+      <Chat userRole="Developer" /> {/* Add the Chat component */}
+    </Box>
   );
 };
 
