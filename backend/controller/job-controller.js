@@ -3,8 +3,11 @@ const {
   ref,
   uploadBytesResumable,
   getDownloadURL,
+  getMetadata,
+  getStream,
 } = require("firebase/storage");
 const storage = require("../config/firebase");
+const { Readable } = require("stream");
 
 const Job = require("../models/Jobs");
 const User = require("../models/User");
@@ -189,7 +192,36 @@ exports.uploadFile = [
   },
 ];
 
-// No authentication required
+exports.downloadFile = async (req, res, next) => {
+  try {
+    const { filePath } = req.params;
+    const decodedFilePath = decodeURIComponent(filePath);
+    const fileRef = ref(storage, decodedFilePath);
+
+    // Get the file metadata
+    const fileMetadata = await getMetadata(fileRef);
+    // console.log("File Metadata:", fileMetadata);
+
+    // Get the stream
+    const stream = getStream(fileRef);
+    
+    const nodeReadableStream = Readable.fromWeb(stream);
+
+    // Set appropriate headers
+    res.setHeader("Content-Type", fileMetadata.contentType);
+    res.setHeader(
+      "Content-Disposition",
+      `attachment; filename="${decodedFilePath.split("/").pop()}"`
+    );
+
+    // Pipe the stream to the response
+    nodeReadableStream.pipe(res);
+  } catch (error) {
+    console.error("Error downloading file:", error);
+    return res.status(500).json({ message: error.message });
+  }
+};
+
 exports.getAllJobs = async (req, res, next) => {
   try {
     // To show only open jobs

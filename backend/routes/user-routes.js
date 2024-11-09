@@ -99,4 +99,11 @@ router.get(
   jobController.getJobDetails
 );
 
+router.get(
+  "/job/download-file/:filePath",
+  verifyUserJWT,
+  apiRateLimit,
+  jobController.downloadFile
+);
+
 module.exports = router;

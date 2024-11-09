@@ -31,7 +31,7 @@ const DeveloperDashboard = () => {
         }
       );
       alert("File uploaded successfully");
-      console.log(response.data.url); // Log the URL of the uploaded file
+      console.log(response.data.url);
     } catch (error) {
       console.error(error);
       alert("Failed to upload file");
