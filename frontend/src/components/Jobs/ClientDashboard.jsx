@@ -12,6 +12,7 @@ import {
   Button,
 } from "@mui/material";
 import backgroundImage from "../../../assets/bg5.jpg";
+import Chat from "../Chat/Chat"; // Import the Chat component
 
 const ClientDashboard = () => {
   const { jobId } = useParams();
@@ -34,13 +35,16 @@ const ClientDashboard = () => {
     fetchJobDetails();
   }, [jobId]);
 
- const handleDownload = async (fileUrl) => {
+  const handleDownload = async (fileUrl) => {
     try {
-      const filePath = fileUrl.split('/o/')[1].split('?alt=media')[0];
+      const filePath = fileUrl.split("/o/")[1].split("?alt=media")[0];
       const encodedFilePath = encodeURIComponent(filePath);
-      const response = await axios.get(`/user/job/download-file/${encodedFilePath}`, {
-        responseType: "blob",
-      });
+      const response = await axios.get(
+        `/user/job/download-file/${encodedFilePath}`,
+        {
+          responseType: "blob",
+        }
+      );
       const blobUrl = window.URL.createObjectURL(new Blob([response.data]));
       const link = document.createElement("a");
       link.href = blobUrl;
@@ -89,13 +93,11 @@ const ClientDashboard = () => {
           >
             Project Dashboard
           </Typography>
-
           {error && (
             <Alert severity="error" sx={{ marginBottom: "1rem" }}>
               Error: {error.message}
             </Alert>
           )}
-
           {jobDetails ? (
             <Box>
               <Typography
@@ -157,7 +159,8 @@ const ClientDashboard = () => {
                 variant="body1"
                 sx={{ color: "#555", marginBottom: "0.8rem" }}
               >
-                <strong>Progress Status:</strong> {jobDetails.progressStatus || "N/A"}
+                <strong>Progress Status:</strong>{" "}
+                {jobDetails.progressStatus || "N/A"}
               </Typography>
               <Typography
                 variant="body1"
@@ -232,6 +235,7 @@ const ClientDashboard = () => {
               </Typography>
             </Box>
           )}
+          <Chat userRole="Client" /> {/* Add the Chat component */}
         </Paper>
       </Container>
     </Box>

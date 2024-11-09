@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import Chat from "../Chat/Chat"; // Import the Chat component
 
 const DeveloperDashboard = () => {
   const { jobId } = useParams();
@@ -48,6 +49,7 @@ const DeveloperDashboard = () => {
       />
       <input type="file" onChange={handleFileChange} />
       <button onClick={handleSubmit}>Upload File</button>
+      <Chat userRole="Developer" /> {/* Add the Chat component */}
     </div>
   );
 };
