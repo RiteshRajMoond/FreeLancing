@@ -9,6 +9,9 @@ const DeveloperDashboard = () => {
   const [status, setStatus] = useState("");
   const [file, setFile] = useState(null);
   const [fileName, setFileName] = useState("");
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
+  const [senderName, setSenderName] = useState("Developer Name"); // Replace with actual developer name
 
   const handleStatusChange = (e) => {
     setStatus(e.target.value);
@@ -35,7 +38,8 @@ const DeveloperDashboard = () => {
           },
         }
       );
-      alert("File uploaded successfully");
+      setSuccess("File uploaded successfully");
+      setError(null);
       console.log(response.data.url);
       
       // Reset file and fileName after successful upload
@@ -43,7 +47,8 @@ const DeveloperDashboard = () => {
       setFileName("");
     } catch (error) {
       console.error(error);
-      alert("Failed to upload file");
+      setError("Failed to upload file");
+      setSuccess(null);
     }
   };
 
