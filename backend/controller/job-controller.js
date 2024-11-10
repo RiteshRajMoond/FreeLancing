@@ -3,8 +3,11 @@ const {
   ref,
   uploadBytesResumable,
   getDownloadURL,
+  getMetadata,
+  getStream,
 } = require("firebase/storage");
-const { storage } = require("../config/firebase");
+const storage = require("../config/firebase");
+const { Readable } = require("stream");
 
 const Job = require("../models/Jobs");
 const User = require("../models/User");
@@ -130,7 +133,7 @@ exports.selectApplicant = async (req, res, next) => {
     if (applicant) {
       applicant.jobsSelected.push(jobId);
       await applicant.save();
-      
+
       sendEmail(
         applicant.email,
         "Job Application Accepted",
@@ -148,34 +151,77 @@ exports.uploadFile = [
   upload.single("file"),
   async (req, res, next) => {
     try {
-      if (!req.file)
+      if (!req.file) {
+        console.error("No file uploaded");
         return res.status(400).json({ message: "No file uploaded" });
+      }
 
       const { jobId } = req.params;
       const job = await Job.findById(jobId);
-      if (!job) return res.status(404).json({ message: "Job not found" });
+      if (!job) {
+        console.error("Job not found:", jobId);
+        return res.status(404).json({ message: "Job not found" });
+      }
 
       const dateTime = new Date().toISOString();
-      const storageRef = ref(storage, `files/${jobId}/${dateTime}`);
+      const storageRef = ref(storage, `files/${jobId}+${dateTime}`);
       const metadata = { contentType: req.file.mimetype };
+
+      console.log("Uploading file to Firebase Storage...");
       const snapshot = await uploadBytesResumable(
         storageRef,
         req.file.buffer,
         metadata
       );
+      console.log("File uploaded to Firebase Storage");
+
       const downloadUrl = await getDownloadURL(snapshot.ref);
+      console.log("Download URL obtained:", downloadUrl);
 
       job.submittedFiles.push(downloadUrl);
       await job.save();
+      console.log("File URL saved to job document");
 
-      return res.status(200).json({ message: "File uploaded successfully" });
+      return res
+        .status(200)
+        .json({ message: "File uploaded successfully", url: downloadUrl });
     } catch (error) {
+      console.error("Error uploading file:", error);
       return res.status(500).json({ message: error.message });
     }
   },
 ];
 
-// No authentication required
+exports.downloadFile = async (req, res, next) => {
+  try {
+    const { filePath } = req.params;
+    const decodedFilePath = decodeURIComponent(filePath);
+    const fileRef = ref(storage, decodedFilePath);
+
+    // Get the file metadata
+    const fileMetadata = await getMetadata(fileRef);
+    // console.log("File Metadata:", fileMetadata);
+
+    // Get the stream
+    const stream = getStream(fileRef);
+    
+    const nodeReadableStream = Readable.fromWeb(stream);
+
+    // Set appropriate headers
+    res.setHeader("Content-Type", fileMetadata.contentType);
+    res.setHeader(
+      "Content-Disposition",
+      `attachment; filename="${decodedFilePath.split("/").pop()}"`
+    );
+
+    // Pipe the stream to the response
+    nodeReadableStream.pipe(res);
+  } catch (error) {
+    console.error("Error downloading file:", error);
+    return res.status(500).json({ message: error.message });
+  }
+};
+
 exports.getAllJobs = async (req, res, next) => {
   try {
     // To show only open jobs

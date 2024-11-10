@@ -43,7 +43,12 @@ router.get(
   userController.getSelectedJobs
 );
 
-router.get("/job/all-jobs", verifyUserJWT, apiRateLimit, jobController.getAllJobs);
+router.get(
+  "/job/all-jobs",
+  verifyUserJWT,
+  apiRateLimit,
+  jobController.getAllJobs
+);
 
 router.post(
   "/job/create-job",
@@ -92,6 +97,13 @@ router.get(
   verifyUserJWT,
   apiRateLimit,
   jobController.getJobDetails
+);
+
+router.get(
+  "/job/download-file/:filePath",
+  verifyUserJWT,
+  apiRateLimit,
+  jobController.downloadFile
 );
 
 module.exports = router;

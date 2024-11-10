@@ -1,6 +1,14 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Container, Typography, Grid, Card, CardContent } from "@mui/material";
+import {
+  Container,
+  Typography,
+  Grid,
+  Card,
+  CardContent,
+  Button,
+  Box,
+} from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import backgroundImage from "../../../assets/bg5.jpg";
 
@@ -37,6 +45,10 @@ const JobList = () => {
     }
   };
 
+  const handleCreateJob = () => {
+    navigate("/create-job");
+  };
+
   // Styles for the background
   const backgroundStyle = {
     backgroundImage: `url(${backgroundImage})`,
@@ -44,34 +56,57 @@ const JobList = () => {
     backgroundPosition: "center",
     minHeight: "100vh",
     padding: "2rem 0",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
   };
 
   // Styles for the content container
   const contentStyle = {
-    marginTop: "2rem",
     backgroundColor: "rgba(255, 255, 255, 0.4)",
     padding: "2rem",
     borderRadius: "10px",
+    boxShadow: "0px 8px 16px rgba(0, 0, 0, 0.3)",
+    maxWidth: "1000px",
+    width: "90%",
   };
 
   return (
     <div style={backgroundStyle}>
       <Container style={contentStyle}>
-        <Typography
-          variant="h2"
-          align="center"
-          gutterBottom
-          style={{ color: "black", fontFamily: "fantasy" }}
-        >
-          Job List
-        </Typography>
+        <Box display="flex" justifyContent="space-between" alignItems="center" mb={3}>
+          <Typography
+            variant="h3"
+            align="center"
+            style={{ color: "#333", fontFamily: "fantasy" }}
+          >
+            Job List
+          </Typography>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleCreateJob}
+            sx={{
+              fontWeight: "bold",
+              backgroundColor: "#333",
+              "&:hover": {
+                backgroundColor: "#555",
+              },
+            }}
+          >
+            Create Job
+          </Button>
+        </Box>
+
         <Grid container spacing={3}>
           {jobs.map((job) => (
             <Grid item xs={12} sm={6} md={4} key={job._id}>
               <Card
                 style={{
+                  backgroundColor: "rgba(255, 255, 255, 0.5)",
                   borderRadius: "10px",
                   boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
+                  cursor: "pointer",
                 }}
                 onClick={() => handleJobClick(job._id)}
               >
@@ -79,6 +114,7 @@ const JobList = () => {
                   <Typography
                     variant="h5"
                     style={{ color: "#333", fontWeight: "bold" }}
+                    gutterBottom
                   >
                     {job.title}
                   </Typography>
