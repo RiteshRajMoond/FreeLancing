@@ -15,7 +15,8 @@ const server = require("http").createServer(app);
 
 // CORS config
 const corsOptions = {
-  origin: process.env.CLIENT_URL,
+  // origin: process.env.CLIENT_URL,
+  origin: "*",
   credentials: true,
 };
 

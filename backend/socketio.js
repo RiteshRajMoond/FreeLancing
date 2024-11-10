@@ -5,7 +5,8 @@ const Chats = require("./models/Chats");
 const setupSocket = (server) => {
   const io = socketio(server, {
     cors: {
-      origin: process.env.CLIENT_URL,
+      // origin: process.env.CLIENT_URL,
+      origin: "*",
       methods: ["GET", "POST"],
       credentials: true,
     },
