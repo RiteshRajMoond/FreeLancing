@@ -28,9 +28,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use("/api/v1/admin", adminRoutes);
 app.use("/api/v1/user", userRoutes);
 
-app.use("*", (req, res, next) => {
-  res.status(404).json({ message: "Route Not Found" });
-});
+// app.use("*", (req, res, next) => {
+//   res.status(404).json({ message: "Route Not Found" });
+// });
 
 setupSocket(server);
 
