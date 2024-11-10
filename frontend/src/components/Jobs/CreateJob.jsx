@@ -70,7 +70,7 @@ const CreateJob = () => {
   // Styles for the content container
   const contentStyle = {
     marginTop: '2rem',
-    backgroundColor: 'rgba(255, 255, 255, 0.8)', // Slightly less transparent for better visibility
+    backgroundColor: 'rgba(255, 255, 255, 0.6)', // Slightly less transparent for better visibility
     padding: '2rem',
     borderRadius: '10px',
     position: 'relative', // Positioned relative to overlay above the background
