@@ -5,7 +5,7 @@ const cors = require("cors");
 require("dotenv").config();
 
 const db = require("./config/db");
-const setupSocket = require('./socketio');
+const setupSocket = require("./socketio");
 
 const adminRoutes = require("./routes/admin-routes");
 const userRoutes = require("./routes/user-routes");
@@ -27,6 +27,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Routes
 app.use("/api/v1/admin", adminRoutes);
 app.use("/api/v1/user", userRoutes);
+
+app.use("*", (req, res, next) => {
+  res.status(404).json({ message: "Route Not Found" });
+});
 
 setupSocket(server);
 
