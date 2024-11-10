@@ -16,7 +16,9 @@ const Homepage = () => {
   const intervalTime = 4450;
   const updateInterval = 400;
 
-  const videos = ["../../assets/features.mp4"];
+  const videos = [
+    "https://firebasestorage.googleapis.com/v0/b/freelancing-2af5d.appspot.com/o/assets%2Ffeatures.mp4?alt=media&token=cfff7eae-4e26-40b9-80fa-c9ad3c882a99",
+  ];
 
   // Loop for updating progress
   useEffect(() => {
@@ -146,7 +148,8 @@ const Homepage = () => {
             position: "absolute",
             width: "100%",
             height: "100%",
-            backgroundImage: 'url("../../assets/ac.jpg")', // Replace with your image path
+            backgroundImage:
+              'url("https://firebasestorage.googleapis.com/v0/b/freelancing-2af5d.appspot.com/o/assets%2Fac.jpg?alt=media&token=da165a80-f00e-4ffe-ac34-e3cd9a236394")', // Replace with your image path
             backgroundSize: "cover",
             backgroundPosition: "center",
             backgroundColor: "rgba(0, 0, 0, 0.2)", // Semi-transparent overlay
@@ -186,7 +189,7 @@ const Homepage = () => {
             <Box
               key={index}
               sx={{
-                width:"30vw",
+                width: "30vw",
                 marginBottom: "1rem",
                 padding: "1.5rem",
                 backgroundColor: "rgba(235, 230, 230, 0.1)",
@@ -212,7 +215,7 @@ const Homepage = () => {
                 <LinearProgress
                   sx={{
                     marginBottom: "-23px",
-                    marginTop:"25px",
+                    marginTop: "25px",
                     height: "0.2px",
                     backgroundColor: "rgba(235, 230, 230, 0.1)",
                     "& .MuiLinearProgress-bar": {
@@ -229,7 +232,7 @@ const Homepage = () => {
         <Box
           sx={{
             width: "80vw",
-            height:"100%",
+            height: "100%",
             marginRight: "-20px",
             padding: "1rem",
             display: "flex",
@@ -247,7 +250,7 @@ const Homepage = () => {
             muted
             style={{
               width: "100%",
-              height:"100%",
+              height: "100%",
               borderRadius: "10px",
               borderRadius: "10px",
               // left: currentVideo === 0 ? "0" : "100%",

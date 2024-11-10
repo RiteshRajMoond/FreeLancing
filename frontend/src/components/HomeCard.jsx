@@ -50,9 +50,6 @@ const HomeCard = () => {
     },
   ];
 
-
-  
-  
   const containerRef = useRef(null);
 
   const [scrollPosition, setScrollPosition] = useState(0);

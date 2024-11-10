@@ -20,7 +20,7 @@ const DeveloperDashboard = () => {
   const handleFileChange = (e) => {
     const chosenFile = e.target.files[0];
     setFile(chosenFile);
-    setFileName(chosenFile ? chosenFile.name : "");  // Update file name state
+    setFileName(chosenFile ? chosenFile.name : ""); // Update file name state
   };
 
   const handleSubmit = async () => {
@@ -41,7 +41,7 @@ const DeveloperDashboard = () => {
       setSuccess("File uploaded successfully");
       setError(null);
       console.log(response.data.url);
-      
+
       // Reset file and fileName after successful upload
       setFile(null);
       setFileName("");
@@ -60,17 +60,19 @@ const DeveloperDashboard = () => {
         alignItems: "center",
         justifyContent: "center",
         minHeight: "100vh",
-        backgroundImage: `url('../../assets/bg5.jpg')`,
+        backgroundImage: `url('https://firebasestorage.googleapis.com/v0/b/freelancing-2af5d.appspot.com/o/assets%2Fbg5.jpg?alt=media&token=512cce5e-c5ff-4ed7-9a57-f84b5247e0b1')`,
         backgroundSize: "cover",
         backgroundPosition: "center",
         padding: 4,
         color: "#ffffff",
       }}
     >
-      <Typography variant="h4" sx={{ mb: 4, textShadow: "1px 1px 3px rgba(0, 0, 0, 0.8)" }}>
+      <Typography
+        variant="h4"
+        sx={{ mb: 4, textShadow: "1px 1px 3px rgba(0, 0, 0, 0.8)" }}
+      >
         Developer Dashboard
       </Typography>
-      
       <TextField
         label="Project Status"
         multiline
@@ -96,7 +98,6 @@ const DeveloperDashboard = () => {
           style: { color: "#ccc" },
         }}
       />
-      
       <Button
         variant="contained"
         component="label"
@@ -113,13 +114,11 @@ const DeveloperDashboard = () => {
         Choose File
         <input type="file" hidden onChange={handleFileChange} />
       </Button>
-
       {fileName && (
         <Typography variant="body2" sx={{ color: "#ccc", mb: 2 }}>
           Selected file: {fileName}
         </Typography>
       )}
-
       <Button
         onClick={handleSubmit}
         variant="contained"
