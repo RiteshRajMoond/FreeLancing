@@ -102,7 +102,7 @@ exports.signup = async (req, res, next) => {
       secure: process.env.NODE_ENV === "production",
       maxAge: 2 * 60 * 60 * 1000, // 2 hours
       path: "/",
-      sameSite: "strict",
+      sameSite: "None",
       signed: true,
     });
 
@@ -132,7 +132,7 @@ exports.login = async (req, res, next) => {
     res.clearCookie("adminJWT", {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
+      sameSite: "None",
       path: "/",
       signed: true,
     });
@@ -156,7 +156,7 @@ exports.login = async (req, res, next) => {
       secure: process.env.NODE_ENV === "production",
       maxAge: 2 * 60 * 60 * 1000, // 2 hours
       path: "/",
-      sameSite: "strict",
+      sameSite: "None",
       signed: true,
     });
 
@@ -177,7 +177,7 @@ exports.logout = async (req, res, next) => {
     res.clearCookie("adminJWT", {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
+      sameSite: "None",
       path: "/",
       signed: true,
     });
