@@ -13,7 +13,7 @@ const userRoutes = require("./routes/user-routes");
 const app = express();
 const server = require("http").createServer(app);
 
-// CORS config
+// CORS configuration
 const corsOptions = {
   origin: process.env.CLIENT_URL,
   credentials: true,
