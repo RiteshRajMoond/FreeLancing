@@ -13,7 +13,7 @@ import {
   Grid2,
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
-import backgroundImage from "../../../assets/bg6.jpg";
+import backgroundImage from "https://firebasestorage.googleapis.com/v0/b/freelancing-2af5d.appspot.com/o/assets%2Fbg6.jpg?alt=media&token=0ca7dd55-a193-4c80-948f-4b5f2bf8cf9f";
 import PersonalInfo from "./PersonalInfo";
 import Experience from "./Experience";
 import Education from "./Education";
@@ -195,13 +195,31 @@ const Dashboard = () => {
 
       {/* Image Selection Dialog */}
       <Dialog open={openModal} onClose={() => setOpenModal(false)}>
-        <Stack style={{ background: "linear-gradient(135deg, #000000, #333333, #666666)", padding: "3px", border:"1px solid gray"}}>
-          <DialogTitle style={{ textAlign: "center", color: "white" }}> Select an Image</DialogTitle>
+        <Stack
+          style={{
+            background: "linear-gradient(135deg, #000000, #333333, #666666)",
+            padding: "3px",
+            border: "1px solid gray",
+          }}
+        >
+          <DialogTitle style={{ textAlign: "center", color: "white" }}>
+            {" "}
+            Select an Image
+          </DialogTitle>
           <DialogContent>
-             <Grid2 container spacing={2}>
+            <Grid2 container spacing={2}>
               {sampleImages.map((img, index) => (
                 <Grid2 item xs={3} key={index}>
-                  <img src={img} alt={`Sample ${index + 1}`} style={{ height: "160px", width: "160px", cursor: "pointer", borderRadius: "50%", border: "3px solid #ffffff"}}
+                  <img
+                    src={img}
+                    alt={`Sample ${index + 1}`}
+                    style={{
+                      height: "160px",
+                      width: "160px",
+                      cursor: "pointer",
+                      borderRadius: "50%",
+                      border: "3px solid #ffffff",
+                    }}
                     onClick={() => setSelectedImage(img)}
                     onMouseEnter={(e) =>
                       (e.currentTarget.style.transform = "scale(1.1)")
