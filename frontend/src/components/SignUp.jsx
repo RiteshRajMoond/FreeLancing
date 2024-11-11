@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import {toast, Toaster} from "react-hot-toast";
+import { toast, Toaster } from "react-hot-toast";
 import {
   Select,
   Box,
@@ -72,7 +72,7 @@ const SignUp = () => {
         password: password,
       });
       toast.success("Login successful");
-      setTimeout(() => navigate("/"), 1000); 
+      setTimeout(() => navigate("/"), 1000);
     } catch (error) {
       toast.error("This is the error!\n", error);
     }
@@ -94,16 +94,19 @@ const SignUp = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if(role === 'option2') handleAdminSignup();
+    if (role === "option2") handleAdminSignup();
     else handleUserSignup();
-  }
+  };
 
   return (
     <Box sx={boxStyle1}>
       <video autoPlay loop muted style={vidStyle}>
-        <source src="../../assets/signUp.mp4" type="video/mp4" />
+        <source
+          src="https://firebasestorage.googleapis.com/v0/b/freelancing-2af5d.appspot.com/o/assets%2Fsignup.mp4?alt=media&token=c00fff8e-5864-4967-b3c6-93047fa87466"
+          type="video/mp4"
+        />
       </video>
-      <Toaster/>
+      <Toaster />
       <Box sx={boxStyle2}>
         <Typography variant="h4" sx={{ color: "#fff", marginBottom: "20px" }}>
           {" "}
@@ -231,7 +234,7 @@ const SignUp = () => {
                   borderBottomColor: "rgb(66, 66, 66)",
                 },
                 "& .MuiFilledInput-underline:after": {
-                  borderBottom: "rgb(66, 66, 66)", 
+                  borderBottom: "rgb(66, 66, 66)",
                 },
               }}
               variant="filled"
@@ -253,6 +256,5 @@ const SignUp = () => {
     </Box>
   );
 };
-
 
 export default SignUp;
