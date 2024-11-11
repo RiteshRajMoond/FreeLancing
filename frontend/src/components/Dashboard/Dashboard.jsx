@@ -18,20 +18,6 @@ import Experience from "./Experience";
 import Education from "./Education";
 import axios from "axios";
 
-const sampleImages = [
-  "../../../assets/PP1.jpg",
-  "../../../assets/PP2.jpg",
-  "../../../assets/PP3.jpg",
-  "../../../assets/PP4.jpg",
-  "../../../assets/PP5.jpg",
-  "../../../assets/PP6.jpg",
-  "../../../assets/PP7.jpg",
-  "../../../assets/PP8.jpg",
-  "../../../assets/PP9.jpg",
-  "../../../assets/PP10.jpg",
-  "../../../assets/PP11.jpg",
-];
-
 const Dashboard = () => {
   const linkStyle = {
     color: "#ff9800",
@@ -80,7 +66,9 @@ const Dashboard = () => {
   };
 
   const [activeSection, setActiveSection] = useState("personalInfo");
-  const [imageLink, setImageLink] = useState("../../../assets/PP1.jpg");
+  const [imageLink, setImageLink] = useState(
+    "https://firebasestorage.googleapis.com/v0/b/freelancing-2af5d.appspot.com/o/assets%2FPP1.jpg?alt=media&token=914efc65-e9b1-4ca1-b9ab-1d1bdb2ca564"
+  );
   const [isEditing, setIsEditing] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [selectedImage, setSelectedImage] = useState("");

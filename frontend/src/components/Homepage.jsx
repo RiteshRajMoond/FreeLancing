@@ -16,7 +16,9 @@ const Homepage = () => {
   const intervalTime = 4450;
   const updateInterval = 400;
 
-  const videos = ["../../assets/features.mp4"];
+  const videos = [
+    "https://firebasestorage.googleapis.com/v0/b/freelancing-2af5d.appspot.com/o/assets%2Ffeatures.mp4?alt=media&token=cfff7eae-4e26-40b9-80fa-c9ad3c882a99",
+  ];
 
   // Loop for updating progress
   useEffect(() => {
