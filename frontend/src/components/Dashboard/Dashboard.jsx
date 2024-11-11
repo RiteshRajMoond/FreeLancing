@@ -13,7 +13,6 @@ import {
   Grid2,
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
-import backgroundImage from "https://firebasestorage.googleapis.com/v0/b/freelancing-2af5d.appspot.com/o/assets%2Fbg6.jpg?alt=media&token=0ca7dd55-a193-4c80-948f-4b5f2bf8cf9f";
 import PersonalInfo from "./PersonalInfo";
 import Experience from "./Experience";
 import Education from "./Education";
@@ -51,7 +50,7 @@ const Dashboard = () => {
     left: 0,
     width: "100vw",
     height: "100vh",
-    backgroundImage: `url(${backgroundImage})`,
+    backgroundImage: `url(https://firebasestorage.googleapis.com/v0/b/freelancing-2af5d.appspot.com/o/assets%2Fbg6.jpg?alt=media&token=0ca7dd55-a193-4c80-948f-4b5f2bf8cf9f)`,
     backgroundSize: "cover",
     backgroundPosition: "center",
     zIndex: -1, // Keep the background behind other content
