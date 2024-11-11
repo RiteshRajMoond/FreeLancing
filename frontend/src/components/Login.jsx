@@ -70,7 +70,7 @@ const Login = () => {
       if (resp.status == 201) {
         // localStorage.setItem('userJWT', resp.data.token);
         toast.success("Login successful");
-        setTimeout(() => navigate("/"), 1000); 
+        setTimeout(() => navigate("/"), 1000);
       }
     } catch (error) {
       if (error.response && error.response.status !== 201) {
@@ -87,7 +87,7 @@ const Login = () => {
       const resp = await axios.post("/admin/login", { email, password });
       if (resp.status === 201) {
         toast.success("Admin Login successful");
-        setTimeout(() => navigate("/"), 1000); 
+        setTimeout(() => navigate("/"), 1000);
       }
     } catch (error) {
       if (error.response && error.response.status !== 201) {
@@ -107,7 +107,10 @@ const Login = () => {
   return (
     <Box sx={boxStyle1}>
       <video autoPlay loop muted style={vidStyle}>
-        <source src="../../assets/login.mp4" type="video/mp4" />
+        <source
+          src="https://firebasestorage.googleapis.com/v0/b/freelancing-2af5d.appspot.com/o/assets%2Flogin.mp4?alt=media&token=15af14bb-569b-4150-a51e-d96f42ad0279"
+          type="video/mp4"
+        />
       </video>
       <Toaster />
       <Box sx={boxStyle2}>
