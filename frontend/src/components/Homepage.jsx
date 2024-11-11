@@ -16,7 +16,7 @@ const Homepage = () => {
   const intervalTime = 4450;
   const updateInterval = 400;
 
-  // const videos = ["../../assets/features.mp4"];
+  const videos = ["../../assets/features.mp4"];
 
   // Loop for updating progress
   useEffect(() => {
@@ -72,7 +72,7 @@ const Homepage = () => {
       videoRef.current.onloadeddata = () => {
         videoRef.current
           .play()
-          .catch((err) => console.error("Error playing video: ", error));
+          .catch((err) => console.error("Error playing video: ", err));
       };
     }
   }, [currentVideo]);
