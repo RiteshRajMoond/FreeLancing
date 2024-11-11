@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
-import {toast, Toaster} from "react-hot-toast";
+import { toast, Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import {
   Container,
@@ -18,7 +18,6 @@ import {
   Button,
   Divider,
 } from "@mui/material";
-import backgroundImage from "../../../assets/bg5.jpg";
 
 const JobApplicants = () => {
   const navigate = useNavigate();
@@ -54,8 +53,10 @@ const JobApplicants = () => {
         jobId,
         applicantId: selectedApplicantId,
       });
-      toast.success("Applicant selected successfully,  email has been sent to the applicant");
-      setTimeout(()=> navigate('/joblist'), 1000);
+      toast.success(
+        "Applicant selected successfully,  email has been sent to the applicant"
+      );
+      setTimeout(() => navigate("/joblist"), 1000);
     } catch (error) {
       console.error(error);
       toast.error("Failed to select applicant. Please try again.");
@@ -64,7 +65,7 @@ const JobApplicants = () => {
 
   // Background and card styling
   const backgroundStyle = {
-    backgroundImage: `url(${backgroundImage})`,
+    backgroundImage: `url(https://firebasestorage.googleapis.com/v0/b/freelancing-2af5d.appspot.com/o/assets%2Fbg5.jpg?alt=media&token=512cce5e-c5ff-4ed7-9a57-f84b5247e0b1)`,
     backgroundSize: "cover",
     backgroundPosition: "center",
     minHeight: "100vh",
@@ -121,7 +122,7 @@ const JobApplicants = () => {
 
   return (
     <div style={backgroundStyle}>
-      <Toaster/>
+      <Toaster />
       <Container style={contentStyle}>
         <Typography variant="h4" align="center" gutterBottom>
           Applicants for Job
@@ -198,7 +199,7 @@ const JobApplicants = () => {
                         >
                           LinkedIn
                         </MuiLink>
-                      
+
                         <MuiLink
                           href={applicant.socialMedia.github}
                           target="_blank"

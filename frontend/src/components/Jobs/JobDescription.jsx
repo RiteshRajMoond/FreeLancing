@@ -21,7 +21,7 @@ import {
 } from "@mui/icons-material";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import {toast, Toaster} from 'react-hot-toast';
+import { toast, Toaster } from "react-hot-toast";
 
 const JobDescription = () => {
   const navigate = useNavigate();
@@ -40,7 +40,7 @@ const JobDescription = () => {
       const resp = await axios.post("/user/job/apply-job", { jobId: job._id });
       console.log(resp.data);
       toast.success(resp.data.message);
-      setTimeout(() =>navigate('/alljobs'), 1000);
+      setTimeout(() => navigate("/alljobs"), 1000);
     } catch (error) {
       console.error(error);
       toast.error("Failed to apply, already applied");
@@ -67,12 +67,12 @@ const JobDescription = () => {
 
   return (
     <>
-    <Toaster/>
+      <Toaster />
       <Card
         style={{ height: "30vh", position: "relative", overflow: "hidden" }}
       >
         <img
-          src="../../assets/bg5.jpg"
+          src="https://firebasestorage.googleapis.com/v0/b/freelancing-2af5d.appspot.com/o/assets%2Fbg5.jpg?alt=media&token=512cce5e-c5ff-4ed7-9a57-f84b5247e0b1"
           alt="Background"
           style={{
             width: "100%",
@@ -195,7 +195,12 @@ const JobDescription = () => {
         </Container>
 
         <Container style={containerStyle2}>
-          <Button fullWidth variant="contained" style={{ height: "50px" }} onClick={handleApply}>
+          <Button
+            fullWidth
+            variant="contained"
+            style={{ height: "50px" }}
+            onClick={handleApply}
+          >
             Select this project
           </Button>
           <Divider style={dividerStyle} />
@@ -237,7 +242,9 @@ const JobDescription = () => {
             color="text.secondary"
             style={{ marginBottom: "10px" }}
           >
-            🕛 Member since: {new Date(job.postedBy.createdAt).toLocaleDateString() || "Unknown Date"}
+            🕛 Member since:{" "}
+            {new Date(job.postedBy.createdAt).toLocaleDateString() ||
+              "Unknown Date"}
           </Typography>
 
           <Divider style={dividerStyle} />

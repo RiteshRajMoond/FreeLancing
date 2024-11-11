@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Container, Typography, Grid, Card, CardContent } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import backgroundImage from "../../../assets/bg5.jpg";
 
 const DeveloperJobList = () => {
   const [jobs, setJobs] = useState([]);
@@ -28,7 +27,7 @@ const DeveloperJobList = () => {
 
   // Styles for the background
   const backgroundStyle = {
-    backgroundImage: `url(${backgroundImage})`,
+    backgroundImage: `url(https://firebasestorage.googleapis.com/v0/b/freelancing-2af5d.appspot.com/o/assets%2Fbg5.jpg?alt=media&token=512cce5e-c5ff-4ed7-9a57-f84b5247e0b1)`,
     backgroundSize: "cover",
     backgroundPosition: "center",
     minHeight: "100vh",
