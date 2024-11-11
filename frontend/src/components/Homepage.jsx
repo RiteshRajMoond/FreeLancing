@@ -18,7 +18,7 @@ const Homepage = () => {
 
   const videos = ["../../assets/features.mp4"];
 
-  // Loop for updating progress
+  // Loop for updating progress 
   useEffect(() => {
     let interval;
 
