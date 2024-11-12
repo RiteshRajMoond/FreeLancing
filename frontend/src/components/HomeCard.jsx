@@ -16,7 +16,7 @@ const HomeCard = () => {
       title: "Web Development",
       value: "500+",
       description: "Websites and applications delivered",
-      borderColor: "#a565ff", 
+      borderColor: "#a565ff",
     },
     {
       title: "Graphic Design",
@@ -34,7 +34,7 @@ const HomeCard = () => {
       title: "Content Writing",
       value: "1M+",
       description: "Words written for blogs, websites, and marketing",
-      borderColor: "#4dbaff",  
+      borderColor: "#4dbaff",
     },
     {
       title: "Digital Marketing",
@@ -46,13 +46,10 @@ const HomeCard = () => {
       title: "Mobile App Development",
       value: "100+",
       description: "Mobile apps developed across iOS and Android",
-      borderColor: "#ffeb3b", 
+      borderColor: "#ffeb3b",
     },
   ];
 
-
-  
-  
   const containerRef = useRef(null);
 
   const [scrollPosition, setScrollPosition] = useState(0);
@@ -160,7 +157,7 @@ const HomeCard = () => {
               minHeight: "250px", // Reduced height
               color: "#fff",
               border: `2px solid ${card.borderColor}`,
-              borderRadius : "10%",
+              borderRadius: "10%",
               transition: "border-color 0.3s",
               backgroundColor: "#111",
               "&:hover": {
@@ -168,7 +165,7 @@ const HomeCard = () => {
                 border: "none",
                 backgroundColor: `${card.borderColor}`,
                 color: "#111",
-                boxShadow:`0 0 8px 5px ${card.borderColor}`
+                boxShadow: `0 0 8px 5px ${card.borderColor}`,
               },
             }}
           >

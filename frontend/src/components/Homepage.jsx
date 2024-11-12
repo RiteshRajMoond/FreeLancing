@@ -264,8 +264,6 @@ const Homepage = () => {
               type="video/mp4"
             ></source>
           </video>
-
-          {/* <img src="../../assets/ac.jpg" alt="" /> */}
         </Box>
       </Box>
     </>

@@ -145,15 +145,7 @@ const JobDescription = () => {
                 color="text.secondary"
                 style={{ marginBottom: "10px", marginTop: "20px" }}
               >
-                <strong>Description:</strong> {job.description} Lorem ipsum
-                dolor sit, amet consectetur adipisicing elit. Atque ipsam libero
-                beatae, facilis molestiae quae voluptates nisi accusantium?
-                Consequuntur dolor quibusdam dignissimos pariatur fuga odit
-                minima earum sapiente facere qui! Non, maiores! Temporibus quae
-                voluptas magnam, delectus eveniet distinctio exercitationem,
-                inventore vitae quam dolorum omnis nulla sunt, quisquam unde
-                accusamus molestias harum laudantium id? Facere quisquam
-                consequatur repellat tempora magni.
+                <strong>Description:</strong> {job.description || ""}
               </Typography>
 
               <Typography
