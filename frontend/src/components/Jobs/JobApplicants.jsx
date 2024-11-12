@@ -34,7 +34,6 @@ const JobApplicants = () => {
           params: { jobId },
         });
         setApplicants(response.data.applicants);
-        console.log(response.data);
       } catch (error) {
         console.error(error);
       }
@@ -139,7 +138,7 @@ const JobApplicants = () => {
                   <CardContent>
                     <Stack direction="row" spacing={2} alignItems="center">
                       <Avatar style={avatarStyle}>
-                        {applicant.firstName.charAt(0)}
+                        {applicant.firstName ? applicant.firstName.charAt(0) : "?"}
                       </Avatar>
                       <Typography variant="h6" style={labelStyle}>
                         {applicant.firstName} {applicant.lastName}
