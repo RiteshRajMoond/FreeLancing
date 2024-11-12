@@ -46,7 +46,7 @@ self.addEventListener("activate", (event) => {
 });
 
 self.addEventListener("fetch", (event) => {
-  if (event.request.url.includes(`${import.meta.env.VITE_SERVER_URL}/api/v1`)) {
+  if (event.request.url.includes(`/api/v1`)) {
     return fetch(event.request);
   }
 
