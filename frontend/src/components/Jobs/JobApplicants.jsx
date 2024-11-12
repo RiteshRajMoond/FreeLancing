@@ -34,7 +34,6 @@ const JobApplicants = () => {
           params: { jobId },
         });
         setApplicants(response.data.applicants);
-        console.log(response.data.applicants);
       } catch (error) {
         console.error(error);
       }
