@@ -104,7 +104,7 @@ exports.getJobApplicants = async (req, res, next) => {
 
     const applicantIds = job.applicants.map((applicant) => applicant.userId);
     const applicants = await User.find({ _id: { $in: applicantIds } });
-
+    
     return res.status(200).json({ applicants });
   } catch (error) {
     return res.status(500).json({ message: error.message });
