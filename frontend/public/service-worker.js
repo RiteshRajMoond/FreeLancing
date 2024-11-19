@@ -86,7 +86,7 @@ workbox.precaching.precacheAndRoute(STATIC_ASSETS);
 
 // videos
 workbox.routing.registerRoute(
-  ({ req }) => req.destination === "video",
+  ({ request }) => request.destination === "video",
   new workbox.strategies.CacheFirst({
     cacheName: `${CACHE_NAME}-videos`,
     plugins: [
