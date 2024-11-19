@@ -1,4 +1,4 @@
-importScripts("node_modules/workbox-sw/build/workbox-sw.js");
+importScripts('https://storage.googleapis.com/workbox-cdn/releases/6.4.1/workbox-sw.js');
 
 workbox.setConfig({ debug: false });
 
@@ -34,8 +34,8 @@ workbox.routing.registerRoute(
     cacheName: CACHE_NAME,
     plugins: [
       new workbox.expiration.ExpirationPlugin({
-        maxEntries: 50, // Adjust the number of entries as needed
-        maxAgeSeconds: 30 * 24 * 60 * 60, // Cache for 30 Days
+        maxEntries: 50, 
+        maxAgeSeconds: 24 * 60 * 60, 
       }),
     ],
   })
@@ -51,7 +51,7 @@ workbox.routing.registerRoute(
     plugins: [
       new workbox.expiration.ExpirationPlugin({
         maxEntries: 50,
-        maxAgeSeconds: 30 * 24 * 60 * 60,
+        maxAgeSeconds: 24 * 60 * 60,
       }),
     ],
   })
