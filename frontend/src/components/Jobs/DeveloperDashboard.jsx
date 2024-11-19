@@ -40,7 +40,7 @@ const DeveloperDashboard = () => {
       );
       setSuccess("File uploaded successfully");
       setError(null);
-      console.log(response.data.url);
+      // console.log(response.data.url);
 
       // Reset file and fileName after successful upload
       setFile(null);

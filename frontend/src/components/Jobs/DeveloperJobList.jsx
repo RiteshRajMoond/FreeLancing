@@ -11,7 +11,7 @@ const DeveloperJobList = () => {
     const fetchSelectedJobs = async () => {
       try {
         const response = await axios.get("/user/selected-jobs");
-        console.log(response.data.jobs);
+        // console.log(response.data.jobs);
         setJobs(response.data.jobs);
       } catch (error) {
         console.error("Error fetching selected jobs:", error);

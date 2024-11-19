@@ -22,9 +22,9 @@ const ClientDashboard = () => {
   useEffect(() => {
     const fetchJobDetails = async () => {
       try {
-        console.log("Fetching job details for jobId:", jobId);
+        // console.log("Fetching job details for jobId:", jobId);
         const response = await axios.get(`/user/job/get-job/${jobId}`);
-        console.log("Job details fetched:", response.data);
+        // console.log("Job details fetched:", response.data);
         setJobDetails(response.data.job);
       } catch (error) {
         console.error("Error fetching job details:", error);

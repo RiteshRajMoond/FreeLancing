@@ -86,7 +86,7 @@ const SignUp = () => {
         password: password,
         inviteJWT: token,
       });
-      console.log("Admin signed Up!", res);
+      // console.log("Admin signed Up!", res);
     } catch (error) {
       console.error("This is the error!\n", error);
     }

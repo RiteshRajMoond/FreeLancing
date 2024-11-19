@@ -97,7 +97,7 @@ const Dashboard = () => {
       const resp = await axios.get("/user/get-user");
       setUserData(resp.data.user);
       setImageLink(resp.data.user.profilePicture || imageLink);
-      console.log(resp.data.user);
+      // console.log(resp.data.user);
     } catch (error) {
       console.log(error);
     }

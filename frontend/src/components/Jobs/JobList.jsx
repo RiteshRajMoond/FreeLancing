@@ -20,7 +20,7 @@ const JobList = () => {
       try {
         const response = await axios.get("/user/job/user-jobs");
         setJobs(response.data.jobs);
-        console.log(response.data.jobs);
+        // console.log(response.data.jobs);
       } catch (error) {
         console.error(error);
       }

@@ -27,7 +27,7 @@ const JobDescription = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { job } = location.state || {};
-  console.log("Received job data:", job);
+  // console.log("Received job data:", job);
 
   const [status, setStatus] = useState("open");
 
@@ -38,7 +38,7 @@ const JobDescription = () => {
   const handleApply = async () => {
     try {
       const resp = await axios.post("/user/job/apply-job", { jobId: job._id });
-      console.log(resp.data);
+      // console.log(resp.data);
       toast.success(resp.data.message);
       setTimeout(() => navigate("/alljobs"), 1000);
     } catch (error) {
