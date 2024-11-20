@@ -58,7 +58,8 @@ const HomeCard = () => {
 
   const handleScrollLeft = () => {
     if (containerRef.current) {
-      const newPosition = Math.max(scrollPosition - 300, 0);
+      const containerWidth = containerRef.current.clientWidth;
+      const newPosition = Math.max(scrollPosition - containerWidth, 0);
       containerRef.current.scrollTo({
         left: newPosition,
         behavior: "smooth",
@@ -69,8 +70,9 @@ const HomeCard = () => {
 
   const handleScrollRight = () => {
     if (containerRef.current) {
+      const containerWidth = containerRef.current.clientWidth;
       const newPosition = Math.min(
-        scrollPosition + 300,
+        scrollPosition + containerWidth,
         containerRef.current.scrollWidth - containerRef.current.clientWidth
       );
       containerRef.current.scrollTo({
@@ -108,6 +110,7 @@ const HomeCard = () => {
           marginTop: "70px",
           fontWeight: "bold",
           color: "#fff",
+          fontSize: { xs: "1.5rem", sm: "2rem", md: "2.5rem" },
         }}
       >
         Trusted and utilized by our precious clients
@@ -121,6 +124,7 @@ const HomeCard = () => {
           marginBottom: "20px",
           fontWeight: "bold",
           color: "#fff",
+          fontSize: { xs: "1rem", sm: "1.25rem", md: "1.5rem" },
         }}
       >
         Services we provide💻
@@ -130,7 +134,7 @@ const HomeCard = () => {
         disabled={isAtStart}
         sx={{
           position: "absolute",
-          left: "10px",
+          left: { xs: "5px", md: "10px" },
           top: "65%",
           transform: "translateY(-50%)",
           zIndex: 1,
@@ -142,19 +146,22 @@ const HomeCard = () => {
       <Box
         ref={containerRef}
         sx={{
-          overflowX: "hidden",
           display: "flex",
           gap: "20px",
           padding: "40px 0",
-          scrollBehaviour: "smooth",
+          overflowX: "auto",
+          scrollBehavior: "smooth",
+          "&::-webkit-scrollbar": {
+            display: "none",
+          },
         }}
       >
         {cards.map((card, index) => (
           <Card
             key={index}
             sx={{
-              minWidth: "350px", // Reduced width
-              minHeight: "250px", // Reduced height
+              minWidth: { xs: "250px", sm: "300px", md: "350px" },
+              minHeight: { xs: "200px", sm: "220px", md: "250px" }, // Reduced height
               color: "#fff",
               border: `2px solid ${card.borderColor}`,
               borderRadius: "10%",
@@ -207,7 +214,7 @@ const HomeCard = () => {
         disabled={isAtEnd}
         sx={{
           position: "absolute",
-          right: "10px",
+          right: { xs: "5px", md: "10px" },
           top: "65%",
           transform: "translateY(-50%)",
           zIndex: 1,
