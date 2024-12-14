@@ -1,212 +1,178 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import { toast, Toaster } from "react-hot-toast";
-import {
-  Box,
-  Button,
-  TextField,
-  Typography,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-} from "@mui/material";
+import React, { useState } from 'react';
+import { CssVarsProvider, extendTheme } from '@mui/joy/styles';
+import GlobalStyles from '@mui/joy/GlobalStyles';
+import CssBaseline from '@mui/joy/CssBaseline';
+import Box from '@mui/joy/Box';
+import Button from '@mui/joy/Button';
+import Checkbox from '@mui/joy/Checkbox';
+import Divider from '@mui/joy/Divider';
+import FormControl from '@mui/joy/FormControl';
+import FormLabel from '@mui/joy/FormLabel';
+import Input from '@mui/joy/Input';
+import Typography from '@mui/joy/Typography';
+import { useNavigate, Link as Lk } from 'react-router-dom';
+import { toast } from 'react-hot-toast';
+import axios from 'axios';
 
-const Login = () => {
-  const vidStyle = {
-    position: "fixed",
-    width: "100%",
-    height: "100%",
-    top: "50%",
-    left: "50%",
-    objectFit: "cover",
-    transform: "translate(-50%, -50%)",
-    zIndex: "-1",
-  };
-  const inputStyle = {
-    margin: "10px 0",
-    backgroundColor: "rgba(255, 255, 255, 0.5)",
-    borderRadius: "10px",
-  };
-  const buttonStyle = {
-    backgroundColor: "#191f3d",
-    color: "white",
-    padding: "10px",
-    marginTop: "20px",
-    "&:hover": { backgroundColor: "#d40000" },
-  };
-  const boxStyle1 = {
-    marginLeft: "470px",
-    position: "relative",
-    height: "100vh",
-    overflow: "hidden",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-  };
-  const boxStyle2 = {
-    position: "relative",
-    zIndex: 1,
-    backgroundColor: "rgba(255, 255, 255, 0.2)",
-    padding: "40px",
-    borderRadius: "10px",
-    textAlign: "center",
-    maxWidth: "400px",
-    width: "100%",
-    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
-  };
+const customTheme = extendTheme({ defaultColorScheme: 'dark' });
 
-  // const[name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [role, setRole] = useState("user");
-
+export default function Login() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [role, setRole] = useState('user');
   const navigate = useNavigate();
 
   const handleUserLogin = async () => {
     try {
-      const resp = await axios.post("/user/login", { email, password });
-      if (resp.status == 201) {
-        // localStorage.setItem('userJWT', resp.data.token);
-        toast.success("Login successful");
-        setTimeout(() => navigate("/"), 1000); 
+      const resp = await axios.post('/user/login', { email, password });
+      if (resp.status === 201) {
+        toast.success('Login successful');
+        setTimeout(() => navigate('/'), 1000);
       }
     } catch (error) {
       if (error.response && error.response.status !== 201) {
-        toast.error("Invalid Credentials");
+        toast.error('Invalid Credentials');
       } else {
-        toast.error("Internal server error");
+        toast.error('Internal server error');
       }
-      navigate("/login");
+      navigate('/login');
     }
   };
 
   const handleAdminLogin = async () => {
     try {
-      const resp = await axios.post("/admin/login", { email, password });
+      const resp = await axios.post('/admin/login', { email, password });
       if (resp.status === 201) {
-        toast.success("Admin Login successful");
-        setTimeout(() => navigate("/"), 1000); 
+        toast.success('Admin Login successful');
+        setTimeout(() => navigate('/'), 1000);
       }
     } catch (error) {
       if (error.response && error.response.status !== 201) {
-        alert("Invalid Credentials");
+        toast.error('Invalid Credentials');
       } else {
-        alert("Internal server error");
+        toast.error('Internal server error');
       }
     }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (role === "admin") handleAdminLogin();
+    if (role === 'admin') handleAdminLogin();
     else handleUserLogin();
   };
 
   return (
-    <Box sx={boxStyle1}>
-      <video autoPlay loop muted style={vidStyle}>
-        <source src="../../assets/login.mp4" type="video/mp4" />
-      </video>
-      <Toaster />
-      <Box sx={boxStyle2}>
-        <Typography variant="h4" sx={{ color: "#fff", marginBottom: "20px" }}>
-          {" "}
-          Login{" "}
-        </Typography>
-        <form onSubmit={handleSubmit}>
-          <TextField
-            sx={{
-              "& .MuiInputLabel-root": {
-                "&.Mui-focused": {
-                  color: "rgb(66, 66, 66)", // Label color when focused
-                },
-              },
-              "& .MuiFilledInput-underline:before": {
-                borderBottomColor: "rgb(66, 66, 66)", // Remove default underline
-              },
-              "& .MuiFilledInput-underline:after": {
-                borderBottom: "rgb(66, 66, 66)", // Remove underline on focus
-              },
-            }}
-            variant="filled"
-            onChange={(e) => {
-              setEmail(e.target.value);
-            }}
-            name="email"
-            required
-            label="Email"
-            type="text"
-            fullWidth
-            style={inputStyle}
-          />
-          <TextField
-            sx={{
-              "& .MuiInputLabel-root": {
-                "&.Mui-focused": {
-                  color: "rgb(66, 66, 66)", // Label color when focused
-                },
-              },
-              "& .MuiFilledInput-underline:before": {
-                borderBottom: "none", // Remove default underline
-              },
-              "& .MuiFilledInput-underline:after": {
-                borderBottom: "none", // Remove underline on focus
-              },
-            }}
-            variant="filled"
-            onChange={(e) => {
-              setPassword(e.target.value);
-            }}
-            name="password"
-            required
-            label="Password"
-            type="password"
-            fullWidth
-            style={inputStyle}
-          />
-          <FormControl
-            variant="filled"
-            style={inputStyle}
-            fullWidth
-            sx={{
-              "& .MuiInputLabel-root": {
-                "&.Mui-focused": {
-                  color: "rgb(66, 66, 66)", // Label color when focused
-                },
-              },
-              "& .MuiFilledInput-underline:before": {
-                borderBottomColor: "rgb(66, 66, 66)", // Remove default underline
-              },
-              "& .MuiFilledInput-underline:after": {
-                borderBottom: "none", // Remove underline on focus
-              },
-              "& .MuiOutlinedInput-root": {
-                "&.Mui-focused fieldset": {
-                  borderColor: "transparent", // Remove the blue border on focus
-                },
-              },
-            }}
+    <CssVarsProvider theme={customTheme} disableTransitionOnChange>
+      <CssBaseline />
+      <GlobalStyles
+        styles={{
+          ':root': {
+            '--Form-maxWidth': '800px',
+            '--Transition-duration': '0.4s',
+          },
+        }}
+      />
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '100vh',
+          position: 'relative',
+          zIndex: 1,
+          backdropFilter: 'blur(1px)',
+        }}
+      >
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            px: 3,
+            py: 4,
+            width: 400,
+            maxWidth: '90%',
+            borderRadius: '50px',
+            backgroundColor: 'rgba(255, 255, 255, 0.6)',
+            boxShadow: '0 4px 10px rgba(0, 0, 0, 0.2)',
+            backdropFilter: 'blur(10px)',
+            '& form': {
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 2,
+            },
+          }}
+        >
+          <Box
+            component="header"
+            sx={{ py: 2, display: 'flex', justifyContent: 'center' }}
           >
-            <InputLabel id="select-label">Login as</InputLabel>
-            <Select
-              labelId="select-label"
-              label="Login as"
-              value={role}
-              onChange={(e) => setRole(e.target.value)}
-            >
-              <MenuItem value="user">User</MenuItem>
-              <MenuItem value="admin">Admin</MenuItem>
-            </Select>
-          </FormControl>
-          <Button type="submit" variant="contained" style={buttonStyle}>
-            Login
-          </Button>
-        </form>
+            <Typography component="h1" level="h4">
+              Sign In
+            </Typography>
+          </Box>
+          <Divider />
+          <Box component="main">
+            <form onSubmit={handleSubmit}>
+              <FormControl required>
+                <FormLabel>Email</FormLabel>
+                <Input
+                  type="email"
+                  name="email"
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </FormControl>
+              <FormControl required>
+                <FormLabel>Password</FormLabel>
+                <Input
+                  type="password"
+                  name="password"
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </FormControl>
+              <Box
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}
+              >
+                <Checkbox size="sm" label="Remember me" name="persistent" />
+                <Lk to="/forgot-password" style={{ textDecoration: 'none' }}>
+                  <Typography level="body-sm" color="primary">
+                    Forgot your password?
+                  </Typography>
+                </Lk>
+              </Box>
+              <Button type="submit" fullWidth>
+                Sign in
+              </Button>
+            </form>
+          </Box>
+          <Box component="footer" sx={{ py: 3, textAlign: 'center' }}>
+            <Typography level="body-xs">
+              New to the company?{' '}
+              <Lk to="/signup" style={{ textDecoration: 'none' }}>
+                Sign up!
+              </Lk>
+            </Typography>
+          </Box>
+        </Box>
       </Box>
-    </Box>
+      <Box
+        sx={{
+          height: '100%',
+          position: 'fixed',
+          top: 0,
+          bottom: 0,
+          left: 0,
+          right: 0,
+          zIndex: 0,
+          backgroundImage: 'url("../../assets/water.jpg")',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          // filter: 'blur(2px)',
+        }}
+      />
+    </CssVarsProvider>
   );
-};
-
-export default Login;
+}

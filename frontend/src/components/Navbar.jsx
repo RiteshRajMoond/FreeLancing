@@ -8,7 +8,6 @@ import axios from "axios";
 export default function Navbar() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  // Call checkLoginStatus when the component mounts
   useEffect(() => {
     const checkLoginStatus = async () => {
       try {
@@ -25,42 +24,61 @@ export default function Navbar() {
   const btnStyle = {
     marginRight: "20px",
     padding: "0.3rem 1.4rem",
-    backgroundColor: "transparent",
-    color: "rgb(235, 230, 230)",
+    backgroundColor: "teal",
+    color: "white",
     borderRadius: "40px",
-    fontFamily: "fantasy",
+    fontFamily: "Poppins, sans-serif",
+    fontWeight: "bold",
+    textTransform: "capitalize",
+    transition: "background-color 0.3s",
+    "&:hover": {
+      backgroundColor: "#008080",
+    },
   };
 
   const toolStyle = {
-    position: "fixed",
-    top: "0px",
-    left: "0px",
-    right: "0px",
-    zIndex: "1000",
-    padding: "0.3rem 1.4rem",
-    border: "none",
-    backgroundColor: "rgba(235, 230, 230, 0.1)",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    gap: "20px", 
+    backgroundColor: "transparent",
+    borderRadius: "50px",
+    boxShadow: "0 4px 10px rgba(0, 0, 0, 0.2)",
+    backdropFilter: "blur(10px)", // For a frosted glass effect
   };
 
-  return (
-    <AppBar position="static">
-      <Toolbar style={toolStyle}>
-        <Typography
-          variant="h6"
-          sx={{
-            flexGrow: 1,
-            fontFamily: "fantasy",
-            color: "rgb(235, 230, 230)",
-          }}
-        >
-          
-        </Typography>
+  const appBarStyle = {
+    backgroundColor: "transparent",
+    position: "fixed",
+    top: "20px", // Adjust this to move it up/down
+    left: isLoggedIn ? "20%" : "30%",
+    right: isLoggedIn ? "20%" : "30%",
+    // transform: isLoggedIn ? "translateX(-40%)" : "translateX(-55%)", 
+    width: "auto",
+    zIndex: 1100,
+    borderRadius: "50px",
+    animation: "float 3s ease-in-out infinite", // Apply animation
+  };
+  
+  const styles = `
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(-10px); // Only move vertically
+      }
+      50% {
+        transform: translateY(10px); // Only move vertically
+      }
+    }
+  `;
+  
 
-        {/* Conditionally render based on login status */}
+  return (
+    <AppBar style={appBarStyle} elevation={3}>
+      <Toolbar style={toolStyle}>
         {isLoggedIn ? (
           <>
             <Button style={btnStyle} to="/alljobs" component={Link}>
-              Jobs available
+              Jobs Available
             </Button>
             <Button style={btnStyle} to="/joblist" component={Link}>
               Jobs Posted
@@ -70,19 +88,19 @@ export default function Navbar() {
             </Button>
             <Logout setIsLoggedIn={setIsLoggedIn} />
             <Link to="/dashboard" style={{ textDecoration: "none" }}>
-              <AccountCircleIcon sx={{ color: "white", fontSize: "38px" }} />
+              <AccountCircleIcon sx={{ color: "teal", fontSize: "38px" }} />
             </Link>
           </>
         ) : (
           <>
             <Button style={btnStyle} to="/alljobs" component={Link}>
-              Jobs available
+              Jobs Available
             </Button>
             <Button style={btnStyle} to="/Login" component={Link}>
               Login
             </Button>
             <Button style={btnStyle} to="/SignUp" component={Link}>
-              SignUp
+              Sign Up
             </Button>
           </>
         )}

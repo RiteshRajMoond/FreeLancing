@@ -1,49 +1,49 @@
-import React, { useEffect, useState, useRef } from "react";
-import { Box, Typography, Collapse, LinearProgress } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import {
+  Box,
+  Typography,
+  Modal,
+  IconButton,
+  Fade,
+  Backdrop,
+} from "@mui/material";
 import PersonIcon from "@mui/icons-material/Person";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import GavelIcon from "@mui/icons-material/Gavel";
 import PaymentIcon from "@mui/icons-material/Payment";
 import StarIcon from "@mui/icons-material/Star";
+import CloseIcon from "@mui/icons-material/Close";
+import SupportAgentIcon from "@mui/icons-material/SupportAgent";
+import InsightsIcon from "@mui/icons-material/Insights";
 
 const Homepage = () => {
-  const [expandedCard, setExpandedCard] = useState(0);
-  const [progress, setProgress] = useState(0);
-  const [currentVideo, setCurrentVideo] = useState(0);
+  const [currentMessage, setCurrentMessage] = useState(0); // State for changing messages
+  const [open, setOpen] = useState(false); // Modal open state
+  const [selectedCard, setSelectedCard] = useState(null); // Selected card data
 
-  const videoRef = useRef(null);
+  const messages = [
+    "Welcome to FreelanceHub!",
+    "Connect with top freelancers and clients",
+    "Find projects that suit your expertise",
+    "Build your freelancing career today",
+  ];
 
-  const intervalTime = 4450;
-  const updateInterval = 400;
-
-  const videos = ["../../assets/features.mp4"];
-
-  // Loop for updating progress
   useEffect(() => {
-    let interval;
+    const messageInterval = setInterval(() => {
+      setCurrentMessage((prev) =>
+        prev === messages.length - 1 ? 0 : prev + 1
+      );
+    }, 5000); // Change message every 5 seconds
 
-    if (expandedCard !== null) {
-      setProgress(0); // Reset progress when a new card is expanded
-      interval = setInterval(() => {
-        setProgress((prev) => {
-          if (prev >= 100) {
-            handleNextCard(); // Move to the next card when progress completes
-            return 0;
-          }
-          return prev + 100 / (intervalTime / updateInterval);
-        });
-      }, updateInterval);
-    }
-    return () => clearInterval(interval); // Clean up the interval on component unmount or when card changes
-  }, [expandedCard]);
+    return () => clearInterval(messageInterval);
+  }, []);
 
-  // Blur effect on scroll
   useEffect(() => {
     const handleScroll = () => {
       const scrollPosition = window.scrollY;
       const blurValue = Math.min(scrollPosition / 20, 15);
       const opacityValue = Math.max(1 - scrollPosition / 1500, 0);
-      const containerElement = document.getElementById("blur-container");
+      const containerElement = document.getElementById("blur-container-1");
       if (containerElement) {
         containerElement.style.filter = `blur(${blurValue}px)`;
         containerElement.style.opacity = opacityValue;
@@ -55,79 +55,78 @@ const Homepage = () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
-
-  // switch videos every 4 secs
-  useEffect(() => {
-    const videoInterval = setInterval(() => {
-      setCurrentVideo((prev) => (prev === 0 ? 1 : 0));
-    }, 25000); // 25 secs
-
-    // return () => clearInterval(videoInterval);
-  }, []);
-
-  useEffect(() => {
-    if (videoRef.current) {
-      videoRef.current.src = videos[currentVideo];
-      videoRef.current.load();
-      videoRef.current.onloadeddata = () => {
-        videoRef.current
-          .play()
-          .catch((err) => console.error("Error playing video: ", error));
-      };
-    }
-  }, [currentVideo]);
-
-  const handleNextCard = () => {
-    setExpandedCard((prev) =>
-      prev === null || prev === cards.length - 1 ? 0 : prev + 1
-    );
-  };
-
-  const handleToggle = (index) => {
-    // Reset progress and toggle the card
-    setExpandedCard((prev) => (prev === index ? null : index));
-    if (videoRef.current) {
-      // Set video to play from the corresponding time
-      videoRef.current.currentTime = index * 5; // 0s, 5s, 10s, etc.
-      videoRef.current.play();
-    }
-  };
-
   const cards = [
     {
-      title: "Freelancer Profiles",
+      title: "Create Freelancer Profiles",
       content:
-        "Allow freelancers to create detailed profiles showcasing their skills, experience, and portfolio.",
-      icon: <PersonIcon sx={{ color: "gray" }} />,
+        "Showcase skills, experience, and portfolio with a sleek and modern design to attract the best opportunities.",
+      icon: <PersonIcon sx={{ color: "#4caf50", fontSize: 48 }} />,
     },
     {
-      title: "Project Listings",
+      title: "Explore Project Listings",
       content:
-        "Enable clients to post projects with detailed descriptions, budgets, and deadlines.",
-      icon: <AssignmentIcon sx={{ color: "gray" }} />,
+        "Discover projects with detailed descriptions, budgets, and timelines to match your expertise.",
+      icon: <AssignmentIcon sx={{ color: "#ff9800", fontSize: 48 }} />,
     },
     {
-      title: "Bidding System",
+      title: "Engage in Smart Bidding",
       content:
-        "Implement a system where freelancers can bid on projects, and clients can review bids and select the best fit.",
-      icon: <GavelIcon sx={{ color: "gray" }} />,
+        "Participate in a fair and transparent bidding system, helping you win projects that match your skills.",
+      icon: <GavelIcon sx={{ color: "#3f51b5", fontSize: 48 }} />,
     },
     {
       title: "Secure Payments",
       content:
-        "Integrate secure payment gateways to handle transactions between clients and freelancers.",
-      icon: <PaymentIcon sx={{ color: "gray" }} />,
+        "Get paid securely and on time through an integrated payment gateway, ensuring peace of mind for all users.",
+      icon: <PaymentIcon sx={{ color: "#f44336", fontSize: 48 }} />,
     },
     {
       title: "Ratings and Reviews",
       content:
-        "Allow clients to rate and review freelancers based on their performance, helping build trust and credibility.",
-      icon: <StarIcon sx={{ color: "gray" }} />,
+        "Build trust with a transparent rating and review system for freelancers and clients alike.",
+      icon: <StarIcon sx={{ color: "#ffeb3b", fontSize: 48 }} />,
     },
+    {
+      title: "Dedicated Support",
+      content:
+        "Access 24/7 support to resolve any issues and ensure a seamless freelancing experience.",
+      icon: <SupportAgentIcon sx={{ color: "#9c27b0", fontSize: 48 }} />,
+    },
+    {
+      title: "Insights and Analytics",
+      content:
+        "Gain actionable insights into your projects and performance to improve and grow your freelancing business.",
+      icon: <InsightsIcon sx={{ color: "#00bcd4", fontSize: 48 }} />,
+    },
+  ];
+
+  const handleCardClick = (card) => {
+    setSelectedCard(card);
+    setOpen(true);
+    // Apply blur effect to the background
+    document.getElementById("blur-container").style.filter = "blur(5px)";
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+    setSelectedCard(null);
+    // Remove blur effect from the background
+    document.getElementById("blur-container").style.filter = "none";
+  };
+
+  const positions = [
+    { top: "120vh", left: "2rem" }, // Top-left
+    { top: "120vh", right: "2rem" }, // Top-right
+    { top: "140vh", left: "2rem" }, // Bottom-left
+    { top: "140vh", right: "2rem" }, // Bottom-right
+    { top: "160vh", left: "2rem" }, // Extra positions
+    { top: "160vh", right: "2rem" },
+    { top: "180vh", left: "2rem" },
   ];
 
   return (
     <>
+      {/* Welcome Message Section */}
       <Box
         display="flex"
         justifyContent="center"
@@ -141,127 +140,166 @@ const Homepage = () => {
         }}
       >
         <Box
-          id="blur-container"
+          id="blur-container-1"
           sx={{
             position: "absolute",
             width: "100%",
             height: "100%",
-            backgroundImage: 'url("../../assets/ac.jpg")', // Replace with your image path
+            backgroundImage: 'url("../../assets/moth.jpg")',
             backgroundSize: "cover",
             backgroundPosition: "center",
-            backgroundColor: "rgba(0, 0, 0, 0.2)", // Semi-transparent overlay
+            backgroundColor: "white",
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            transition: "filter 0.3s, opacity 0.3s", // Smooth transition for blur and opacity
           }}
         >
-          <h1
-            style={{
+          <Typography
+            variant="h1"
+            sx={{
+              fontFamily: "fantasy",
               fontSize: "3.5rem",
               fontWeight: "bold",
-              color: "rgb(235, 230, 230)",
+              color: "teal",
+              animation: `fadeInOut 5s ease-in-out infinite`,
             }}
           >
-            Welcome to FreelanceHub!
-          </h1>
+            {messages[currentMessage]}
+          </Typography>
         </Box>
       </Box>
 
+      {/* Cards Section */}
       <Box
+        id="blur-container"
         sx={{
-          backgroundColor: "black",
+          height: "90vh",
+          width: "94.6vw",
           display: "flex",
-          flexDirection: "row",
           overflow: "hidden",
+          flexWrap: "nowrap",
+          backgroundImage: 'url("../../assets/giffy6.gif")',
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          padding: "2rem",
+          backgroundColor: "#f5f5f5",
         }}
       >
-        <Box
-          sx={{
-            width: "50%",
-            padding: "1rem",
-          }}
-        >
-          {cards.map((card, index) => (
-            <Box
-              key={index}
-              sx={{
-                width:"30vw",
-                marginBottom: "1rem",
-                padding: "1.5rem",
-                backgroundColor: "rgba(235, 230, 230, 0.1)",
-                color: "rgba(235, 230, 230)",
-                borderRadius: "10px",
-                cursor: "pointer",
-              }}
-              onClick={() => handleToggle(index)}
-            >
-              <Box display="flex" alignItems="center">
-                {card.icon}
-                <Typography
-                  variant="h6"
-                  sx={{ fontWeight: "bold", marginLeft: "0.5rem" }}
-                >
-                  {card.title}
-                </Typography>
-              </Box>
-              <Collapse in={expandedCard === index}>
-                <Typography variant="body1" sx={{ marginTop: ".3rem" }}>
-                  {card.content}
-                </Typography>
-                <LinearProgress
-                  sx={{
-                    marginBottom: "-23px",
-                    marginTop:"25px",
-                    height: "0.2px",
-                    backgroundColor: "rgba(235, 230, 230, 0.1)",
-                    "& .MuiLinearProgress-bar": {
-                      backgroundColor: "#0077ff", // Progress bar color
-                    },
-                  }}
-                  variant="determinate"
-                  value={expandedCard === index ? progress : 0}
-                />
-              </Collapse>
-            </Box>
-          ))}
-        </Box>
-        <Box
-          sx={{
-            width: "80vw",
-            height:"100%",
-            marginRight: "-20px",
-            padding: "1rem",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            backgroundColor: "transparent",
-            borderRadius: "10px",
-            position: "relative",
-            overflow: "hidden",
-          }}
-        >
-          <video
-            ref={videoRef}
-            loop
-            muted
-            style={{
-              width: "100%",
-              height:"100%",
-              borderRadius: "10px",
-              borderRadius: "10px",
-              // left: currentVideo === 0 ? "0" : "100%",
-              // transform:
-              //   currentVideo === 0 ? "translateX(0)" : "translateX(-10%)",
-              // transition: "left 0.5s ease-in-out, transform 0.5s ease-in-out",
+        {cards.map((card, index) => (
+          <Box
+            key={index}
+            onClick={() => handleCardClick(card)}
+            sx={{
+              position: "absolute",
+              ...positions[index],
+              height: "10vh",
+              width: "10vw",
+              marginRight: "1rem",
+              padding: "1.5rem",
+              backgroundColor: "teal",
+              boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)",
+              borderRadius: "60px",
+              cursor: "pointer",
+              textAlign: "center",
+              animation: "float 3s ease-in-out infinite", // Add animation here
+              "&:hover": {
+                transform: "scale(1.1)", // Slight scaling for floating effect
+                boxShadow: "0 8px 20px rgba(0, 0, 0, 0.9)", // Stronger shadow when hovered
+              },
             }}
           >
-            <source src="../../assets/features.mp4" type="video/mp4"></source>
-          </video>
-
-          {/* <img src="../../assets/ac.jpg" alt="" /> */}
-        </Box>
+            {card.icon}
+            <Typography
+              variant="body1"
+              sx={{ color: "white", fontWeight: "bold", marginTop: "0rem" }}
+            >
+              {card.title}
+            </Typography>
+          </Box>
+        ))}
       </Box>
+
+      {/* Modal Section */}
+      <Modal
+        open={open}
+        onClose={handleClose}
+        closeAfterTransition
+        BackdropComponent={Backdrop}
+        BackdropProps={{ timeout: 500 }}
+        aria-labelledby="card-title"
+        aria-describedby="card-content"
+      >
+        <Fade in={open}>
+          <Box
+            sx={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              width: "30%",
+              height: "55%",
+              // backgroundImage: "linear-gradient(300deg,rgb(182, 253, 236),rgb(255, 197, 206))", // Light teal to light pink gradient
+              backgroundImage: 'url("../../assets/clouds.png")',
+              backgroundSize: "cover",
+              borderRadius: "30px",
+              boxShadow: 24,
+              p: 4,
+            }}
+          >
+            <Box
+              display="flex"
+              justifyContent="space-between"
+              alignItems="center"
+            >
+              <Typography variant="h6" fontWeight="bold">
+                {selectedCard?.title}
+              </Typography>
+              <IconButton onClick={handleClose}>
+                <CloseIcon />
+              </IconButton>
+            </Box>
+            <Typography sx={{ marginTop: "1rem" }}>
+              {selectedCard?.content}
+            </Typography>
+          </Box>
+        </Fade>
+      </Modal>
+
+      {/* CSS Animations */}
+      <style>
+        {`
+          @keyframes fadeInOut {
+            0% {
+              opacity: 0;
+              transform: translateX(100%); /* Start from the right */
+            }
+            25% {
+              opacity: 1;
+              transform: translateX(0); /* Fully visible */
+            }
+            75% {
+              opacity: 1;
+              transform: translateX(0); /* Keep visible */
+            }
+            100% {
+              opacity: 0;
+              transform: translateX(-100%); /* Fade out and move to the left */
+            }
+          }
+
+          @keyframes float {
+            0% {
+              transform: translateY(0);
+            }
+            50% {
+              transform: translateY(-15px); /* Move up */
+            }
+            100% {
+              transform: translateY(0); /* Move down */
+            }
+          }
+        `}
+      </style>
     </>
   );
 };
