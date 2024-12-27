@@ -136,7 +136,7 @@ const DeveloperDashboard = () => {
       >
         Upload File
       </Button>
-      <Chat userRole="Developer" /> {/* Add the Chat component */}
+      <Chat senderName={senderName} jobId={jobId}/> {/* Add the Chat component */}
     </Box>
   );
 };
