@@ -167,7 +167,7 @@ export default function Login() {
           left: 0,
           right: 0,
           zIndex: 0,
-          backgroundImage: 'url("../../assets/water.jpg")',
+          backgroundImage: 'url("../../assets/signin.webp")',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           // filter: 'blur(2px)',

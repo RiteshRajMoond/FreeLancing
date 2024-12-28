@@ -72,7 +72,7 @@ const JobDescription = () => {
         style={{ height: "30vh", position: "relative", overflow: "hidden" }}
       >
         <img
-          src="../../assets/bg5.jpg"
+          src="../../assets/alljobs2.jpg"
           alt="Background"
           style={{
             width: "100%",

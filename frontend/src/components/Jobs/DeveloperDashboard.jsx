@@ -60,7 +60,7 @@ const DeveloperDashboard = () => {
         alignItems: "center",
         justifyContent: "center",
         minHeight: "100vh",
-        backgroundImage: `url('../../assets/bg5.jpg')`,
+        backgroundImage: `url('../../assets/alljobs11.jpg')`,
         backgroundSize: "cover",
         backgroundPosition: "center",
         padding: 4,

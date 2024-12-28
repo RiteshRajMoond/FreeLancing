@@ -11,7 +11,7 @@ import {
   CircularProgress,
   Button,
 } from "@mui/material";
-import backgroundImage from "../../../assets/bg5.jpg";
+import backgroundImage from "../../../assets/jobsPosted.webp";
 import Chat from "../Chat/Chat"; // Import the Chat component
 
 const ClientDashboard = () => {

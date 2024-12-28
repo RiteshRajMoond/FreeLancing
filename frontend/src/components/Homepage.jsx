@@ -239,7 +239,7 @@ const Homepage = () => {
               width: "30%",
               height: "55%",
               // backgroundImage: "linear-gradient(300deg,rgb(182, 253, 236),rgb(255, 197, 206))", // Light teal to light pink gradient
-              backgroundImage: 'url("../../assets/clouds.png")',
+              backgroundImage: 'url("../../assets/clouds.webp")',
               backgroundSize: "cover",
               borderRadius: "30px",
               boxShadow: 24,

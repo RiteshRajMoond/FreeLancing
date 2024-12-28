@@ -175,7 +175,7 @@ const HomeCard = () => {
                 backgroundImage: `url('../../assets/leaf.jpg')`, // Replace with your image URL or variable
                 backgroundSize: "cover",
                 backgroundPosition: "center",
-                transform: "scale(1.2)", // Enlarges the card
+                transform: "scale(1.1)", // Enlarges the card
                 zIndex: 2, // Ensures hovered card appears above others
               },
             }}

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Container, Typography, Grid, Card, CardContent } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import backgroundImage from "../../../assets/bg5.jpg";
+import backgroundImage from "../../../assets/appliedJobs.webp";
 
 const DeveloperJobList = () => {
   const [jobs, setJobs] = useState([]);

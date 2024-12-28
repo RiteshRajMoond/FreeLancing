@@ -168,10 +168,10 @@ const [token, setToken] = useState("");
           left: 0,
           right: 0,
           zIndex: 0,
-          backgroundImage: 'url("../../assets/water1.jpg")',
+          backgroundImage: 'url("../../assets/signup.webp")',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
-          filter: 'blur(3px)',
+          filter: 'blur(7px)',
         }}
       />
     </CssVarsProvider>

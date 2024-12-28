@@ -18,7 +18,7 @@ import {
   Button,
   Divider,
 } from "@mui/material";
-import backgroundImage from "../../../assets/bg5.jpg";
+import backgroundImage from "../../../assets/appliedJobs.webp";
 
 const JobApplicants = () => {
   const navigate = useNavigate();
