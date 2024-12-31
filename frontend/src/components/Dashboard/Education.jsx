@@ -14,15 +14,17 @@ const Education = ({ userData, handleSave }) => {
   const [editMode, setEditMode] = useState(false);
 
   useEffect(() => {
-    setEducationData(userData?.education || [
-      {
-        institution: "ABC University",
-        degree: "Bachelor of Technology",
-        fieldOfStudy: "CSE",
-        startDate: "May, 2022",
-        endDate: "May, 2026",
-      },
-    ]);
+    setEducationData(
+      userData?.education || [
+        {
+          institution: "",
+          degree: "",
+          fieldOfStudy: "",
+          startDate: "",
+          endDate: "",
+        },
+      ]
+    );
   }, [userData]);
 
   const toggleEditMode = () => {
@@ -77,7 +79,7 @@ const Education = ({ userData, handleSave }) => {
 
   const editStackStyle = {
     backgroundColor: "rgba(255, 255, 255, 0.5)",
-    color:"white",
+    color: "white",
     margin: "20px",
     padding: "15px",
     borderRadius: "15px",
@@ -92,7 +94,7 @@ const Education = ({ userData, handleSave }) => {
   };
 
   const buttonStyle = {
-    borderRadius:"15px",
+    borderRadius: "15px",
     marginTop: "15px",
     padding: "10px",
     backgroundColor: "black",
@@ -115,8 +117,8 @@ const Education = ({ userData, handleSave }) => {
       color: "#2b2b2b", // Label color when focused
     },
 
-    marginTop:"10px",
-    width:"480px",
+    marginTop: "10px",
+    width: "480px",
   };
 
   return (
@@ -126,16 +128,32 @@ const Education = ({ userData, handleSave }) => {
           {educationData.map((edu, index) => (
             <Stack key={index} spacing={1}>
               <Typography variant="h5">🎓{edu.degree}</Typography>
-              <Typography variant="body2" ><strong>From:</strong> {edu.institution || ""} </Typography>
-              <Typography variant="body2" ><strong>In:</strong> {edu.fieldOfStudy || ""} </Typography>
-              <Typography variant="body2" ><strong>Duration: </strong> 
-              {new Date(edu.startDate).toLocaleDateString("en-IN", { year: "numeric", month: "long" })} - {new Date(edu.endDate).toLocaleDateString("en-IN", { year: "numeric", month: "long" })} 
+              <Typography variant="body2">
+                <strong>From:</strong> {edu.institution || ""}{" "}
+              </Typography>
+              <Typography variant="body2">
+                <strong>In:</strong> {edu.fieldOfStudy || ""}{" "}
+              </Typography>
+              <Typography variant="body2">
+                <strong>Duration: </strong>
+                {new Date(edu.startDate).toLocaleDateString("en-IN", {
+                  year: "numeric",
+                  month: "long",
+                })}{" "}
+                -{" "}
+                {new Date(edu.endDate).toLocaleDateString("en-IN", {
+                  year: "numeric",
+                  month: "long",
+                })}
               </Typography>
               <Divider style={dividerStyle} />
             </Stack>
-            
           ))}
-          <Button variant="contained" style={buttonStyle} onClick={toggleEditMode}>
+          <Button
+            variant="contained"
+            style={buttonStyle}
+            onClick={toggleEditMode}
+          >
             Edit Education
           </Button>
         </>
@@ -143,60 +161,58 @@ const Education = ({ userData, handleSave }) => {
         <>
           {educationData.map((edu, index) => (
             <Stack style={editStackStyle}>
-              
-                <h5 style={{color:"black"}}>Education {index+1}:</h5>
-                <TextField
-                  label="Degree"
-                  value={edu.degree}
-                  onChange={(e) =>
-                    handleEducationChange(index, "degree", e.target.value)
-                  }
-                  sx={textFieldStyle}
-                />
-                <TextField
-                  label="Institution"
-                  value={edu.institution}
-                  onChange={(e) =>
-                    handleEducationChange(index, "institution", e.target.value)
-                  }
-                  sx={textFieldStyle}
-                />
-                <TextField
-                  label="Field of Study"
-                  value={edu.fieldOfStudy}
-                  onChange={(e) =>
-                    handleEducationChange(index, "fieldOfStudy", e.target.value)
-                  }
-                  sx={textFieldStyle}
-                />
-                <TextField
-                  label="Start Date"
-                  value={edu.startDate}
-                  onChange={(e) =>
-                    handleEducationChange(index, "startDate", e.target.value)
-                  }
-                  sx={textFieldStyle}
-                />
-                <TextField
-                  fullWidth
-                  label="End Date"
-                  value={edu.endDate}
-                  onChange={(e) =>
-                    handleEducationChange(index, "endDate", e.target.value)
-                  }
-                  sx={textFieldStyle}
-                />
+              <h5 style={{ color: "black" }}>Education {index + 1}:</h5>
+              <TextField
+                label="Degree"
+                value={edu.degree}
+                onChange={(e) =>
+                  handleEducationChange(index, "degree", e.target.value)
+                }
+                sx={textFieldStyle}
+              />
+              <TextField
+                label="Institution"
+                value={edu.institution}
+                onChange={(e) =>
+                  handleEducationChange(index, "institution", e.target.value)
+                }
+                sx={textFieldStyle}
+              />
+              <TextField
+                label="Field of Study"
+                value={edu.fieldOfStudy}
+                onChange={(e) =>
+                  handleEducationChange(index, "fieldOfStudy", e.target.value)
+                }
+                sx={textFieldStyle}
+              />
+              <TextField
+                label="Start Date"
+                value={edu.startDate}
+                onChange={(e) =>
+                  handleEducationChange(index, "startDate", e.target.value)
+                }
+                sx={textFieldStyle}
+              />
+              <TextField
+                fullWidth
+                label="End Date"
+                value={edu.endDate}
+                onChange={(e) =>
+                  handleEducationChange(index, "endDate", e.target.value)
+                }
+                sx={textFieldStyle}
+              />
               <IconButton
                 aria-label="delete"
                 color="secondary"
                 onClick={() => deleteEducation(index)}
               >
-                <Delete style={{color:"black"}}/>
+                <Delete style={{ color: "black" }} />
               </IconButton>
-              
             </Stack>
           ))}
-          
+
           <Button
             variant="contained"
             startIcon={<Add />}

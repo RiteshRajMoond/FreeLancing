@@ -5,7 +5,7 @@ const cors = require("cors");
 require("dotenv").config();
 
 const db = require("./config/db");
-const setupSocket = require('./socketio');
+const setupSocket = require("./socketio");
 
 const adminRoutes = require("./routes/admin-routes");
 const userRoutes = require("./routes/user-routes");
@@ -13,7 +13,7 @@ const userRoutes = require("./routes/user-routes");
 const app = express();
 const server = require("http").createServer(app);
 
-// CORS config
+// CORS Configuration
 const corsOptions = {
   origin: process.env.CLIENT_URL,
   credentials: true,

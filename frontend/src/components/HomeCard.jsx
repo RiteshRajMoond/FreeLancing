@@ -54,7 +54,8 @@ const HomeCard = () => {
 
   const handleScrollLeft = () => {
     if (containerRef.current) {
-      const newPosition = Math.max(scrollPosition - 300, 0);
+      const containerWidth = containerRef.current.clientWidth;
+      const newPosition = Math.max(scrollPosition - containerWidth, 0);
       containerRef.current.scrollTo({
         left: newPosition,
         behavior: "smooth",
@@ -65,8 +66,9 @@ const HomeCard = () => {
 
   const handleScrollRight = () => {
     if (containerRef.current) {
+      const containerWidth = containerRef.current.clientWidth;
       const newPosition = Math.min(
-        scrollPosition + 300,
+        scrollPosition + containerWidth,
         containerRef.current.scrollWidth - containerRef.current.clientWidth
       );
       containerRef.current.scrollTo({
@@ -130,7 +132,7 @@ const HomeCard = () => {
         disabled={isAtStart}
         sx={{
           position: "absolute",
-          left: "10px",
+          left: { xs: "5px", md: "10px" },
           top: "65%",
           transform: "translateY(-50%)",
           zIndex: 1,
@@ -142,7 +144,6 @@ const HomeCard = () => {
       <Box
         ref={containerRef}
         sx={{
-          overflowX: "hidden",
           display: "flex",
           gap: "20px",
           padding: "40px 0",
@@ -231,7 +232,7 @@ const HomeCard = () => {
         disabled={isAtEnd}
         sx={{
           position: "absolute",
-          right: "10px",
+          right: { xs: "5px", md: "10px" },
           top: "65%",
           transform: "translateY(-50%)",
           zIndex: 1,

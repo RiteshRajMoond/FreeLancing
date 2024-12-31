@@ -46,7 +46,7 @@ const [token, setToken] = useState("");
         password: password,
         inviteJWT: token,
       });
-      console.log("Admin signed Up!", res);
+      // console.log("Admin signed Up!", res);
     } catch (error) {
       console.error("This is the error!\n", error);
     }
@@ -54,9 +54,9 @@ const [token, setToken] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if(role === 'option2') handleAdminSignup();
+    if (role === "option2") handleAdminSignup();
     else handleUserSignup();
-  }
+  };
 
   return (
     <CssVarsProvider theme={customTheme} disableTransitionOnChange>

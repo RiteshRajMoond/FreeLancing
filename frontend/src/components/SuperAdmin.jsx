@@ -72,7 +72,7 @@ const SuperAdmin = () => {
       }
     } catch (err) {
       if (err.response && err.response.status !== 200) {
-        console.log(err.response.data.message);
+        // console.log(err.response.data.message);
         alert("Error sending invite");
       }
       console.error("Error sending invite: ", err);

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import { Box, Typography, TextField, Button } from "@mui/material";
-import Chat from "../Chat/Chat"; // Import the Chat component
+import Chat from "../Chat/Chat";
 
 const DeveloperDashboard = () => {
   const { jobId } = useParams();
@@ -20,7 +20,7 @@ const DeveloperDashboard = () => {
   const handleFileChange = (e) => {
     const chosenFile = e.target.files[0];
     setFile(chosenFile);
-    setFileName(chosenFile ? chosenFile.name : "");  // Update file name state
+    setFileName(chosenFile ? chosenFile.name : ""); // Update file name state
   };
 
   const handleSubmit = async () => {
@@ -40,8 +40,8 @@ const DeveloperDashboard = () => {
       );
       setSuccess("File uploaded successfully");
       setError(null);
-      console.log(response.data.url);
-      
+      // console.log(response.data.url);
+
       // Reset file and fileName after successful upload
       setFile(null);
       setFileName("");
@@ -67,10 +67,12 @@ const DeveloperDashboard = () => {
         color: "#ffffff",
       }}
     >
-      <Typography variant="h4" sx={{ mb: 4, textShadow: "1px 1px 3px rgba(0, 0, 0, 0.8)" }}>
+      <Typography
+        variant="h4"
+        sx={{ mb: 4, textShadow: "1px 1px 3px rgba(0, 0, 0, 0.8)" }}
+      >
         Developer Dashboard
       </Typography>
-      
       <TextField
         label="Project Status"
         multiline
@@ -96,7 +98,6 @@ const DeveloperDashboard = () => {
           style: { color: "#ccc" },
         }}
       />
-      
       <Button
         variant="contained"
         component="label"
@@ -113,13 +114,11 @@ const DeveloperDashboard = () => {
         Choose File
         <input type="file" hidden onChange={handleFileChange} />
       </Button>
-
       {fileName && (
         <Typography variant="body2" sx={{ color: "#ccc", mb: 2 }}>
           Selected file: {fileName}
         </Typography>
       )}
-
       <Button
         onClick={handleSubmit}
         variant="contained"

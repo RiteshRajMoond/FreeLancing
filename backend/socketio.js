@@ -12,8 +12,6 @@ const setupSocket = (server) => {
   });
 
   io.on("connection", (socket) => {
-    // console.log("a user connected");
-
     socket.on("sendMsg", async (msg) => {
       console.log(msg);
       io.emit("recieveMsg", msg);

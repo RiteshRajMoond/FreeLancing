@@ -13,7 +13,7 @@ export default function Navbar() {
       try {
         const resp = await axios.get("/user/check-login");
         setIsLoggedIn(resp.data.loggedIn);
-        console.log(resp.data.loggedIn);
+        // console.log(resp.data.loggedIn);
       } catch (error) {
         setIsLoggedIn(false);
       }

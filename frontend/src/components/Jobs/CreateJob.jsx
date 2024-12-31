@@ -11,19 +11,19 @@ import {
   List,
   ListItem,
   ListItemText,
-} from '@mui/material';
-import {toast, Toaster} from 'react-hot-toast';
+} from "@mui/material";
+import { toast, Toaster } from "react-hot-toast";
 
 const CreateJob = () => {
   const [job, setJob] = useState({
-    title: '',
-    description: '',
+    title: "",
+    description: "",
     requirements: [],
-    budget: '',
-    deadline: '',
+    budget: "",
+    deadline: "",
   });
 
-  const [requirement, setRequirement] = useState('');
+  const [requirement, setRequirement] = useState("");
 
   const handleChange = (e) => {
     setJob({ ...job, [e.target.name]: e.target.value });
@@ -36,7 +36,7 @@ const CreateJob = () => {
   const addRequirement = () => {
     if (requirement.trim()) {
       setJob({ ...job, requirements: [...job.requirements, requirement] });
-      setRequirement('');
+      setRequirement("");
     }
   };
 
@@ -44,9 +44,9 @@ const CreateJob = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('/user/job/create-job', job);
-      toast.success('Job created successfully');
-      setTimeout(() => navigate('/JobList'), 1000);
+      const response = await axios.post("/user/job/create-job", job);
+      toast.success("Job created successfully");
+      setTimeout(() => navigate("/JobList"), 1000);
       // Optionally, reset the form or show a success message
     } catch (error) {
       toast.error(error);
@@ -55,36 +55,44 @@ const CreateJob = () => {
 
   // Styles for the background
   const backgroundStyle = {
-    backgroundImage: `url(${backgroundImage})`,
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
-    position: 'fixed', // Changed to fixed to cover the whole screen
+    backgroundImage: `url(https://firebasestorage.googleapis.com/v0/b/freelancing-2af5d.appspot.com/o/assets%2Fbg5.jpg?alt=media&token=512cce5e-c5ff-4ed7-9a57-f84b5247e0b1)`,
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    position: "fixed", // Changed to fixed to cover the whole screen
     top: 0,
     left: 0,
     right: 0,
     bottom: 0,
-    minHeight: '100vh',
+    minHeight: "100vh",
     zIndex: -1,
   };
 
   // Styles for the content container
   const contentStyle = {
-    marginTop: '2rem',
-    backgroundColor: 'rgba(255, 255, 255, 0.8)', // Slightly less transparent for better visibility
-    padding: '2rem',
-    borderRadius: '10px',
-    position: 'relative', // Positioned relative to overlay above the background
+    marginTop: "2rem",
+    backgroundColor: "rgba(255, 255, 255, 0.8)", // Slightly less transparent for better visibility
+    padding: "2rem",
+    borderRadius: "10px",
+    position: "relative", // Positioned relative to overlay above the background
     zIndex: 1,
   };
 
   return (
     <div style={backgroundStyle}>
-      <Toaster/>
+      <Toaster />
       <Container style={contentStyle}>
-        <Typography variant="h4" align="center" gutterBottom style={{ color: 'black', fontFamily: 'fantasy' }}>
+        <Typography
+          variant="h4"
+          align="center"
+          gutterBottom
+          style={{ color: "black", fontFamily: "fantasy" }}
+        >
           Create Job
         </Typography>
-        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column' }}>
+        <form
+          onSubmit={handleSubmit}
+          style={{ display: "flex", flexDirection: "column" }}
+        >
           <TextField
             name="title"
             value={job.title}
@@ -93,7 +101,7 @@ const CreateJob = () => {
             required
             variant="outlined"
             margin="normal"
-            style={{ width: '100%', margin: '10px 0' }}
+            style={{ width: "100%", margin: "10px 0" }}
           />
           <TextField
             name="description"
@@ -105,24 +113,36 @@ const CreateJob = () => {
             margin="normal"
             multiline
             rows={4}
-            style={{ width: '100%', margin: '10px 0' }}
+            style={{ width: "100%", margin: "10px 0" }}
           />
-          <div style={{ display: 'flex', alignItems: 'center' }}>
+          <div style={{ display: "flex", alignItems: "center" }}>
             <TextField
               value={requirement}
               onChange={handleRequirementChange}
               placeholder="Add Requirement"
               variant="outlined"
               margin="normal"
-              style={{ flex: 1, margin: '10px 0' }}
+              style={{ flex: 1, margin: "10px 0" }}
             />
-            <Button variant="contained" color="primary" onClick={addRequirement} style={{ marginLeft: '10px' }}>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={addRequirement}
+              style={{ marginLeft: "10px" }}
+            >
               Add
             </Button>
           </div>
-          <List style={{ listStyleType: 'none', padding: '0' }}>
+          <List style={{ listStyleType: "none", padding: "0" }}>
             {job.requirements.map((req, index) => (
-              <ListItem key={index} style={{ backgroundColor: '#e0e0e0', margin: '5px 0', borderRadius: '4px' }}>
+              <ListItem
+                key={index}
+                style={{
+                  backgroundColor: "#e0e0e0",
+                  margin: "5px 0",
+                  borderRadius: "4px",
+                }}
+              >
                 <ListItemText primary={req} />
               </ListItem>
             ))}
@@ -135,7 +155,7 @@ const CreateJob = () => {
             required
             variant="outlined"
             margin="normal"
-            style={{ width: '100%', margin: '10px 0' }}
+            style={{ width: "100%", margin: "10px 0" }}
           />
           <TextField
             name="deadline"
@@ -145,9 +165,9 @@ const CreateJob = () => {
             required
             variant="outlined"
             margin="normal"
-            style={{ width: '100%', margin: '10px 0' }}
+            style={{ width: "100%", margin: "10px 0" }}
           />
-          <CardActions style={{ justifyContent: 'center' }}>
+          <CardActions style={{ justifyContent: "center" }}>
             <Button type="submit" variant="contained" color="primary">
               Add Job
             </Button>

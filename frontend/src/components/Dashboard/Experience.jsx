@@ -25,17 +25,17 @@ const UserProfile = ({ userData, handleSave }) => {
     setExperienceData(
       userData?.experience || [
         {
-          role: "Software Engineer",
-          company: "Tech Corp",
-          startDate: "Jan 2020",
-          endDate: "Present",
+          role: "",
+          company: "",
+          startDate: "",
+          endDate: "",
           description: "",
         },
         {
-          role: "Frontend Developer",
-          company: "Web Solutions",
-          startDate: "Jan 2019",
-          endDate: "Dec 2019",
+          role: "",
+          company: "",
+          startDate: "",
+          endDate: "",
           description: "",
         },
       ]
@@ -43,43 +43,41 @@ const UserProfile = ({ userData, handleSave }) => {
     setCertificationData(
       userData?.certifications || [
         {
-          name: "Certified JavaScript Developer",
-          issuingOrganization: "XYZ Institute",
-          issueDate: "Mar 2020",
-          expirationDate: "Mar 2023",
+          name: "",
+          issuingOrganization: "",
+          issueDate: "",
+          expirationDate: "",
         },
         {
-          name: "React Certification",
-          issuingOrganization: "ABC Academy",
-          issueDate: "Jan 2021",
-          expirationDate: "Jan 2024",
+          name: "",
+          issuingOrganization: "",
+          issueDate: "",
+          expirationDate: "",
         },
       ]
     );
     setProjectData(
       userData?.projects || [
         {
-          name: "Project A",
-          description: "Description of Project A",
-          startDate: "Jan 2021",
-          endDate: "Dec 2021",
+          name: "",
+          description: "",
+          startDate: "",
+          endDate: "",
           link: "",
           skills: [],
         },
         {
-          name: "Project B",
-          description: "Description of Project B",
-          startDate: "Jan 2022",
-          endDate: "Dec 2022",
+          name: "",
+          description: "",
+          startDate: "",
+          endDate: "",
           link: "",
           skills: [],
         },
       ]
     );
-    setSkills(
-      userData?.skills || ["JavaScript", "React", "Node.js", "CSS", "HTML"]
-    );
-    setPortfolio(userData?.portfolio || "https://myportfolio.com");
+    setSkills(userData?.skills || []);
+    setPortfolio(userData?.portfolio || "");
   }, [userData]);
 
   const toggleEditMode = () => {

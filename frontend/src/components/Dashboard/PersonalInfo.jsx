@@ -9,15 +9,15 @@ const PersonalInfo = ({ userData, handleSave }) => {
   useEffect(() => {
     setLocalUserData(
       userData || {
-        firstName: "Nitasha",
-        lastName: "Smith",
-        bio: "I am a software engineer with 5 years of experience.",
-        phoneNumber: "1234567890",
-        address: "123 Main St, Street 12, SantaRosa",
+        firstName: "",
+        lastName: "",
+        bio: "",
+        phoneNumber: "",
+        address: "",
         socialMedia: {
-          linkedIn: "https://www.linkedIn.com/Nitasha-smith",
-          github: "https://www.github.com/Nitasha-smith",
-          instagram: "https://www.instagram.com/Nitasha-smith",
+          linkedIn: "",
+          github: "",
+          instagram: "",
         },
       }
     );
@@ -66,7 +66,7 @@ const PersonalInfo = ({ userData, handleSave }) => {
   };
 
   const buttonStyle = {
-    borderRadius:"15px",
+    borderRadius: "15px",
     marginTop: "15px",
     padding: "10px",
     backgroundColor: "black",
@@ -94,12 +94,15 @@ const PersonalInfo = ({ userData, handleSave }) => {
       color: "#a5a5a5", // Label color when focused
     },
   };
-  
+
   return (
     <>
       {!editMode ? (
         <Stack style={stackStyle} spacing={2}>
-          <Typography sx={{ fontSize: "24px", fontWeight: "bold" }} variant="h5">
+          <Typography
+            sx={{ fontSize: "24px", fontWeight: "bold" }}
+            variant="h5"
+          >
             {localUserData.firstName || ""} {localUserData.lastName || ""}
           </Typography>
           <Typography variant="body2" style={textStyle}>
@@ -115,36 +118,148 @@ const PersonalInfo = ({ userData, handleSave }) => {
           <Divider style={dividerStyle} />
           <Typography variant="body2" style={textStyle}>
             <strong>LinkedIn:</strong>{" "}
-            <a href={localUserData.socialMedia?.linkedIn || "#"} target="_blank" rel="noopener noreferrer" style={linkStyle}>
+            <a
+              href={localUserData.socialMedia?.linkedIn || "#"}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={linkStyle}
+            >
               {localUserData.socialMedia?.linkedIn || ""}
             </a>
           </Typography>
           <Typography variant="body2" style={textStyle}>
             <strong>GitHub:</strong>{" "}
-            <a href={localUserData.socialMedia?.github || "#"} target="_blank" rel="noopener noreferrer" style={linkStyle}>
+            <a
+              href={localUserData.socialMedia?.github || "#"}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={linkStyle}
+            >
               {localUserData.socialMedia?.github || ""}
             </a>
           </Typography>
           <Typography variant="body2" style={textStyle}>
             <strong>Instagram:</strong>{" "}
-            <a href={localUserData.socialMedia?.instagram || "#"} target="_blank" rel="noopener noreferrer" style={linkStyle}>
+            <a
+              href={localUserData.socialMedia?.instagram || "#"}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={linkStyle}
+            >
               {localUserData.socialMedia?.instagram || ""}
             </a>
           </Typography>
-          <Button variant="contained" style={buttonStyle} onClick={toggleEditMode}>
+          <Button
+            variant="contained"
+            style={buttonStyle}
+            onClick={toggleEditMode}
+          >
             Edit
           </Button>
         </Stack>
       ) : (
         <Stack style={editStackStyle} spacing={2}>
-          <TextField sx={textFieldStyle} label="First Name" value={localUserData.firstName || ""} onChange={(e) =>setLocalUserData({ ...localUserData, firstName: e.target.value })} fullWidth variant="outlined"  />
-          <TextField sx={textFieldStyle} label="Last Name" value={localUserData.lastName || ""} onChange={(e) =>setLocalUserData({ ...localUserData, lastName: e.target.value })} fullWidth variant="outlined"  />
-          <TextField sx={textFieldStyle} label="Bio" value={localUserData.bio || ""} onChange={(e) =>setLocalUserData({ ...localUserData, bio: e.target.value })} fullWidth variant="outlined" />
-          <TextField sx={textFieldStyle} label="Phone Number" value={localUserData.phoneNumber || ""} onChange={(e) =>setLocalUserData({...localUserData,phoneNumber: e.target.value}) } fullWidth variant="outlined"/>
-          <TextField sx={textFieldStyle} label="Address" value={localUserData.address || ""} onChange={(e) =>setLocalUserData({ ...localUserData, address: e.target.value }) } fullWidth variant="outlined"/>
-          <TextField sx={textFieldStyle} label="LinkedIn" value={localUserData.socialMedia?.linkedIn || ""} onChange={(e) =>setLocalUserData({...localUserData,socialMedia: {...localUserData.socialMedia, linkedIn: e.target.value,},})} fullWidth variant="outlined"/>
-          <TextField sx={textFieldStyle} label="GitHub" value={localUserData.socialMedia?.github || ""} onChange={(e) =>setLocalUserData({...localUserData,socialMedia: {...localUserData.socialMedia, github: e.target.value,},})} fullWidth variant="outlined"/>
-          <TextField sx={textFieldStyle} label="Instagram" value={localUserData.socialMedia?.instagram || ""} onChange={(e) =>setLocalUserData({...localUserData,socialMedia: {...localUserData.socialMedia, instagram: e.target.value,},})} fullWidth variant="outlined"/>
+          <TextField
+            sx={textFieldStyle}
+            label="First Name"
+            value={localUserData.firstName || ""}
+            onChange={(e) =>
+              setLocalUserData({ ...localUserData, firstName: e.target.value })
+            }
+            fullWidth
+            variant="outlined"
+          />
+          <TextField
+            sx={textFieldStyle}
+            label="Last Name"
+            value={localUserData.lastName || ""}
+            onChange={(e) =>
+              setLocalUserData({ ...localUserData, lastName: e.target.value })
+            }
+            fullWidth
+            variant="outlined"
+          />
+          <TextField
+            sx={textFieldStyle}
+            label="Bio"
+            value={localUserData.bio || ""}
+            onChange={(e) =>
+              setLocalUserData({ ...localUserData, bio: e.target.value })
+            }
+            fullWidth
+            variant="outlined"
+          />
+          <TextField
+            sx={textFieldStyle}
+            label="Phone Number"
+            value={localUserData.phoneNumber || ""}
+            onChange={(e) =>
+              setLocalUserData({
+                ...localUserData,
+                phoneNumber: e.target.value,
+              })
+            }
+            fullWidth
+            variant="outlined"
+          />
+          <TextField
+            sx={textFieldStyle}
+            label="Address"
+            value={localUserData.address || ""}
+            onChange={(e) =>
+              setLocalUserData({ ...localUserData, address: e.target.value })
+            }
+            fullWidth
+            variant="outlined"
+          />
+          <TextField
+            sx={textFieldStyle}
+            label="LinkedIn"
+            value={localUserData.socialMedia?.linkedIn || ""}
+            onChange={(e) =>
+              setLocalUserData({
+                ...localUserData,
+                socialMedia: {
+                  ...localUserData.socialMedia,
+                  linkedIn: e.target.value,
+                },
+              })
+            }
+            fullWidth
+            variant="outlined"
+          />
+          <TextField
+            sx={textFieldStyle}
+            label="GitHub"
+            value={localUserData.socialMedia?.github || ""}
+            onChange={(e) =>
+              setLocalUserData({
+                ...localUserData,
+                socialMedia: {
+                  ...localUserData.socialMedia,
+                  github: e.target.value,
+                },
+              })
+            }
+            fullWidth
+            variant="outlined"
+          />
+          <TextField
+            sx={textFieldStyle}
+            label="Instagram"
+            value={localUserData.socialMedia?.instagram || ""}
+            onChange={(e) =>
+              setLocalUserData({
+                ...localUserData,
+                socialMedia: {
+                  ...localUserData.socialMedia,
+                  instagram: e.target.value,
+                },
+              })
+            }
+            fullWidth
+            variant="outlined"
+          />
           <Button
             variant="contained"
             style={buttonStyle}

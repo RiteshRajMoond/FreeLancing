@@ -12,7 +12,7 @@ const DeveloperJobList = () => {
     const fetchSelectedJobs = async () => {
       try {
         const response = await axios.get("/user/selected-jobs");
-        console.log(response.data.jobs);
+        // console.log(response.data.jobs);
         setJobs(response.data.jobs);
       } catch (error) {
         console.error("Error fetching selected jobs:", error);
@@ -28,7 +28,7 @@ const DeveloperJobList = () => {
 
   // Styles for the background
   const backgroundStyle = {
-    backgroundImage: `url(${backgroundImage})`,
+    backgroundImage: `url(https://firebasestorage.googleapis.com/v0/b/freelancing-2af5d.appspot.com/o/assets%2Fbg5.jpg?alt=media&token=512cce5e-c5ff-4ed7-9a57-f84b5247e0b1)`,
     backgroundSize: "cover",
     backgroundPosition: "center",
     minHeight: "100vh",

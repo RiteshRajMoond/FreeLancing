@@ -21,13 +21,13 @@ import {
 } from "@mui/icons-material";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import {toast, Toaster} from 'react-hot-toast';
+import { toast, Toaster } from "react-hot-toast";
 
 const JobDescription = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { job } = location.state || {};
-  console.log("Received job data:", job);
+  // console.log("Received job data:", job);
 
   const [status, setStatus] = useState("open");
 
@@ -38,9 +38,9 @@ const JobDescription = () => {
   const handleApply = async () => {
     try {
       const resp = await axios.post("/user/job/apply-job", { jobId: job._id });
-      console.log(resp.data);
+      // console.log(resp.data);
       toast.success(resp.data.message);
-      setTimeout(() =>navigate('/alljobs'), 1000);
+      setTimeout(() => navigate("/alljobs"), 1000);
     } catch (error) {
       console.error(error);
       toast.error("Failed to apply, already applied");
@@ -67,7 +67,7 @@ const JobDescription = () => {
 
   return (
     <>
-    <Toaster/>
+      <Toaster />
       <Card
         style={{ height: "30vh", position: "relative", overflow: "hidden" }}
       >
@@ -145,15 +145,7 @@ const JobDescription = () => {
                 color="text.secondary"
                 style={{ marginBottom: "10px", marginTop: "20px" }}
               >
-                <strong>Description:</strong> {job.description} Lorem ipsum
-                dolor sit, amet consectetur adipisicing elit. Atque ipsam libero
-                beatae, facilis molestiae quae voluptates nisi accusantium?
-                Consequuntur dolor quibusdam dignissimos pariatur fuga odit
-                minima earum sapiente facere qui! Non, maiores! Temporibus quae
-                voluptas magnam, delectus eveniet distinctio exercitationem,
-                inventore vitae quam dolorum omnis nulla sunt, quisquam unde
-                accusamus molestias harum laudantium id? Facere quisquam
-                consequatur repellat tempora magni.
+                <strong>Description:</strong> {job.description || ""}
               </Typography>
 
               <Typography
@@ -195,7 +187,12 @@ const JobDescription = () => {
         </Container>
 
         <Container style={containerStyle2}>
-          <Button fullWidth variant="contained" style={{ height: "50px" }} onClick={handleApply}>
+          <Button
+            fullWidth
+            variant="contained"
+            style={{ height: "50px" }}
+            onClick={handleApply}
+          >
             Select this project
           </Button>
           <Divider style={dividerStyle} />
@@ -237,7 +234,9 @@ const JobDescription = () => {
             color="text.secondary"
             style={{ marginBottom: "10px" }}
           >
-            🕛 Member since: {new Date(job.postedBy.createdAt).toLocaleDateString() || "Unknown Date"}
+            🕛 Member since:{" "}
+            {new Date(job.postedBy.createdAt).toLocaleDateString() ||
+              "Unknown Date"}
           </Typography>
 
           <Divider style={dividerStyle} />
