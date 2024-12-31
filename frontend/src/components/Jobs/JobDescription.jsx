@@ -27,7 +27,7 @@ const JobDescription = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { job } = location.state || {};
-  console.log("Received job data:", job);
+  // console.log("Received job data:", job);
 
   const [status, setStatus] = useState("open");
 
@@ -38,7 +38,7 @@ const JobDescription = () => {
   const handleApply = async () => {
     try {
       const resp = await axios.post("/user/job/apply-job", { jobId: job._id });
-      console.log(resp.data);
+      // console.log(resp.data);
       toast.success(resp.data.message);
       setTimeout(() => navigate("/alljobs"), 1000);
     } catch (error) {
@@ -72,7 +72,7 @@ const JobDescription = () => {
         style={{ height: "30vh", position: "relative", overflow: "hidden" }}
       >
         <img
-          src="https://firebasestorage.googleapis.com/v0/b/freelancing-2af5d.appspot.com/o/assets%2Fbg5.jpg?alt=media&token=512cce5e-c5ff-4ed7-9a57-f84b5247e0b1"
+          src="../../assets/alljobs2.jpg"
           alt="Background"
           style={{
             width: "100%",

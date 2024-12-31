@@ -1,5 +1,4 @@
 const socketio = require("socket.io");
-
 const Chats = require("./models/Chats");
 
 const setupSocket = (server) => {
@@ -13,10 +12,10 @@ const setupSocket = (server) => {
 
   io.on("connection", (socket) => {
     socket.on("sendMsg", async (msg) => {
-      console.log(msg);
-      io.emit("recieveMsg", msg);
+      // console.log(msg);
+      io.emit("receiveMsg", msg);
 
-      const { jobId, senderName, text } = msg;
+      const { jobId, senderName = "Anonymous", text = "No message" } = msg;
       const chat = await Chats.findOne({ jobId });
       if (chat) {
         chat.messages.push({ senderName, text });
@@ -30,9 +29,7 @@ const setupSocket = (server) => {
       socket.broadcast.emit("typing", user);
     });
 
-    socket.on("disconnect", () => {
-      //   console.log("user disconnected");
-    });
+    socket.on("disconnect", () => {});
   });
 };
 

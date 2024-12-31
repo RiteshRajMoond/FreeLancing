@@ -10,6 +10,7 @@ import {
   Box,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import backgroundImage from "../../../assets/jobsPosted.webp";
 
 const JobList = () => {
   const [jobs, setJobs] = useState([]);
@@ -20,7 +21,7 @@ const JobList = () => {
       try {
         const response = await axios.get("/user/job/user-jobs");
         setJobs(response.data.jobs);
-        console.log(response.data.jobs);
+        // console.log(response.data.jobs);
       } catch (error) {
         console.error(error);
       }
@@ -107,7 +108,7 @@ const JobList = () => {
             <Grid item xs={12} sm={6} md={4} key={job._id}>
               <Card
                 style={{
-                  backgroundColor: "rgba(255, 255, 255, 0.5)",
+                  backgroundColor: "rgba(255, 255, 255, 0.8)",
                   borderRadius: "10px",
                   boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
                   cursor: "pointer",

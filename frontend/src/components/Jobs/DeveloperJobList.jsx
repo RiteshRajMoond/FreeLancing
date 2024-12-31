@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Container, Typography, Grid, Card, CardContent } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import backgroundImage from "../../../assets/appliedJobs.webp";
 
 const DeveloperJobList = () => {
   const [jobs, setJobs] = useState([]);
@@ -11,7 +12,7 @@ const DeveloperJobList = () => {
     const fetchSelectedJobs = async () => {
       try {
         const response = await axios.get("/user/selected-jobs");
-        console.log(response.data.jobs);
+        // console.log(response.data.jobs);
         setJobs(response.data.jobs);
       } catch (error) {
         console.error("Error fetching selected jobs:", error);

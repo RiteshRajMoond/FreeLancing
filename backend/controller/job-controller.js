@@ -77,7 +77,7 @@ exports.applyForJob = async (req, res, next) => {
 exports.getJobDetails = async (req, res, next) => {
   try {
     const { jobId } = req.params;
-    console.log(req.params);
+    // console.log(req.params);
 
     const job = await Job.findById(jobId).populate(
       "postedBy",
@@ -104,7 +104,7 @@ exports.getJobApplicants = async (req, res, next) => {
 
     const applicantIds = job.applicants.map((applicant) => applicant.userId);
     const applicants = await User.find({ _id: { $in: applicantIds } });
-
+    
     return res.status(200).json({ applicants });
   } catch (error) {
     return res.status(500).json({ message: error.message });
@@ -167,20 +167,20 @@ exports.uploadFile = [
       const storageRef = ref(storage, `files/${jobId}+${dateTime}`);
       const metadata = { contentType: req.file.mimetype };
 
-      console.log("Uploading file to Firebase Storage...");
+      // console.log("Uploading file to Firebase Storage...");
       const snapshot = await uploadBytesResumable(
         storageRef,
         req.file.buffer,
         metadata
       );
-      console.log("File uploaded to Firebase Storage");
+      // console.log("File uploaded to Firebase Storage");
 
       const downloadUrl = await getDownloadURL(snapshot.ref);
-      console.log("Download URL obtained:", downloadUrl);
+      // console.log("Download URL obtained:", downloadUrl);
 
       job.submittedFiles.push(downloadUrl);
       await job.save();
-      console.log("File URL saved to job document");
+      // console.log("File URL saved to job document");
 
       return res
         .status(200)

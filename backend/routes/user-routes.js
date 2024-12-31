@@ -45,7 +45,6 @@ router.get(
 
 router.get(
   "/job/all-jobs",
-  verifyUserJWT,
   apiRateLimit,
   jobController.getAllJobs
 );

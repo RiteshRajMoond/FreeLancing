@@ -10,17 +10,18 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
-  Grid2,
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
+import backgroundImage from "../../../assets/d6.webp"; 
 import PersonalInfo from "./PersonalInfo";
 import Experience from "./Experience";
 import Education from "./Education";
 import axios from "axios";
+import { Filter } from "@mui/icons-material";
 
 const Dashboard = () => {
   const linkStyle = {
-    color: "#ff9800",
+    color: "white",
     textDecoration: "none",
   };
 
@@ -39,7 +40,8 @@ const Dashboard = () => {
     backgroundImage: `url(https://firebasestorage.googleapis.com/v0/b/freelancing-2af5d.appspot.com/o/assets%2Fbg6.jpg?alt=media&token=0ca7dd55-a193-4c80-948f-4b5f2bf8cf9f)`,
     backgroundSize: "cover",
     backgroundPosition: "center",
-    zIndex: -1, // Keep the background behind other content
+    zIndex: -1, // Keep the background behind other content,
+    filter: 'blur(5px)'
   };
 
   const imgStyle = {
@@ -55,23 +57,33 @@ const Dashboard = () => {
     "&:hover": { color: "white" },
   };
 
-  const editStackStyle = {
-    backgroundColor: "rgba(255, 255, 255, 0.9)", // Semi-transparent form background
-    padding: "20px",
-    borderRadius: "15px",
-    boxShadow: "0 8px 16px rgba(0, 0, 0, 0.2)",
-    maxWidth: "600px",
-    margin: "50px auto",
-    backdropFilter: "blur(5px)", // Optional: adds a blur effect to the background
+  const dialogStyle = {
+    background: "linear-gradient(360deg,rgb(112, 144, 135),rgb(152, 193, 167),rgb(158, 210, 221))",
+    border: "1px solid white",
+    borderRadius: "12px",
+    color: "white",
+  };
+
+  const textFieldStyle = {
+    background: "transparent",
+    marginTop: "15px",
+    input: {
+      color: "#000",
+    },
+  };
+
+  const buttonStyle = {
+    color: "white",
+    fontWeight: "bold",
+    borderRadius: "10px",
+    textTransform: "none",
   };
 
   const [activeSection, setActiveSection] = useState("personalInfo");
-  const [imageLink, setImageLink] = useState(
-    "https://firebasestorage.googleapis.com/v0/b/freelancing-2af5d.appspot.com/o/assets%2FPP1.jpg?alt=media&token=914efc65-e9b1-4ca1-b9ab-1d1bdb2ca564"
-  );
+  const [imageLink, setImageLink] = useState("");
   const [isEditing, setIsEditing] = useState(false);
   const [openModal, setOpenModal] = useState(false);
-  const [selectedImage, setSelectedImage] = useState("");
+  const [selectedImage, setSelectedImage] = useState(null);
   const [userData, setUserData] = useState(null);
 
   useEffect(() => {
@@ -82,8 +94,7 @@ const Dashboard = () => {
     try {
       const resp = await axios.get("/user/get-user");
       setUserData(resp.data.user);
-      setImageLink(resp.data.user.profilePicture || imageLink);
-      console.log(resp.data.user);
+      setImageLink(resp.data.user.profilePicture || "");
     } catch (error) {
       console.log(error);
     }
@@ -109,7 +120,6 @@ const Dashboard = () => {
         },
       });
       setImageLink(resp.data.url);
-      console.log("Image changed");
     } catch (error) {
       console.log("Error uploading image", error);
     }
@@ -117,7 +127,6 @@ const Dashboard = () => {
 
   const handleImageUpdate = () => {
     if (selectedImage) handleImageUpload(selectedImage);
-    else selectedImage(imageLink);
     setIsEditing(false); // Exit edit mode
     setOpenModal(false); // Close the modal
   };
@@ -182,83 +191,29 @@ const Dashboard = () => {
 
       {/* Image Selection Dialog */}
       <Dialog open={openModal} onClose={() => setOpenModal(false)}>
-        <Stack
-          style={{
-            background: "linear-gradient(135deg, #000000, #333333, #666666)",
-            padding: "3px",
-            border: "1px solid gray",
-          }}
-        >
-          <DialogTitle style={{ textAlign: "center", color: "white" }}>
-            {" "}
-            Select an Image
+        <Stack sx={dialogStyle}>
+          <DialogTitle style={{ textAlign: "center" }}>
+            Upload an Image
           </DialogTitle>
           <DialogContent>
-            <Grid2 container spacing={2}>
-              {sampleImages.map((img, index) => (
-                <Grid2 item xs={3} key={index}>
-                  <img
-                    src={img}
-                    alt={`Sample ${index + 1}`}
-                    style={{
-                      height: "160px",
-                      width: "160px",
-                      cursor: "pointer",
-                      borderRadius: "50%",
-                      border: "3px solid #ffffff",
-                    }}
-                    onClick={() => setSelectedImage(img)}
-                    onMouseEnter={(e) =>
-                      (e.currentTarget.style.transform = "scale(1.1)")
-                    }
-                    onMouseLeave={(e) =>
-                      (e.currentTarget.style.transform = "scale(1)")
-                    }
-                  />
-                </Grid2>
-              ))}
-              <Grid2 item xs={12}>
-                <TextField
-                  label="Or enter image URL"
-                  variant="outlined"
-                  fullWidth
-                  value={selectedImage}
-                  onChange={(e) => setSelectedImage(e.target.value)}
-                  sx={{
-                    backgroundColor: "#ffffff",
-                    borderRadius: "10px",
-                    marginTop: "15px",
-                  }}
-                />
-                <input
-                  type="file"
-                  accept="image/*"
-                  style={{ marginTop: "10px", color: "white" }}
-                  onChange={(e) => setSelectedImage(e.target.files[0])}
-                />
-              </Grid2>
-            </Grid2>
+            <TextField
+              type="file"
+              accept="image/*"
+              fullWidth
+              onChange={(e) => setSelectedImage(e.target.files[0])}
+              sx={textFieldStyle}
+            />
           </DialogContent>
           <DialogActions>
             <Button
               onClick={() => setOpenModal(false)}
-              style={{
-                color: "white",
-                backgroundColor: "black",
-                fontWeight: "bold",
-                borderRadius: "10px",
-              }}
+              sx={{ ...buttonStyle, backgroundColor: "#444" }}
             >
               Cancel
             </Button>
             <Button
               onClick={handleImageUpdate}
-              style={{
-                color: "white",
-                backgroundColor: "#666666",
-                fontWeight: "bold",
-                borderRadius: "10px",
-              }}
+              sx={{ ...buttonStyle, backgroundColor: "teal" }}
             >
               Update Image
             </Button>

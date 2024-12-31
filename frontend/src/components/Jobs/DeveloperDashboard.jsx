@@ -40,7 +40,7 @@ const DeveloperDashboard = () => {
       );
       setSuccess("File uploaded successfully");
       setError(null);
-      console.log(response.data.url);
+      // console.log(response.data.url);
 
       // Reset file and fileName after successful upload
       setFile(null);
@@ -60,7 +60,7 @@ const DeveloperDashboard = () => {
         alignItems: "center",
         justifyContent: "center",
         minHeight: "100vh",
-        backgroundImage: `url(https://firebasestorage.googleapis.com/v0/b/freelancing-2af5d.appspot.com/o/assets%2Fbg5.jpg?alt=media&token=512cce5e-c5ff-4ed7-9a57-f84b5247e0b1)`,
+        backgroundImage: `url('../../assets/alljobs11.jpg')`,
         backgroundSize: "cover",
         backgroundPosition: "center",
         padding: 4,
@@ -136,7 +136,7 @@ const DeveloperDashboard = () => {
       >
         Upload File
       </Button>
-      <Chat userRole="Developer" /> {/* Add the Chat component */}
+      <Chat senderName={senderName} jobId={jobId}/> {/* Add the Chat component */}
     </Box>
   );
 };

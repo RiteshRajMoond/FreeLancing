@@ -1,6 +1,7 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import backgroundImage from '../../../assets/jobsPosted.webp'; // Adjust the path as necessary
+import axios from 'axios';
 import {
   Container,
   Typography,

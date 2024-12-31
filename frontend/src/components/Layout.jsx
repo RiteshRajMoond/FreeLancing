@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import logo from "../../assets/logo.gif"; // Replace with your logo path
 
 const Layout = ({ children }) => {
   return (
@@ -8,13 +9,7 @@ const Layout = ({ children }) => {
         style={{ position: "fixed", top: "10px", left: "10px", zIndex: 1000 }}
       >
         <Link to="/">
-          <img
-            src={
-              "https://firebasestorage.googleapis.com/v0/b/freelancing-2af5d.appspot.com/o/assets%2Flogo.jpg?alt=media&token=2b86205e-c740-4519-b808-84fe233e7a0b"
-            }
-            alt="Logo"
-            style={{ height: "60px", width: "60px", borderRadius: "50%" }}
-          />
+          <img src={logo} alt="Logo" style={{ height: "80px", width:"80px", borderRadius:"50%" }} />
         </Link>
       </div>
 

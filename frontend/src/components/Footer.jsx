@@ -1,4 +1,4 @@
-import { Box, Container, IconButton, Link, Typography } from "@mui/material";
+import { Box, IconButton, Link, Typography } from "@mui/material";
 import React from "react";
 import {
   Facebook,
@@ -7,6 +7,7 @@ import {
   LinkedIn,
   GitHub,
 } from "@mui/icons-material";
+import "@fontsource/poppins";
 
 const Footer = () => {
   const companyLinks = [
@@ -18,7 +19,6 @@ const Footer = () => {
     { text: "Privacy Policy", url: "/privacy-policy" },
     { text: "Cookie Policy", url: "/cookie-policy" },
     { text: "Accessibility Statement", url: "/accessibility-statement" },
-    // { text: "Sitemap", url: "/sitemap" },
   ];
 
   const communityLinks = [
@@ -52,155 +52,99 @@ const Footer = () => {
   return (
     <Box
       sx={{
-        backgroundImage: "linear-gradient(90deg, #000000, #333333)",
-        color: "#fff",
-        py: 5,
-        borderTop: "1px solid #4a4a4a",
-        "&:hover": {
-          borderTop: "1px solid #ffffff",
-          transition: "border-color 0.3s ease-in-out",
-        },
+        background: "linear-gradient(180deg,rgb(255, 255, 255), #0d0d0d)",
+        color: "#FFF",
+        py: 6,
+        px: 3,
+        fontFamily: "Poppins, sans-serif",
       }}
     >
-      <Box
+      {/* Quick Links Header */}
+      <Typography
+        variant="h4"
         sx={{
-          marginLeft: "10px",
-          marginBottom: "50px",
-          marginRight: "10px",
-          display: "flex",
-          flexDirection: { xs: "column", sm: "row" },
-          justifyContent: "space-around",
-          flexWrap: "wrap",
+          fontWeight: "bold",
+          color: "#503f66",
+          textAlign: "center",
+          mb: 5,
+          fontFamily: "Poppins, sans-serif"
         }}
       >
-        {/* <Box sx={{ mb: { xs: 3, sm: 0 } }}> */}
-        <Typography variant="h4" sx={{ marginTop: "70px", color: "#848485" }}>
-          Quick Links 👉🏻
-        </Typography>
+        Quick Links 
+      </Typography>
 
-        {/* </Box> */}
-        <Box sx={{ mb: { xs: 3, sm: 0 } }}>
-          <Typography variant="h5" sx={{ color: "white", mb: "10px" }}>
-            Products
-          </Typography>
-          {productLinks.map((link) => (
-            <Link
-              key={link.text}
-              href={link.url}
-              color="inherit"
-              display="block"
-              sx={{
-                textDecoration: "none",
-                mb: 0, // Add spacing between links
-                color: "rgba(255, 255, 255, 0.7)", // Duller color
-                transition: "color 0.3s", // Smooth transition
-                "&:hover": {
-                  color: "rgba(255, 255, 255, 1)", // Brighter color on hover
-                  textDecoration: "underline",
-                },
-              }}
-            >
-              {link.text}
-            </Link>
-          ))}
-        </Box>
-        <Box sx={{ mb: { xs: 3, sm: 0 } }}>
-          <Typography variant="h5" sx={{ color: "white", mb: "10px" }}>
-            Company
-          </Typography>
-          {companyLinks.map((link) => (
-            <Link
-              key={link.text}
-              href={link.url}
-              color="inherit"
-              display="block"
-              sx={{
-                textDecoration: "none",
-                mb: 0, // Add spacing between links
-                color: "rgba(255, 255, 255, 0.7)", // Duller color
-                transition: "color 0.3s", // Smooth transition
-                "&:hover": {
-                  color: "rgba(255, 255, 255, 1)",
-                  textDecoration: "underline",
-                },
-              }}
-            >
-              {link.text}
-            </Link>
-          ))}
-        </Box>
-        <Box sx={{ mb: { xs: 3, sm: 0 } }}>
-          <Typography variant="h5" sx={{ color: "white", mb: "10px" }}>
-            Community
-          </Typography>
-          {communityLinks.map((link) => (
-            <Link
-              key={link.text}
-              href={link.url}
-              color="inherit"
-              display="block"
-              sx={{
-                textDecoration: "none",
-                mb: 0, // Add spacing between links
-                color: "rgba(255, 255, 255, 0.7)", // Duller color
-                transition: "color 0.3s", // Smooth transition
-                "&:hover": {
-                  color: "rgba(255, 255, 255, 1)",
-                  textDecoration: "underline",
-                },
-              }}
-            >
-              {link.text}
-            </Link>
-          ))}
-        </Box>
-        <Box sx={{ mb: { xs: 3, sm: 0 } }}>
-          <Typography variant="h5" sx={{ color: "white", mb: "10px" }}>
-            Get Help
-          </Typography>
-          {getHelpLinks.map((link) => (
-            <Link
-              key={link.text}
-              href={link.url}
-              color="inherit"
-              display="block"
-              sx={{
-                textDecoration: "none",
-                mb: 0, // Add spacing between links
-                color: "rgba(255, 255, 255, 0.7)", // Duller color
-                transition: "color 0.3s", // Smooth transition
-                "&:hover": {
-                  color: "rgba(255, 255, 255, 1)", // Brighter color on hover
-                  textDecoration: "underline",
-                },
-              }}
-            >
-              {link.text}
-            </Link>
-          ))}
-        </Box>
-      </Box>
+      {/* Links Section */}
       <Box
         sx={{
-          width: "100%",
+          display: "flex",
+          flexDirection: { xs: "column", md: "row" },
+          justifyContent: "space-between",
+          gap: 4,
+        }}
+      >
+        {[{ title: "Products", links: productLinks }, 
+          { title: "Company", links: companyLinks },
+          { title: "Community", links: communityLinks },
+          { title: "Get Help", links: getHelpLinks }].map((section, index) => (
+          <Box key={index}>
+            <Typography
+              variant="h5"
+              sx={{
+                mb: 2,
+                textTransform: "uppercase",
+                letterSpacing: "1px",
+                color: "teal",
+                fontWeight: "bold",
+                fontFamily: "Poppins, sans-serif"
+              }}
+            >
+              {section.title}
+            </Typography>
+            {section.links.map((link) => (
+              <Link
+                key={link.text}
+                href={link.url}
+                color="inherit"
+                display="block"
+                sx={{
+                  fontFamily: "Poppins, sans-serif",
+                  textDecoration: "none",
+                  mb: 1,
+                  color: "rgb(255, 255, 255)",
+                  transition: "color 0.3s",
+                  "&:hover": {
+                    color: "#FFD700",
+                    textDecoration: "underline",
+                  },
+                }}
+              >
+                {link.text}
+              </Link>
+            ))}
+          </Box>
+        ))}
+      </Box>
+
+      {/* Social Media Section */}
+      <Box
+        sx={{
+          mt: 6,
           textAlign: "center",
           borderTop: "1px solid #4a4a4a",
-          "&:hover": {
-            borderTop: "1px solid #ffffff",
-            transition: "border-color 0.3s ease-in-out",
-          },
+          pt: 3,
         }}
       >
-        <Typography sx={{ color: "#848485", marginTop: "20px" }} variant="h5">
+        <Typography
+          sx={{ color: "#FFD700", mb: 2, fontFamily: "Poppins, sans-serif" }}
+          variant="h5"
+        >
           Follow Us!
         </Typography>
         <Box
           sx={{
             display: "flex",
             justifyContent: "center",
-            gap: "1",
-            marginTop: "10px",
-            marginBottom: "-20px",
+            gap: 2,
           }}
         >
           <IconButton
@@ -209,7 +153,7 @@ const Footer = () => {
             rel="noopener noreferrer"
             sx={{
               color: "rgba(255, 255, 255, 0.7)",
-              "&:hover": { color: "rgba(255, 255, 255, 1)" },
+              "&:hover": { color: "lightblue",transform: "scale(1.5)" },
             }}
           >
             <Facebook />
@@ -220,7 +164,7 @@ const Footer = () => {
             rel="noopener noreferrer"
             sx={{
               color: "rgba(255, 255, 255, 0.7)",
-              "&:hover": { color: "rgba(255, 255, 255, 1)" },
+              "&:hover": { color: "purple",transform: "scale(1.5)" },
             }}
           >
             <Instagram />
@@ -231,7 +175,7 @@ const Footer = () => {
             rel="noopener noreferrer"
             sx={{
               color: "rgba(255, 255, 255, 0.7)",
-              "&:hover": { color: "rgba(255, 255, 255, 1)" },
+              "&:hover": { color: "#FF0000",transform: "scale(1.5)" },
             }}
           >
             <YouTube />
@@ -242,7 +186,7 @@ const Footer = () => {
             rel="noopener noreferrer"
             sx={{
               color: "rgba(255, 255, 255, 0.7)",
-              "&:hover": { color: "rgba(255, 255, 255, 1)" },
+              "&:hover": { color: "#0E76A8",transform: "scale(1.5)" },
             }}
           >
             <LinkedIn />
@@ -253,7 +197,7 @@ const Footer = () => {
             rel="noopener noreferrer"
             sx={{
               color: "rgba(255, 255, 255, 0.7)",
-              "&:hover": { color: "rgba(255, 255, 255, 1)" },
+              "&:hover": { color: "#000",transform: "scale(1.5)" },
             }}
           >
             <GitHub />

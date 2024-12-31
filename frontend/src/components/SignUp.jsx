@@ -1,67 +1,27 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import { toast, Toaster } from "react-hot-toast";
-import {
-  Select,
-  Box,
-  Button,
-  TextField,
-  Typography,
-  MenuItem,
-  InputLabel,
-  FormControl,
-} from "@mui/material";
+import React, { useState } from 'react';
+import { CssVarsProvider, extendTheme } from '@mui/joy/styles';
+import GlobalStyles from '@mui/joy/GlobalStyles';
+import CssBaseline from '@mui/joy/CssBaseline';
+import Box from '@mui/joy/Box';
+import Button from '@mui/joy/Button';
+import Checkbox from '@mui/joy/Checkbox';
+import Divider from '@mui/joy/Divider';
+import FormControl from '@mui/joy/FormControl';
+import FormLabel from '@mui/joy/FormLabel';
+import Input from '@mui/joy/Input';
+import Typography from '@mui/joy/Typography';
+import { useNavigate, Link as Lk } from 'react-router-dom';
+import { toast } from 'react-hot-toast';
+import axios from 'axios';
 
-const SignUp = () => {
-  const vidStyle = {
-    position: "fixed",
-    width: "100%",
-    height: "100%",
-    top: "50%",
-    left: "50%",
-    objectFit: "cover",
-    transform: "translate(-50%, -50%)",
-    zIndex: "-1",
-  };
-  const inputStyle = {
-    margin: "10px 0",
-    backgroundColor: "rgba(255, 255, 255, 0.5)",
-    borderRadius: "5px",
-  };
-  const buttonStyle = {
-    backgroundColor: "#191f3d",
-    color: "white",
-    padding: "10px",
-    marginTop: "20px",
-    "&:hover": { backgroundColor: "#d40000" },
-  };
-  const boxStyle1 = {
-    position: "relative",
-    height: "100vh",
-    overflow: "hidden",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-  };
-  const boxStyle2 = {
-    position: "relative",
-    zIndex: 1,
-    backgroundColor: "rgba(255, 255, 255, 0.2)",
-    padding: "40px",
-    borderRadius: "10px",
-    textAlign: "center",
-    maxWidth: "400px",
-    width: "100%",
-    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
-  };
+const customTheme = extendTheme({ defaultColorScheme: 'dark' });
 
+export default function SignUp() {
   const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [role, setRole] = useState("option1");
-  const [token, setToken] = useState("");
-
+const [email, setEmail] = useState("");
+const [password, setPassword] = useState("");
+const [role, setRole] = useState("option1");
+const [token, setToken] = useState("");
   const navigate = useNavigate();
 
   const handleUserSignup = async () => {
@@ -71,7 +31,7 @@ const SignUp = () => {
         email: email,
         password: password,
       });
-      toast.success("Login successful");
+      toast.success("SignUp successful");
       setTimeout(() => navigate("/"), 1000);
     } catch (error) {
       toast.error("This is the error!\n", error);
@@ -86,7 +46,7 @@ const SignUp = () => {
         password: password,
         inviteJWT: token,
       });
-      console.log("Admin signed Up!", res);
+      // console.log("Admin signed Up!", res);
     } catch (error) {
       console.error("This is the error!\n", error);
     }
@@ -99,162 +59,121 @@ const SignUp = () => {
   };
 
   return (
-    <Box sx={boxStyle1}>
-      <video autoPlay loop muted style={vidStyle}>
-        <source
-          src="https://firebasestorage.googleapis.com/v0/b/freelancing-2af5d.appspot.com/o/assets%2Fsignup.mp4?alt=media&token=c00fff8e-5864-4967-b3c6-93047fa87466"
-          type="video/mp4"
-        />
-      </video>
-      <Toaster />
-      <Box sx={boxStyle2}>
-        <Typography variant="h4" sx={{ color: "#fff", marginBottom: "20px" }}>
-          {" "}
-          Sign Up{" "}
-        </Typography>
-        <form onSubmit={handleSubmit}>
-          <TextField
-            sx={{
-              "& .MuiInputLabel-root": {
-                "&.Mui-focused": {
-                  color: "rgb(66, 66, 66)", // Label color when focused
-                },
-              },
-              "& .MuiFilledInput-underline:before": {
-                borderBottomColor: "rgb(66, 66, 66)", // Remove default underline
-              },
-              "& .MuiFilledInput-underline:after": {
-                borderBottom: "rgb(66, 66, 66)", // Remove underline on focus
-              },
-            }}
-            variant="filled"
-            onChange={(e) => {
-              setUsername(e.target.value);
-            }}
-            name="username"
-            required
-            label="Username"
-            type="text"
-            fullWidth
-            style={inputStyle}
-          />
-          <TextField
-            sx={{
-              "& .MuiInputLabel-root": {
-                "&.Mui-focused": {
-                  color: "rgb(66, 66, 66)", // Label color when focused
-                },
-              },
-              "& .MuiFilledInput-underline:before": {
-                borderBottomColor: "rgb(66, 66, 66)", // Remove default underline
-              },
-              "& .MuiFilledInput-underline:after": {
-                borderBottom: "rgb(66, 66, 66)", // Remove underline on focus
-              },
-            }}
-            variant="filled"
-            onChange={(e) => {
-              setEmail(e.target.value);
-            }}
-            name="email"
-            required
-            label="Email"
-            type="email"
-            fullWidth
-            style={inputStyle}
-          />
-          <TextField
-            sx={{
-              "& .MuiInputLabel-root": {
-                "&.Mui-focused": {
-                  color: "rgb(66, 66, 66)", // Label color when focused
-                },
-              },
-              "& .MuiFilledInput-underline:before": {
-                borderBottomColor: "rgb(66, 66, 66)", // Remove default underline
-              },
-              "& .MuiFilledInput-underline:after": {
-                borderBottom: "rgb(66, 66, 66)", // Remove underline on focus
-              },
-            }}
-            variant="filled"
-            onChange={(e) => {
-              setPassword(e.target.value);
-            }}
-            name="password"
-            required
-            label="Password"
-            type="password"
-            fullWidth
-            style={inputStyle}
-          />
-          <FormControl
-            variant="filled"
-            style={inputStyle}
-            fullWidth
-            sx={{
-              "& .MuiInputLabel-root": {
-                "&.Mui-focused": {
-                  color: "rgb(66, 66, 66)", // Label color when focused
-                },
-              },
-              "& .MuiFilledInput-underline:before": {
-                borderBottomColor: "rgb(66, 66, 66)", // Remove default underline
-              },
-              "& .MuiFilledInput-underline:after": {
-                borderBottom: "none", // Remove underline on focus
-              },
-              "& .MuiOutlinedInput-root": {
-                "&.Mui-focused fieldset": {
-                  borderColor: "transparent", // Remove the blue border on focus
-                },
-              },
-            }}
+    <CssVarsProvider theme={customTheme} disableTransitionOnChange>
+      <CssBaseline />
+      <GlobalStyles
+        styles={{
+          ':root': {
+            '--Form-maxWidth': '800px',
+            '--Transition-duration': '0.4s',
+          },
+        }}
+      />
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '100vh',
+          position: 'relative',
+          zIndex: 1,
+          backdropFilter: 'blur(1px)',
+        }}
+      >
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            px: 3,
+            py: 4,
+            width: 400,
+            maxWidth: '90%',
+            borderRadius: '50px',
+            backgroundColor: 'rgba(255, 255, 255, 0.6)',
+            boxShadow: '0 4px 10px rgba(0, 0, 0, 0.2)',
+            backdropFilter: 'blur(10px)',
+            '& form': {
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 2,
+            },
+          }}
+        >
+          <Box
+            component="header"
+            sx={{ py: 2, display: 'flex', justifyContent: 'center' }}
           >
-            <InputLabel id="select-label">Choose an option</InputLabel>
-            <Select
-              labelId="select-label"
-              label="Choose an option"
-              value={role}
-              onChange={(e) => setRole(e.target.value)}
-            >
-              <MenuItem value="option1">User</MenuItem>
-              <MenuItem value="option2">Admin</MenuItem>
-            </Select>
-          </FormControl>
-          {role === "option2" && (
-            <TextField
-              sx={{
-                "& .MuiInputLabel-root": {
-                  "&.Mui-focused": {
-                    color: "rgb(66, 66, 66)",
-                  },
-                },
-                "& .MuiFilledInput-underline:before": {
-                  borderBottomColor: "rgb(66, 66, 66)",
-                },
-                "& .MuiFilledInput-underline:after": {
-                  borderBottom: "rgb(66, 66, 66)",
-                },
-              }}
-              variant="filled"
-              onChange={(e) => setToken(e.target.value)}
-              name="inviteJWT"
-              required
-              label="Admin Token"
-              type="password"
-              fullWidth
-              style={inputStyle}
-            />
-          )}
-          <Button type="submit" variant="contained" style={buttonStyle}>
-            {" "}
-            Sign Up
-          </Button>
-        </form>
+            <Typography component="h1" level="h4">
+              Sign Up
+            </Typography>
+          </Box>
+          <Divider />
+          <Box component="main">
+            <form onSubmit={handleSubmit}>
+              <FormControl required>
+                <FormLabel>Username</FormLabel>
+                <Input
+                  type="text"
+                  name="username"
+                  onChange={(e) => setUsername(e.target.value)}
+                />
+              </FormControl>
+              <FormControl required>
+                <FormLabel>Email</FormLabel>
+                <Input
+                  type="email"
+                  name="email"
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </FormControl>
+              <FormControl required>
+                <FormLabel>Password</FormLabel>
+                <Input
+                  type="password"
+                  name="password"
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </FormControl>
+              <Box
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}
+              >
+                <Checkbox size="sm" label="Remember me" name="persistent" />
+                
+              </Box>
+              <Button type="submit" fullWidth>
+                Submit
+              </Button>
+            </form>
+          </Box>
+          <Box component="footer" sx={{ py: 3, textAlign: 'center' }}>
+            <Typography level="body-xs">
+              Already a user?{' '}
+              <Lk to="/login" style={{ textDecoration: 'none' }}>
+                Sign in!
+              </Lk>
+            </Typography>
+          </Box>
+        </Box>
       </Box>
-    </Box>
+      <Box
+        sx={{
+          height: '100%',
+          position: 'fixed',
+          top: 0,
+          bottom: 0,
+          left: 0,
+          right: 0,
+          zIndex: 0,
+          backgroundImage: 'url("../../assets/signup.webp")',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          filter: 'blur(7px)',
+        }}
+      />
+    </CssVarsProvider>
   );
-};
-
-export default SignUp;
+}

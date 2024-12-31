@@ -50,8 +50,8 @@ const PersonalInfo = ({ userData, handleSave }) => {
   };
 
   const editStackStyle = {
-    backgroundColor: "rgba(255, 255, 255, 0.4)",
-    color: "white",
+    backgroundColor: "rgba(255, 255, 255, 0.6)",
+    color:"white",
     margin: "50px auto",
     padding: "20px",
     borderRadius: "15px",
