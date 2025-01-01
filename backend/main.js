@@ -8,6 +8,7 @@ const db = require("./config/db");
 
 const adminRoutes = require("./routes/admin-routes");
 const userRoutes = require("./routes/user-routes");
+const stripeRoutes = require("./routes/payment-routes");
 
 const app = express();
 const server = require("http").createServer(app);
@@ -26,6 +27,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Routes
 app.use("/api/v1/admin", adminRoutes);
 app.use("/api/v1/user", userRoutes);
+app.use("/api/v1/stripe", stripeRoutes);
 
 db().then(() => {
   server.listen(process.env.PORT, () => {
