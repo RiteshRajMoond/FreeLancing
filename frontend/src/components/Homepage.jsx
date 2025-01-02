@@ -145,7 +145,7 @@ const Homepage = () => {
             position: "absolute",
             width: "100%",
             height: "100%",
-            backgroundImage: 'url("../../assets/moth.webp")',
+            backgroundImage: 'url("../../assets/moth.jpg")',
             backgroundSize: "cover",
             backgroundPosition: "center",
             backgroundColor: "white",
