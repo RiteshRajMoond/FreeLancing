@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import { Box, Typography, TextField, Button } from "@mui/material";
-import Chat from "../Chat/Chat";
 
 const DeveloperDashboard = () => {
   const { jobId } = useParams();
@@ -136,7 +135,6 @@ const DeveloperDashboard = () => {
       >
         Upload File
       </Button>
-      <Chat senderName={senderName} jobId={jobId}/> {/* Add the Chat component */}
     </Box>
   );
 };

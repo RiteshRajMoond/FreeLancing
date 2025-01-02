@@ -12,7 +12,6 @@ import {
   Button,
 } from "@mui/material";
 import backgroundImage from "../../../assets/jobsPosted.webp";
-import Chat from "../Chat/Chat"; // Import the Chat component
 
 const ClientDashboard = () => {
   const { jobId } = useParams();
@@ -237,8 +236,6 @@ const ClientDashboard = () => {
               </Typography>
             </Box>
           )}
-          <Chat senderName={senderName} jobId={jobId} />{" "}
-          {/* Add the Chat component */}
         </Paper>
       </Container>
     </Box>
