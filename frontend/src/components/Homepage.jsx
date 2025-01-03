@@ -145,7 +145,7 @@ const Homepage = () => {
             position: "absolute",
             width: "100%",
             height: "100%",
-            backgroundImage: 'url("../../assets/moth.jpg")',
+            backgroundImage: 'url("../../assets/moth.webp")',
             backgroundSize: "cover",
             backgroundPosition: "center",
             backgroundColor: "white",
@@ -239,7 +239,7 @@ const Homepage = () => {
               width: "30%",
               height: "55%",
               // backgroundImage: "linear-gradient(300deg,rgb(182, 253, 236),rgb(255, 197, 206))", // Light teal to light pink gradient
-              backgroundImage: 'url("../../assets/clouds.webp")',
+              backgroundImage: 'url("../../assets/clouds.jpg")',
               backgroundSize: "cover",
               borderRadius: "30px",
               boxShadow: 24,
