@@ -2,7 +2,7 @@ import { Box, Button, Card, CardContent, IconButton, Typography } from "@mui/mat
 import React, { useRef, useState, useEffect } from "react";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-
+import bg from "../../assets/leaf.webp";
 // Import Google Font
 import "@fontsource/poppins"; // Modern and aesthetic font
 
@@ -47,47 +47,36 @@ const HomeCard = () => {
   ];
 
   const containerRef = useRef(null);
+  const scrollAmount = 300; // Adjust scroll amount as needed
 
-  const [scrollPosition, setScrollPosition] = useState(0);
   const [isAtStart, setIsAtStart] = useState(true);
   const [isAtEnd, setIsAtEnd] = useState(false);
 
-  const handleScrollLeft = () => {
+  const handleScroll = (direction) => {
     if (containerRef.current) {
       const containerWidth = containerRef.current.clientWidth;
-      const newPosition = Math.max(scrollPosition - containerWidth, 0);
-      containerRef.current.scrollTo({
-        left: newPosition,
-        behavior: "smooth",
-      });
-      setScrollPosition(newPosition);
-    }
-  };
+      let newPosition;
 
-  const handleScrollRight = () => {
-    if (containerRef.current) {
-      const containerWidth = containerRef.current.clientWidth;
-      const newPosition = Math.min(
-        scrollPosition + containerWidth,
-        containerRef.current.scrollWidth - containerRef.current.clientWidth
-      );
-      containerRef.current.scrollTo({
-        left: newPosition,
-        behavior: "smooth",
-      });
-      setScrollPosition(newPosition);
-    }
-  };
-
-  useEffect(() => {
-    if (containerRef.current) {
-      setIsAtStart(scrollPosition === 0);
-      setIsAtEnd(
-        scrollPosition >=
+      if (direction === "left") {
+        newPosition = Math.max(containerRef.current.scrollLeft - scrollAmount, 0);
+      } else {
+        newPosition = Math.min(
+          containerRef.current.scrollLeft + scrollAmount,
           containerRef.current.scrollWidth - containerRef.current.clientWidth
+        );
+      }
+
+      containerRef.current.scrollTo({
+        left: newPosition,
+        behavior: "smooth",
+      });
+
+      setIsAtStart(newPosition === 0);
+      setIsAtEnd(
+        newPosition >= containerRef.current.scrollWidth - containerWidth
       );
     }
-  }, [scrollPosition]);
+  };
 
   return (
     <Box
@@ -98,6 +87,7 @@ const HomeCard = () => {
         backgroundSize: "contain",
         color: "#fff",
         fontFamily: "Poppins, sans-serif", // Set default font
+        overflow: "hidden", // Prevents horizontal scroll on the entire site
       }}
     >
       <Typography
@@ -111,7 +101,7 @@ const HomeCard = () => {
           fontFamily: "Poppins, sans-serif",
         }}
       >
-      Trusted and utilized by our precious clients
+        Trusted and utilized by our precious clients
       </Typography>
       <Typography
         variant="h5"
@@ -128,7 +118,7 @@ const HomeCard = () => {
         Services we provide💻
       </Typography>
       <IconButton
-        onClick={handleScrollLeft}
+        onClick={() => handleScroll("left")}
         disabled={isAtStart}
         sx={{
           position: "absolute",
@@ -136,7 +126,7 @@ const HomeCard = () => {
           top: "65%",
           transform: "translateY(-50%)",
           zIndex: 1,
-          color: "503f66",
+          color: "#503f66",
         }}
       >
         <ArrowBackIosIcon />
@@ -147,10 +137,15 @@ const HomeCard = () => {
           display: "flex",
           gap: "20px",
           padding: "40px 0",
-          scrollBehaviour: "smooth",
-          backgroundImage: 'url("../../assets/leaf.jpg")',
+          scrollBehavior: "smooth",
+          backgroundImage: `url(${bg})`,
           backgroundSize: "contain",
-          backgroundPosition: "center"
+          backgroundPosition: "center",
+          overflowX: "auto", // Enables scrolling within the container
+          scrollbarWidth: "none", // For Firefox
+          "&::-webkit-scrollbar": {
+            display: "none", // For Chrome, Safari, and Edge
+          },
         }}
       >
         {cards.map((card, index) => (
@@ -173,7 +168,7 @@ const HomeCard = () => {
                 backgroundColor: `${card.borderColor}`,
                 color: "#111",
                 boxShadow: `0 0 8px 5px ${card.borderColor}`,
-                backgroundImage: `url('../../assets/leaf.jpg')`, // Replace with your image URL or variable
+                backgroundImage: `url(${bg})`, // Replace with your image URL or variable
                 backgroundSize: "cover",
                 backgroundPosition: "center",
                 transform: "scale(1.1)", // Enlarges the card
@@ -228,7 +223,7 @@ const HomeCard = () => {
         ))}
       </Box>
       <IconButton
-        onClick={handleScrollRight}
+        onClick={() => handleScroll("right")}
         disabled={isAtEnd}
         sx={{
           position: "absolute",
@@ -236,7 +231,7 @@ const HomeCard = () => {
           top: "65%",
           transform: "translateY(-50%)",
           zIndex: 1,
-          color: "503f66",
+          color: "#503f66",
         }}
       >
         <ArrowForwardIosIcon />
