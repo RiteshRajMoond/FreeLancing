@@ -16,6 +16,8 @@ import CloseIcon from "@mui/icons-material/Close";
 import SupportAgentIcon from "@mui/icons-material/SupportAgent";
 import InsightsIcon from "@mui/icons-material/Insights";
 import bg from "../../assets/moth.webp";
+import giffy from "../../assets/giffy6.gif";
+import cloud from "../../assets/clouds.webp";
 
 const Homepage = () => {
   const [currentMessage, setCurrentMessage] = useState(0); // State for changing messages
@@ -179,7 +181,7 @@ const Homepage = () => {
           display: "flex",
           overflow: "hidden",
           flexWrap: "nowrap",
-          backgroundImage: 'url("../../assets/giffy6.gif")',
+          backgroundImage: `url(${giffy})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           padding: "2rem",
@@ -240,7 +242,7 @@ const Homepage = () => {
               width: "30%",
               height: "55%",
               // backgroundImage: "linear-gradient(300deg,rgb(182, 253, 236),rgb(255, 197, 206))", // Light teal to light pink gradient
-              backgroundImage: 'url("../../assets/clouds.webp")',
+              backgroundImage: `url(${cloud})`,
               backgroundSize: "cover",
               borderRadius: "30px",
               boxShadow: 24,

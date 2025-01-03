@@ -2,7 +2,7 @@ import { Box, Button, Card, CardContent, IconButton, Typography } from "@mui/mat
 import React, { useRef, useState, useEffect } from "react";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-
+import bg from "../../assets/leaf.webp";
 // Import Google Font
 import "@fontsource/poppins"; // Modern and aesthetic font
 
@@ -138,7 +138,7 @@ const HomeCard = () => {
           gap: "20px",
           padding: "40px 0",
           scrollBehavior: "smooth",
-          backgroundImage: 'url("../../assets/leaf.webp")',
+          backgroundImage: `url(${bg})`,
           backgroundSize: "contain",
           backgroundPosition: "center",
           overflowX: "auto", // Enables scrolling within the container
@@ -168,7 +168,7 @@ const HomeCard = () => {
                 backgroundColor: `${card.borderColor}`,
                 color: "#111",
                 boxShadow: `0 0 8px 5px ${card.borderColor}`,
-                backgroundImage: `url('../../assets/leaf.webp')`, // Replace with your image URL or variable
+                backgroundImage: `url(${bg})`, // Replace with your image URL or variable
                 backgroundSize: "cover",
                 backgroundPosition: "center",
                 transform: "scale(1.1)", // Enlarges the card

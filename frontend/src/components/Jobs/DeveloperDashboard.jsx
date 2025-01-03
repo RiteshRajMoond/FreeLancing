@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import { Box, Typography, TextField, Button } from "@mui/material";
+import bg from "../../../assets/appliedJobs.webp";
 
 const DeveloperDashboard = () => {
   const { jobId } = useParams();
@@ -59,7 +60,7 @@ const DeveloperDashboard = () => {
         alignItems: "center",
         justifyContent: "center",
         minHeight: "100vh",
-        backgroundImage: `url('../../assets/alljobs11.jpg')`,
+        backgroundImage: `url(${bg})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
         padding: 4,

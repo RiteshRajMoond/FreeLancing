@@ -13,6 +13,7 @@ import Typography from '@mui/joy/Typography';
 import { useNavigate, Link as Lk } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import axios from 'axios';
+import bg from "../../assets/signup.webp";
 
 const customTheme = extendTheme({ defaultColorScheme: 'dark' });
 
@@ -168,7 +169,7 @@ const [token, setToken] = useState("");
           left: 0,
           right: 0,
           zIndex: 0,
-          backgroundImage: 'url("../../assets/signup.webp")',
+          backgroundImage: `url(${bg})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           filter: 'blur(7px)',
