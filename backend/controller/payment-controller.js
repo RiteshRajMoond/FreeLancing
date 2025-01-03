@@ -10,7 +10,7 @@ exports.getPublishableKey = (req, res, next) => {
 
 exports.createCheckoutSession = async (req, res, next) => {
   try {
-    const { amount, currency} = req.body;
+    const { amount, currency } = req.body;
 
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
@@ -31,7 +31,6 @@ exports.createCheckoutSession = async (req, res, next) => {
       cancel_url: `${process.env.CLIENT_URL}/cancel`,
     });
 
-
     res.status(200).json({ id: session.id });
   } catch (e) {
     console.log(e);
@@ -44,21 +43,30 @@ exports.handleWebhook = async (req, res, next) => {
 
   let event;
   try {
-    event = stripe.webhooks.constructEvent(req.rawBody, sig, process.env.STRIPE_WEBHOOK_SECRET);
-  } catch(e) {
-    console.error("Error verifying webhook:", e.message);
+    event = stripe.webhooks.constructEvent(
+      req.rawBody,
+      sig,
+      process.env.STRIPE_WEBHOOK_SECRET
+    );
+  } catch (e) {
+    console.error(`Error verifying webhook signature: ${e.message}`);
     return res.sendStatus(400);
   }
 
-  if(event.type === 'checkout.session.completed') {
+  if (event.type === "checkout.session.completed") {
     const session = event.data.object;
 
-    // Send email to user
-    const email = session.customer_details.email || session.customer_email;
-    const subject = "Payment Successful";
-    const text = `Your payment of ₹${session.amount_total / 100} was successful.`;
+    try {
+      const email = session.customer_details.email || session.customer_email;
+      const subject = "Payment Successful";
+      const text = `Your payment of ₹${
+        session.amount_total / 100
+      } was successful.`;
 
-    await sendEmail(email, subject, text);
+      await sendEmail(email, subject, text);
+    } catch (error) {
+      console.error("Error sending email:", error);
+    }
   }
   return res.status(200).end();
-}
+};
