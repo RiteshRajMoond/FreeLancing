@@ -2,11 +2,25 @@ import React, { useEffect, useState } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { toast } from 'react-hot-toast';
 
 const StripePayment = () => {
   const [stripePromise, setStripePromise] = useState(null);
   const [checkoutAmount, setCheckoutAmount] = useState(0);
   const [errorMessage, setErrorMessage] = useState("");
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(()=>{
+    const checkLoginStatus = async() =>{
+      try{
+        const resp = await axios.get("/user/check-login");
+        setIsLoggedIn(resp.data.loggedIn);
+      }catch(error){
+        setIsLoggedIn(false);
+      }
+    }
+  })
 
   useEffect(() => {
     const fetchPublishableKey = async () => {
@@ -17,11 +31,19 @@ const StripePayment = () => {
         // console.error("Error fetching publishable key:", error);
       }
     };
-
+    checkLoginStatus();
     fetchPublishableKey();
   }, []);
 
   const handleCheckout = async () => {
+    if (!isLoggedIn) {
+        toast.error("You must be logged in to proceed!", {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 3000,
+      });
+      navigate("/login");
+      return;
+    }
     const amount = checkoutAmount * 100; // Convert to cents
 
     // Minimum amount validation
