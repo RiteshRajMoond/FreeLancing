@@ -22,6 +22,7 @@ import {
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { toast, Toaster } from "react-hot-toast";
+import bg from "../../../assets/alljobs.webp";
 
 const JobDescription = () => {
   const navigate = useNavigate();
@@ -72,7 +73,7 @@ const JobDescription = () => {
         style={{ height: "30vh", position: "relative", overflow: "hidden" }}
       >
         <img
-          src="../../assets/alljobs.webp"
+          src= {bg}
           alt="Background"
           style={{
             width: "100%",
