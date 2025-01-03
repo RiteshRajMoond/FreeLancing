@@ -15,6 +15,7 @@ import StarIcon from "@mui/icons-material/Star";
 import CloseIcon from "@mui/icons-material/Close";
 import SupportAgentIcon from "@mui/icons-material/SupportAgent";
 import InsightsIcon from "@mui/icons-material/Insights";
+import bg from "../../assets/moth.webp";
 
 const Homepage = () => {
   const [currentMessage, setCurrentMessage] = useState(0); // State for changing messages
@@ -145,10 +146,10 @@ const Homepage = () => {
             position: "absolute",
             width: "100%",
             height: "100%",
-            backgroundImage: `url("../../assets/moth.webp")`,
+            backgroundImage: `url(${bg})`,
             backgroundSize: "cover",
             backgroundPosition: "center",
-            backgroundColor: "white",
+            // backgroundColor: "white",
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
