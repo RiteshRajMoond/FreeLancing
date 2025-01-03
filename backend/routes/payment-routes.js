@@ -1,13 +1,14 @@
 const express = require("express");
+const {
+  getPublishableKey,
+  createCheckoutSession,
+  handleWebhook
+} = require("../controller/payment-controller");
 
 const router = express.Router();
 
-const paymentController = require("../controller/payment-controller");
-
-router.post("/payment", paymentController.createCharge);
-router.get(
-  "/publishable-key",
-  paymentController.getPublishableKey
-);
+router.get("/publishable-key", getPublishableKey);
+router.post("/create-checkout-session", createCheckoutSession);
+router.post("/webhook", express.raw({type: 'application/json'}), handleWebhook);
 
 module.exports = router;
