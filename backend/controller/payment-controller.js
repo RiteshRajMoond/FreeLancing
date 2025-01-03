@@ -54,7 +54,7 @@ exports.handleWebhook = async (req, res, next) => {
     const session = event.data.object;
 
     // Send email to user
-    const email = session.customer_details.email;
+    const email = session.customer_details.email || session.customer_email;
     const subject = "Payment Successful";
     const text = `Your payment of ₹${session.amount_total / 100} was successful.`;
 
