@@ -45,7 +45,10 @@ const StripePayment = () => {
       const result = await stripe.redirectToCheckout({ sessionId: session.id });
 
       if (result.error) {
-        console.error("Error during redirect to checkout:", result.error.message);
+        console.error(
+          "Error during redirect to checkout:",
+          result.error.message
+        );
       }
     } catch (error) {
       console.error("Error in handleCheckout:", error);
@@ -64,13 +67,8 @@ const StripePayment = () => {
               placeholder="Enter amount"
               style={styles.input}
             />
-            {errorMessage && (
-              <div style={styles.error}>{errorMessage}</div>
-            )}
-            <button
-              onClick={handleCheckout}
-              style={styles.button}
-            >
+            {errorMessage && <div style={styles.error}>{errorMessage}</div>}
+            <button onClick={handleCheckout} style={styles.button}>
               Checkout with Stripe
             </button>
           </div>
@@ -82,43 +80,43 @@ const StripePayment = () => {
 
 const styles = {
   container: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: '100vh',
-    backgroundColor: '#f5f5f5',
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    height: "100vh",
+    backgroundColor: "#f5f5f5",
   },
   form: {
-    background: '#fff',
-    padding: '20px',
-    borderRadius: '8px',
-    boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
-    textAlign: 'center',
+    background: "#fff",
+    padding: "20px",
+    borderRadius: "8px",
+    boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
+    textAlign: "center",
   },
   input: {
-    width: '100%',
-    padding: '10px',
-    marginBottom: '20px',
-    border: '1px solid #ccc',
-    borderRadius: '4px',
-    fontSize: '16px',
+    width: "100%",
+    padding: "10px",
+    marginBottom: "20px",
+    border: "1px solid #ccc",
+    borderRadius: "4px",
+    fontSize: "16px",
   },
   button: {
-    width: '100%',
-    padding: '10px',
-    backgroundColor: '#6772e5',
-    color: '#fff',
-    border: 'none',
-    borderRadius: '4px',
-    fontSize: '16px',
-    cursor: 'pointer',
+    width: "100%",
+    padding: "10px",
+    backgroundColor: "#6772e5",
+    color: "#fff",
+    border: "none",
+    borderRadius: "4px",
+    fontSize: "16px",
+    cursor: "pointer",
   },
   buttonHover: {
-    backgroundColor: '#5469d4',
+    backgroundColor: "#5469d4",
   },
   error: {
-    color: 'red',
-    marginBottom: '20px',
+    color: "red",
+    marginBottom: "20px",
   },
 };
 
