@@ -21,6 +21,9 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 app.use(cookieParser(process.env.COOKIE_SECRET));
+
+app.use("/api/v1/stripe/webhook", express.raw({ type: "application/json" }));
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
